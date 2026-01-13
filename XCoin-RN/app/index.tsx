@@ -1,23 +1,37 @@
-import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, View, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
+import { strings } from '../src/constants/strings';
 
 export default function SplashScreen() {
     const router = useRouter();
 
-    return (
-        <View className="flex-1 bg-secondary items-center justify-center p-5">
-            <StatusBar style="light" />
-            <Text className="text-5xl font-bold text-white mb-2">XCoin</Text>
-            <Text className="text-xl text-text-light mb-16">Hoş Geldiniz</Text>
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            router.push('/(tabs)');
+        }, 5000);
 
-            <TouchableOpacity
-                className="bg-primary px-12 py-4 rounded-full shadow-lg active:opacity-80"
-                onPress={() => router.push('/(tabs)')}
-            >
-                <Text className="text-white text-lg font-semibold">Başla</Text>
-            </TouchableOpacity>
+        return () => clearTimeout(timer);
+    }, [router]);
+
+    return (
+        <View className="flex-1 bg-white items-center justify-between pb-8">
+            <View className="flex-1 items-center justify-center">
+                <View className="flex-row items-center justify-center">
+                    <Image
+                        source={require('../assets/images/xcoin_logo.png')}
+                        className="w-16 h-16"
+                        resizeMode="contain"
+                    />
+                    <Text className="text-gray-800 text-4xl font-bold ml-3">
+                        {strings.splash.appName}
+                    </Text>
+                </View>
+            </View>
+            <Text className="text-gray-400 text-sm italic">
+                {strings.splash.tagline}
+            </Text>
         </View>
     );
 }
