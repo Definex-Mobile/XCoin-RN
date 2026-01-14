@@ -1,0 +1,23 @@
+{
+    "bannerCard": {
+        "title": "Welcome",
+        "description": "Make your first investment today",
+        "buttonText": "Invest Now"
+    },
+    "common": {
+        "welcome": "Welcome",
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "retry": "Try Again",
+        "cancel": "Cancel",
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "close": "Close"
+    },
+    "splash": {
+        "title": "Welcome to XCoin",
+        "subtitle": "Manage your crypto investments",
+        "startButton": "Start"
+    }
+}
