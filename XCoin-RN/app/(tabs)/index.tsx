@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 export default function Home() {
     return (
         <View className="flex-1 bg-white items-center justify-center">
-            <Text className="text-2xl font-semibold text-text">Home Screen</Text>
+            <Text className="semibold24 text-text">Home Screen</Text>
         </View>
     );
 }
