@@ -65,7 +65,7 @@ module.exports = {
           light: "#ff6b85",
         },
         background: {
-          DEFAULT: "#ffffff",
+          DEFAULT: "#F8F9FA",
           dark: "#1a1a2e",
           gray: "#f5f5f5",
         },
@@ -74,6 +74,13 @@ module.exports = {
           light: "#888888",
           dark: "#000000",
           white: "#ffffff",
+        },
+        crypto: {
+          positive: "#21BF73",
+          negative: "#D90429",
+          cardBg: "#ffffff",
+          title: "#212529",
+          subtitle: "#6C757D",
         },
 
       },

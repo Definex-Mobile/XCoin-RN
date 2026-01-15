@@ -12,8 +12,19 @@ export function getCurrencySymbol(code?: string): string {
 }
 
 export function formatMoney(value: number, symbol: string): string {
-  const decimals = Number.isInteger(value) ? 0 : 2;
-  const formatted = value.toLocaleString(undefined, {
+  // Determine decimal places based on value magnitude (for crypto)
+  let decimals: number;
+  if (value < 0.01) {
+    decimals = 8;
+  } else if (value < 1) {
+    decimals = 4;
+  } else if (value < 100) {
+    decimals = 2;
+  } else {
+    decimals = 2;
+  }
+
+  const formatted = value.toLocaleString("en-US", {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   });
