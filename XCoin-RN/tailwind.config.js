@@ -34,6 +34,9 @@ module.exports = {
                     dark: '#000000',
                     white: '#ffffff',
                 },
+                primaryBlue: {
+                    DEFAULT: '#0063F5',
+                },
             },
         },
     },

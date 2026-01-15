@@ -1,6 +1,15 @@
 import React from "react";
 import { View, Text, Pressable, Image, DimensionValue } from "react-native";
 
+const tailwindConfig = require("../../tailwind.config.js");
+const colors = tailwindConfig.theme.extend.colors;
+
+export enum BannerType {
+  Home = "Home",
+  Refer = "Refer",
+  Like = "Like",
+}
+
 interface BannerCardProps {
   greeting?: string;
   title?: string;
@@ -9,11 +18,24 @@ interface BannerCardProps {
   onButtonPress?: () => void;
   image?: any;
   imageRotation?: number;
-  backgroundColor?: string;
+  bannerType?: BannerType;
   width?: DimensionValue;
   height?: DimensionValue;
   minHeight?: number;
 }
+
+const getBannerColor = (type?: BannerType): string => {
+  switch (type) {
+    case BannerType.Home:
+      return colors.primaryBlue.DEFAULT;
+    case BannerType.Refer:
+      return colors.accent.DEFAULT;
+    case BannerType.Like:
+      return colors.primary.DEFAULT;
+    default:
+      return colors.primaryBlue.DEFAULT;
+  }
+};
 
 export default function BannerCard({
   title,
@@ -21,62 +43,50 @@ export default function BannerCard({
   buttonText,
   onButtonPress,
   image,
-  imageRotation = 0,
-  backgroundColor = "#4169E1",
+  bannerType,
   width,
   height,
-  minHeight = 280,
 }: BannerCardProps) {
+  const backgroundColor = getBannerColor(bannerType);
+
   return (
-    <View style={{ ...(width && { width }) }} className="mx-4 mt-6 mb-0">
-      <View
-        style={{
-          backgroundColor,
-          ...(height ? { height } : { minHeight }),
-        }}
-        className="px-6 pt-6 pb-0 relative rounded-2xl overflow-hidden shadow-lg"
-      >
-        {image && (
-          <Image
-            source={image}
-            style={{
-              width: 140,
-              height: 140,
-              position: "absolute",
-              bottom: -10,
-              right: 0,
-              zIndex: 0,
-            }}
-            className="opacity-70"
-            resizeMode="contain"
-          />
+    <View
+      style={{
+        backgroundColor,
+        ...(width && { width }),
+        ...(height && { height }),
+      }}
+      className="mx-4 px-6 py-6 relative rounded-2xl overflow-hidden shadow-lg"
+    >
+      {image && (
+        <Image
+          source={image}
+          className="w-[140px] h-[140px] absolute -bottom-2 right-0 z-0 opacity-70"
+          resizeMode="contain"
+        />
+      )}
+
+      <View className="relative z-10">
+        {title && (
+          <Text className="text-white/90 text-s italic mb-2">{title}</Text>
         )}
 
-        <View style={{ position: "relative", zIndex: 10 }}>
-          {title && (
-            <Text className="text-white/90 text-s italic mb-2">{title}</Text>
-          )}
+        {description && (
+          <Text className="text-white text-xl font-semibold leading-tight mb-3 ">
+            {description}
+          </Text>
+        )}
 
-          {description && (
-            <Text className="text-white text-xl font-semibold leading-tight mb-3 max-w-[280px]">
-              {description}
+        {buttonText && (
+          <Pressable
+            onPress={onButtonPress}
+            className="h-[30px] bg-white rounded px-4 items-center justify-center self-start mt-3 active:opacity-80"
+          >
+            <Text className="text-primaryBlue text-sm italic font-medium">
+              {buttonText}
             </Text>
-          )}
-
-          {buttonText && (
-            <Pressable
-              onPress={onButtonPress}
-              style={{
-                height: 30,
-              }}
-              className="bg-white rounded px-4 items-center justify-center self-start mt-3 active:opacity-80"
-            >
-              <Text className="text-[#4169E1] text-sm italic font-medium">
-                {buttonText}
-              </Text>
-            </Pressable>
-          )}
-        </View>
+          </Pressable>
+        )}
       </View>
     </View>
   );
