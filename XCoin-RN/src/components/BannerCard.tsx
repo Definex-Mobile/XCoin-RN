@@ -5,9 +5,9 @@ const tailwindConfig = require("../../tailwind.config.js");
 const colors = tailwindConfig.theme.extend.colors;
 
 export enum BannerType {
-  Home = "Home",
-  Refer = "Refer",
-  Like = "Like",
+  HOME = "Home",
+  REFER = "Refer",
+  LIKE = "Like",
 }
 
 interface BannerCardProps {
@@ -26,11 +26,11 @@ interface BannerCardProps {
 
 const getBannerColor = (type?: BannerType): string => {
   switch (type) {
-    case BannerType.Home:
+    case BannerType.HOME:
       return colors.primaryBlue.DEFAULT;
-    case BannerType.Refer:
+    case BannerType.REFER:
       return colors.accent.DEFAULT;
-    case BannerType.Like:
+    case BannerType.LIKE:
       return colors.primary.DEFAULT;
     default:
       return colors.primaryBlue.DEFAULT;

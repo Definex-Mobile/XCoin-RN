@@ -17,7 +17,7 @@ export default function Home() {
           buttonText={useTranslation("bannerCard.buttonText")}
           onButtonPress={handleBannerPress}
           image={require("../../assets/images/img-welcome-card.png")}
-          bannerType={BannerType.Home}
+          bannerType={BannerType.HOME}
         />
       </View>
     </ScrollView>
