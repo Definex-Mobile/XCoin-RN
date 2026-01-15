@@ -13,7 +13,7 @@ const WEIGHTS = {
   black: "Roboto-Black",
 };
 
-const SIZES = [12, 14, 16, 18, 20, 24, 28, 32, 48];
+const SIZES = [12, 14, 16, 18, 20, 24, 28, 32, 42, 48];
 
 function buildTypographyUtilities() {
   const u = {};
@@ -42,7 +42,7 @@ module.exports = {
   safelist: [
     {
       pattern:
-        /(thin|extralight|light|regular|medium|semibold|bold|extrabold|black)(Italic)?(12|14|16|18|20|24|28|32)/,
+        /(thin|extralight|light|regular|medium|semibold|bold|extrabold|black)(Italic)?(12|14|16|18|20|24|28|32|42|48)/,
     },
   ],
 
@@ -75,7 +75,7 @@ module.exports = {
           dark: "#000000",
           white: "#ffffff",
         },
-        
+
       },
     },
   },
