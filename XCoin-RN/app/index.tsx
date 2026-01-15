@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { Text, View, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
-import { strings } from '../src/constants/strings';
+import { constants } from '../src/constants/constants';
+
 
 export default function SplashScreen() {
     const router = useRouter();
@@ -10,7 +11,7 @@ export default function SplashScreen() {
     useEffect(() => {
         const timer = setTimeout(() => {
             router.push('/(tabs)');
-        }, 5000);
+        }, constants.splash.loadingTime);
 
         return () => clearTimeout(timer);
     }, [router]);
@@ -25,12 +26,12 @@ export default function SplashScreen() {
                         resizeMode="contain"
                     />
                     <Text className="text-gray-800 text-4xl font-bold ml-3">
-                        {strings.splash.appName}
+                        {"COINS"}
                     </Text>
                 </View>
             </View>
             <Text className="text-gray-400 text-sm italic">
-                {strings.splash.tagline}
+                {"Turkey's Highly Rated Cryptocurrency Exchange"}
             </Text>
         </View>
     );
