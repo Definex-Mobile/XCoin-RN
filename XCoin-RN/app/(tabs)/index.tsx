@@ -4,22 +4,9 @@ import { useTranslation } from "../../src/hooks";
 import BannerCard, { BannerType } from "../../src/components/BannerCard";
 
 export default function Home() {
-  const handleBannerPress = () => {
-    console.log("Banner butonuna tıklandı!");
-  };
-
   return (
-    <ScrollView className="flex-1 bg-background-gray">
-      <View className="pt-4">
-        <BannerCard
-          title={useTranslation("bannerCard.title") + " <Username>,"}
-          description={useTranslation("bannerCard.description")}
-          buttonText={useTranslation("bannerCard.buttonText")}
-          onButtonPress={handleBannerPress}
-          image={require("../../assets/images/img-welcome-card.png")}
-          bannerType={BannerType.HOME}
-        />
-      </View>
-    </ScrollView>
+    <View className="flex-1 bg-white items-center justify-center">
+      <Text className="semibold24 text-text">Home Screen</Text>
+    </View>
   );
 }

@@ -1,41 +1,35 @@
-import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { useRouter } from 'expo-router';
-import { useTranslation, useLanguage } from '../src/hooks';
+import React, { useEffect } from "react";
+import { Text, View, Image } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useRouter } from "expo-router";
+import { constants } from "../src/constants/constants";
 
 export default function SplashScreen() {
-    const router = useRouter();
-    const { toggleLanguage, currentLanguage } = useLanguage();
+  const router = useRouter();
 
-    return (
-        <View className="flex-1 bg-secondary items-center justify-center p-5">
-            <StatusBar style="light" />
-            
-            <View className="absolute top-14 right-5">
-                <TouchableOpacity
-                    onPress={toggleLanguage}
-                    className="bg-primary/20 px-4 py-2 rounded-full border border-primary/30 active:opacity-80"
-                >
-                    <Text className="text-white text-sm font-semibold">
-                        {currentLanguage === 'tr' ? 'EN' : 'TR'}
-                    </Text>
-                </TouchableOpacity>
-            </View>
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push("/(tabs)");
+    }, constants.splash.loadingTime);
 
-            <Text className="text-5xl font-bold text-white mb-2">XCoin</Text>
-            <Text className="text-xl text-text-light mb-16">
-                {useTranslation('splash.subtitle')}
-            </Text>
+    return () => clearTimeout(timer);
+  }, [router]);
 
-            <TouchableOpacity
-                className="bg-primary px-12 py-4 rounded-full shadow-lg active:opacity-80"
-                onPress={() => router.push('/(tabs)')}
-            >
-                <Text className="text-white text-lg font-semibold">
-                    {useTranslation('splash.startButton')}
-                </Text>
-            </TouchableOpacity>
+  return (
+    <View className="flex-1 bg-white items-center justify-between pb-8">
+      <View className="flex-1 items-center justify-center">
+        <View className="flex-row items-center justify-center">
+          <Image
+            source={require("../assets/images/xcoin_logo.png")}
+            className="w-16 h-16"
+            resizeMode="contain"
+          />
+          <Text className="bold42 text-gray-800 ml-3">{"COINS"}</Text>
         </View>
-    );
+      </View>
+      <Text className="semibold12 text-gray-400 italic">
+        {"Turkey's Highly Rated Cryptocurrency Exchange"}
+      </Text>
+    </View>
+  );
 }
