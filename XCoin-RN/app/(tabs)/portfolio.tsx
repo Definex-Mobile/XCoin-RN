@@ -26,8 +26,6 @@ export default function Portfolio() {
                     buttons={['Deposit INR', 'Withdraw INR']}
                     selectedIndex={selectedIndex}
                     onSelectedIndexChange={setSelectedIndex}
-                    mainColor="#0D6EFD"
-                    secondaryColor="#FFFFFF"
                 />
             </View>
         </ScrollView>

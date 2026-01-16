@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ColorValue } from 'react-native';
+import { View } from 'react-native';
 import { Button } from './segmentButton';
 
 export interface MultiButtonProps {
@@ -7,8 +7,6 @@ export interface MultiButtonProps {
   selectedIndex: number;
   onSelectedIndexChange: (index: number) => void;
   onPress?: (index: number) => void;
-  mainColor?: ColorValue;
-  secondaryColor?: ColorValue;
   className?: string;
 }
 
@@ -17,9 +15,6 @@ export const MultipleSegmentButton: React.FC<MultiButtonProps> = ({
   selectedIndex,
   onSelectedIndexChange,
   onPress,
-  mainColor = '#0D6EFD',
-  secondaryColor = '#FFFFFF',
-  className = '',
 }) => {
   if (!buttons || buttons.length === 0) return null;
 
@@ -29,17 +24,17 @@ export const MultipleSegmentButton: React.FC<MultiButtonProps> = ({
   };
 
   return (
-    <View className={`flex-row gap-4 ${className}`}>
+    <View className={`flex-row gap-4 mx-4 mt-3`}>
       {buttons.map((button, index) => {
         const isSelected = index === selectedIndex;
 
-        const containerStyle = isSelected
-          ? { backgroundColor: mainColor }
-          : { backgroundColor: secondaryColor, borderWidth: 1, borderColor: mainColor };
+        const containerClassName = isSelected
+          ? 'bg-mainBlueBackground'
+          : 'bg-mainLightBackground border border-mainBlueBackground';
 
-        const textStyle = isSelected
-          ? { color: secondaryColor }
-          : { color: mainColor };
+        const textClassName = isSelected
+          ? 'text-mainLightBackground'
+          : 'text-mainBlueBackground';
 
         return (
           <View key={index} className="flex-1">
@@ -47,10 +42,8 @@ export const MultipleSegmentButton: React.FC<MultiButtonProps> = ({
               title={button}
               onPress={() => handleButtonPress(index)}
               disabled={false}
-              containerStyle={containerStyle}
-              textStyle={textStyle}
-              containerClassName=""
-              textClassName=""
+              containerClassName={containerClassName}
+              textClassName={textClassName}
             />
           </View>
         );
