@@ -28,6 +28,10 @@ export const colors = {
     primaryBlue: {
         DEFAULT: "#0063F5",
     },
+    rewards: {
+        DEFAULT: "#F8F9FA",
+        darkText: "#343A40"
+    }
 };
 
 module.exports = { colors };
