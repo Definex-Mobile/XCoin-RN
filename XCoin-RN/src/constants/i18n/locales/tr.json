@@ -1,0 +1,24 @@
+{
+  "bannerCard": {
+    "title": "Hoş Geldiniz",
+    "description": "Bugün ilk yatırımınızı yapın",
+    "buttonText": "Hemen Yatırım Yap"
+  },
+  "common": {
+    "welcome": "Hoş Geldiniz",
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu",
+    "retry": "Tekrar Dene",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "close": "Kapat"
+  },
+  "splash": {
+    "title": "XCoin'e Hoş Geldiniz",
+    "subtitle": "Kripto para yatırımlarınızı yönetin",
+    "startButton": "Başla"
+  }
+}
+
