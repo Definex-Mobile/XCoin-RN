@@ -5,7 +5,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
-import "../src/constants/i18n"; // i18n konfigürasyonunu yükle
+import "../src/constants/i18n";
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({

@@ -1,8 +1,6 @@
 import React from "react";
 import { View, Text, Pressable, Image, DimensionValue } from "react-native";
-
-const tailwindConfig = require("../../tailwind.config.js");
-const colors = tailwindConfig.theme.extend.colors;
+import { colors } from "../../constants/colors";
 
 export enum BannerType {
   HOME = "Home",
@@ -56,7 +54,7 @@ export default function BannerCard({
         ...(width && { width }),
         ...(height && { height }),
       }}
-      className="mx-4 px-6 py-6 relative rounded-2xl overflow-hidden shadow-lg"
+      className="mx-4 rounded-2xl overflow-hidden shadow-lg"
     >
       {image && (
         <Image
@@ -66,13 +64,11 @@ export default function BannerCard({
         />
       )}
 
-      <View className="relative z-10">
-        {title && (
-          <Text className="text-white/90 text-s italic mb-2">{title}</Text>
-        )}
+      <View className="relative z-10 mx-5 mt-6">
+        {title && <Text className="text-white thinItalic12 ">{title}</Text>}
 
         {description && (
-          <Text className="text-white text-xl font-semibold leading-tight mb-3 ">
+          <Text className="text-white semibold20 leading-tight mt-[9px] ">
             {description}
           </Text>
         )}
@@ -80,9 +76,9 @@ export default function BannerCard({
         {buttonText && (
           <Pressable
             onPress={onButtonPress}
-            className="h-[30px] bg-white rounded px-4 items-center justify-center self-start mt-3 active:opacity-80"
+            className="bg-white rounded mt-[22px] mb-[21px] px-3 py-2 items-center justify-center self-start"
           >
-            <Text className="text-primaryBlue text-sm italic font-medium">
+            <Text className="text-primaryBlue thinItalic12 font-medium">
               {buttonText}
             </Text>
           </Pressable>

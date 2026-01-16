@@ -1,12 +1,27 @@
 import React from "react";
-import { View, ScrollView } from "react-native";
-import { useTranslation } from "../../src/hooks";
-import BannerCard, { BannerType } from "../../src/components/BannerCard";
+import { View, Text, ScrollView } from "react-native";
+import BannerCard, {
+  BannerType,
+} from "../../src/components/bannerCard/bannerCard";
+import { useTranslation } from "../../src/hooks/useTranslation";
 
 export default function Home() {
+  function handleBannerPress(): void {
+    console.log("Button Pressed");
+  }
+
   return (
-    <View className="flex-1 bg-white items-center justify-center">
-      <Text className="semibold24 text-text">Home Screen</Text>
-    </View>
+    <ScrollView className="flex-1 bg-background-gray">
+      <View className="pt-4">
+        <BannerCard
+          title={useTranslation("bannerCard.title") + " <Username>,"}
+          description={useTranslation("bannerCard.description")}
+          buttonText={useTranslation("bannerCard.buttonText")}
+          onButtonPress={handleBannerPress}
+          image={require("../../assets/images/img-welcome-card.png")}
+          bannerType={BannerType.HOME}
+        />
+      </View>
+    </ScrollView>
   );
 }
