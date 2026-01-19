@@ -14,7 +14,7 @@ export function CryptoCoinListItem({ coin }: Props) {
 
     return (
         <View className="bg-crypto-cardBg rounded-xl ps-4 pe-1.5 pt-4 pb-4 mb-2 flex-row items-center" style={{ elevation: 2 }}>
-            <View className="w-12 h-12 rounded-full overflow-hidden bg-white mr-3">
+            <View className="w-10 h-10 rounded-full overflow-hidden bg-white mr-3">
                 <Image
                     source={{ uri: coin.imageUrl }}
                     className="w-full h-full"
@@ -23,15 +23,28 @@ export function CryptoCoinListItem({ coin }: Props) {
             </View>
 
             <View className="flex-1">
-                <Text className="semibold16 text-crypto-title">{coin.longName}</Text>
-                <Text className="regular12 text-crypto-subtitle">{coin.shortName}</Text>
+                <Text
+                    className="thinItalic16 text-coin-name"
+                >
+                    {coin.longName}
+                </Text>
+                <Text
+                    className="thinItalic12 text-coin-symbol mt-1"
+                >
+                    {coin.shortName}
+                </Text>
             </View>
 
             <View className="items-end">
-                <Text className="semibold16 text-crypto-title me-2">
+                <Text
+                    className="thinItalic16 text-coin-price me-2"
+                >
                     {formatMoney(coin.currentPrice, currencySymbol)}
                 </Text>
-                <Text className={`semibold12 ${changeColor}`}>
+                <Text
+                    className={`medium10 ${changeColor} mt-1`}
+                    style={{ lineHeight: 10 }}
+                >
                     {formatPercentage(coin.changeRatio)}
                 </Text>
             </View>

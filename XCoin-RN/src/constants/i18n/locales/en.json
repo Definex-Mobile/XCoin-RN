@@ -18,6 +18,14 @@
     "splash": {
         "title": "Welcome to XCoin",
         "subtitle": "Manage your crypto investments",
-        "startButton": "Start"
+        "startButton": "Start",
+        "appName": "COINS",
+        "tagline": "Turkey's Highly Rated Cryptocurrency Exchange"
+    },
+    "tabs": {
+        "all": "All",
+        "gainer": "Gainer",
+        "loser": "Loser",
+        "favourites": "Favourites"
     }
 }
