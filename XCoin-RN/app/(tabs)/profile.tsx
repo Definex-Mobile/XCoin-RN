@@ -1,10 +1,16 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React from "react";
+import { View } from "react-native";
+import { ProfileHeader } from "../../src/components/profileHeader/profileHeader";
 
 export default function Profile() {
-    return (
-        <View className="flex-1 bg-white items-center justify-center">
-            <Text className="semibold24 text-text">Profile Screen</Text>
-        </View>
-    );
+  return (
+    <View className="flex-1">
+      <ProfileHeader
+        image="https://www.pngall.com/wp-content/uploads/10/Cardano-Crypto-Logo.png"
+        name="DefineX"
+        mail="definex@teamdefinex.com"
+        phone="+90 555 555 55 55"
+      />
+    </View>
+  );
 }
