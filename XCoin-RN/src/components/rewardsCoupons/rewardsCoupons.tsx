@@ -17,7 +17,7 @@ export type RewardsCouponsProps = {
 };
 
 const shadowSmallStyle = {
-  shadowColor: "#text-dark",
+  shadowColor: "text-dark",
   shadowOffset: { width: 0, height: 2 },
   shadowOpacity: 0.075,
   shadowRadius: 4,
