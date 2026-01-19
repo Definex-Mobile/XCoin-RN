@@ -27,5 +27,14 @@
         "gainer": "Gainer",
         "loser": "Loser",
         "favourites": "Favourites"
+    },
+    "rewards": {
+        "coupons": "Coupons",
+        "referral": "Referral",
+        "noOfCouponsWon": "No.of Coupons Won",
+        "tokensWonFromSpinSoFar": "Tokens wonfrom Spin so far",
+        "remainingCouponsToSpin": "Remaining Coupons to Spin",
+        "totalNoOfReferral": "Total No of referral",
+        "totalNoOfQualifiedReferral": "Total No of Qualified referral"
     }
 }

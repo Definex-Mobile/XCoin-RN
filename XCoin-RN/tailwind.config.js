@@ -38,12 +38,19 @@ function buildTypographyUtilities() {
 }
 
 module.exports = {
-  content: ["./app/**/*.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}"
+  ],
   presets: [require("nativewind/preset")],
   safelist: [
     {
       pattern:
         /(thin|extralight|light|regular|medium|semibold|bold|extrabold|black)(Italic)?(10|12|14|16|18|20|24|28|32|42|48)/,
+    },
+    {
+      pattern:
+        /(bg|text|border)-(primary|secondary|accent|background|text|mainBlueBackground|mainLightBackground|white)(-(dark|light|gray|white))?/,
     },
   ],
 

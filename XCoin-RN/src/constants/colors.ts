@@ -38,6 +38,13 @@ export const colors = {
         symbol: "#6C757D",
         price: "#343A40",
     },
+    rewards: {
+        DEFAULT: "#F8F9FA",
+        darkText: "#343A40"
+    },
+    mainLightBackground: {
+        DEFAULT: "#F8F9FA",
+    },
 };
 
 module.exports = { colors };
