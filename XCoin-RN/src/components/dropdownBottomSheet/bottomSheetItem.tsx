@@ -20,32 +20,25 @@ export default function BottomSheetItem({
   return (
     <Pressable
       onPress={onPress}
-      style={{
-        borderBottomWidth: isLast ? 0 : 1,
-        borderBottomColor: "#E5E7EB",
-      }}
-      className="flex-row items-center justify-between py-[17px]"
+      style={{ borderBottomColor: colors.border.light }}
+      className={`flex-row items-center justify-between py-[17px] ${
+        !isLast ? "border-b" : ""
+      }`}
     >
       <Text className="regular16 text-text">{title}</Text>
 
       <View
         style={{
-          width: 24,
-          height: 24,
-          borderRadius: 12,
-          borderWidth: 2,
-          borderColor: isSelected ? colors.primaryBlue.DEFAULT : "#D1D5DB",
+          borderColor: isSelected
+            ? colors.primaryBlue.DEFAULT
+            : colors.border.gray,
         }}
-        className="items-center justify-center"
+        className="items-center justify-center w-6 h-6 rounded-full border-2"
       >
         {isSelected && (
           <View
-            style={{
-              width: 14,
-              height: 14,
-              borderRadius: 6,
-              backgroundColor: colors.primaryBlue.DEFAULT,
-            }}
+            style={{ backgroundColor: colors.primaryBlue.DEFAULT }}
+            className="w-[14px] h-[14px] rounded-full"
           />
         )}
       </View>

@@ -62,12 +62,8 @@ export default function DropdownBottomSheet({
     <>
       <Pressable
         onPress={handleOpen}
-        style={{
-          borderWidth: 1,
-          borderColor: "#D1D5DB",
-          backgroundColor: "white",
-        }}
-        className="flex-row items-center rounded-3xl px-[9px] py-[5px]"
+        style={{ borderColor: colors.border.gray }}
+        className="flex-row items-center rounded-3xl px-[9px] py-[5px] border bg-white"
       >
         <Text
           className="lightItalic12 me-3"
@@ -82,7 +78,7 @@ export default function DropdownBottomSheet({
 
         <Image
           source={require("../../../assets/images/arrow-down.png")}
-          style={{ width: 8, height: 8 }}
+          className="w-2 h-2"
           resizeMode="contain"
         />
       </Pressable>
@@ -96,19 +92,11 @@ export default function DropdownBottomSheet({
       >
         <TouchableWithoutFeedback onPress={handleClose}>
           <View
-            style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+            style={{ backgroundColor: colors.overlay.dark }}
             className="flex-1 justify-end"
           >
             <TouchableWithoutFeedback>
-              <View
-                style={{
-                  backgroundColor: "white",
-                  borderTopLeftRadius: 12,
-                  borderTopRightRadius: 12,
-                  maxHeight: "70%",
-                }}
-                className="px-[24px]"
-              >
+              <View className="px-[24px] bg-white rounded-t-xl max-h-[70%]">
                 <View className="pt-[33px] ">
                   <Text className="medium18 text-text">
                     {t("dropdownBottomSheet.markets")}
