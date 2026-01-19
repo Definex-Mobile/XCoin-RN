@@ -19,6 +19,10 @@
     "title": "XCoin'e Hoş Geldiniz",
     "subtitle": "Kripto para yatırımlarınızı yönetin",
     "startButton": "Başla"
+  },
+  "dropdownBottomSheet": {
+    "markets": "Piyasalar",
+    "updateMarket": "Piyasayı Güncelle",
+    "defaultMarket": "Piyasa-INR"
   }
 }
-

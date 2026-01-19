@@ -19,5 +19,10 @@
         "title": "Welcome to XCoin",
         "subtitle": "Manage your crypto investments",
         "startButton": "Start"
+    },
+    "dropdownBottomSheet": {
+        "markets": "Markets",
+        "updateMarket": "Update Market",
+        "defaultMarket": "Market-INR"
     }
 }
