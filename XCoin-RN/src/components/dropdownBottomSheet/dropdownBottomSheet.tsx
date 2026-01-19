@@ -13,7 +13,6 @@ import { colors } from "../../constants/colors";
 import BottomSheetItem from "./bottomSheetItem";
 import { DropdownItem } from "./types";
 
-// Mock data
 const MOCK_MARKETS: DropdownItem[] = [
   { title: "TRY - TL", value: "TRY" },
   { title: "Bitcoin - BTC", value: "BTC" },
@@ -61,7 +60,6 @@ export default function DropdownBottomSheet({
 
   return (
     <>
-      {/* Trigger Button */}
       <Pressable
         onPress={handleOpen}
         style={{
@@ -82,7 +80,6 @@ export default function DropdownBottomSheet({
             : placeholder || t("dropdownBottomSheet.defaultMarket")}
         </Text>
 
-        {/* Arrow Icon */}
         <Image
           source={require("../../../assets/images/arrow-down.png")}
           style={{ width: 8, height: 8 }}
@@ -90,7 +87,6 @@ export default function DropdownBottomSheet({
         />
       </Pressable>
 
-      {/* Bottom Sheet Modal */}
       <Modal
         visible={isVisible}
         transparent
@@ -113,14 +109,12 @@ export default function DropdownBottomSheet({
                 }}
                 className="px-[24px]"
               >
-                {/* Header */}
                 <View className="pt-[33px] ">
                   <Text className="medium18 text-text">
                     {t("dropdownBottomSheet.markets")}
                   </Text>
                 </View>
 
-                {/* Items List */}
                 <ScrollView>
                   {MOCK_MARKETS.map((item, index) => (
                     <BottomSheetItem
@@ -134,7 +128,6 @@ export default function DropdownBottomSheet({
                   ))}
                 </ScrollView>
 
-                {/* Update Button */}
                 <View className="py-4 mb-11">
                   <Pressable
                     onPress={handleUpdate}
