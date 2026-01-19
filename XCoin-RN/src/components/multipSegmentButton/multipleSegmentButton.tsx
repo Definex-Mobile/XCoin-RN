@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Button } from './segmentButton';
+import { colors } from "../../constants/colors";
 
 export interface MultiButtonProps {
   buttons: string[];
@@ -29,12 +30,12 @@ export const MultipleSegmentButton: React.FC<MultiButtonProps> = ({
         const isSelected = index === selectedIndex;
 
         const containerClassName = isSelected
-          ? 'bg-mainBlueBackground'
-          : 'bg-mainLightBackground border border-mainBlueBackground';
+          ? 'bg-primaryBlue'
+          : 'bg-mainLightBackground border border-primaryBlue';
 
         const textClassName = isSelected
           ? 'text-mainLightBackground'
-          : 'text-mainBlueBackground';
+          : 'text-primaryBlue';
 
         return (
           <View key={index} className="flex-1">
