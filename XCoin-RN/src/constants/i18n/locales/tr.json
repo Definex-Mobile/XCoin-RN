@@ -19,6 +19,15 @@
     "title": "XCoin'e Hoş Geldiniz",
     "subtitle": "Kripto para yatırımlarınızı yönetin",
     "startButton": "Başla"
+  },
+  "rewards": {
+    "coupons": "Kuponlar",
+    "referral": "Referans",
+    "noOfCouponsWon": "Kazanılan kupon sayısı",
+    "tokensWonFromSpinSoFar": "Çarktan şimdiye kadar kazanılan token",
+    "remainingCouponsToSpin": "Çevirmek için kalan kupon sayısı",
+    "totalNoOfReferral": "Toplam referans sayısı",
+    "totalNoOfQualifiedReferral": "Toplam uygun referans sayısı"
   }
 }
 
