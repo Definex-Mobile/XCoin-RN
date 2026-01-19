@@ -10,7 +10,6 @@ export default function Market() {
 
   return (
     <View className="flex-1 bg-white">
-      {/* Header with Dropdown on the right */}
       <View className="flex-row items-center justify-end pt-4 pb-2 px-4">
         <DropdownBottomSheet
           selectedValue={selectedMarket}
@@ -19,7 +18,6 @@ export default function Market() {
         />
       </View>
 
-      {/* Content */}
       <View className="flex-1 items-center justify-center">
         <Text className="semibold24 text-text">Market Screen</Text>
         <Text className="regular16 text-text-light mt-2">

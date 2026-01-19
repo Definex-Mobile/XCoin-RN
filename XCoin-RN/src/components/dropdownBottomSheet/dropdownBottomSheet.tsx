@@ -88,7 +88,6 @@ export default function DropdownBottomSheet({
         transparent
         animationType="slide"
         onRequestClose={handleClose}
-        className="py-[33px]"
       >
         <TouchableWithoutFeedback onPress={handleClose}>
           <View
