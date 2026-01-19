@@ -10,10 +10,10 @@ type Props = {
 export function PortfolioInfoItem({ label, value }: Props) {
   return (
     <View>
-      <Text className="text-white mb-1" style={T.lightItalic12}>
+      <Text className="text-white mb-1 lightItalic10">
         {label}
       </Text>
-      <Text className="text-white" style={T.medium18}>
+      <Text className="text-white medium18">
         {value}
       </Text>
     </View>

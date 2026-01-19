@@ -28,6 +28,9 @@ export const colors = {
     primaryBlue: {
         DEFAULT: "#0063F5",
     },
+    mainLightBackground: {
+        DEFAULT: "#F8F9FA",
+    },
 };
 
 module.exports = { colors };

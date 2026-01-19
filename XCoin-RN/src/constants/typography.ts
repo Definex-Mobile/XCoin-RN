@@ -27,7 +27,7 @@ const WEIGHTS = {
   black: { weight: 900, family: 'Roboto-Black' },
 } as const;
 
-const SIZES = [12, 14, 16, 18, 20, 24, 28, 32, 48] as const;
+const SIZES = [10, 12, 14, 16, 18, 20, 24, 28, 32, 48] as const;
 
 type WeightKey = keyof typeof WEIGHTS;
 type Size = typeof SIZES[number];
@@ -76,6 +76,7 @@ const typographyTokens: Record<string, TextStyle> = {};
 });
 
 export const T = typographyTokens as {
+  thin10: TextStyle;
   thin12: TextStyle;
   thin14: TextStyle;
   thin16: TextStyle;
@@ -84,6 +85,7 @@ export const T = typographyTokens as {
   thin24: TextStyle;
   thin28: TextStyle;
   thin32: TextStyle;
+  thinItalic10: TextStyle;
   thinItalic12: TextStyle;
   thinItalic14: TextStyle;
   thinItalic16: TextStyle;
@@ -93,6 +95,7 @@ export const T = typographyTokens as {
   thinItalic28: TextStyle;
   thinItalic32: TextStyle;
   
+  extralight10: TextStyle;
   extralight12: TextStyle;
   extralight14: TextStyle;
   extralight16: TextStyle;
@@ -101,6 +104,7 @@ export const T = typographyTokens as {
   extralight24: TextStyle;
   extralight28: TextStyle;
   extralight32: TextStyle;
+  extralightItalic10: TextStyle;
   extralightItalic12: TextStyle;
   extralightItalic14: TextStyle;
   extralightItalic16: TextStyle;
@@ -110,6 +114,7 @@ export const T = typographyTokens as {
   extralightItalic28: TextStyle;
   extralightItalic32: TextStyle;
   
+  light10: TextStyle;
   light12: TextStyle;
   light14: TextStyle;
   light16: TextStyle;
@@ -118,6 +123,7 @@ export const T = typographyTokens as {
   light24: TextStyle;
   light28: TextStyle;
   light32: TextStyle;
+  lightItalic10: TextStyle;
   lightItalic12: TextStyle;
   lightItalic14: TextStyle;
   lightItalic16: TextStyle;
@@ -127,6 +133,7 @@ export const T = typographyTokens as {
   lightItalic28: TextStyle;
   lightItalic32: TextStyle;
   
+  regular10: TextStyle;
   regular12: TextStyle;
   regular14: TextStyle;
   regular16: TextStyle;
@@ -135,6 +142,7 @@ export const T = typographyTokens as {
   regular24: TextStyle;
   regular28: TextStyle;
   regular32: TextStyle;
+  regularItalic10: TextStyle;
   regularItalic12: TextStyle;
   regularItalic14: TextStyle;
   regularItalic16: TextStyle;
@@ -144,6 +152,7 @@ export const T = typographyTokens as {
   regularItalic28: TextStyle;
   regularItalic32: TextStyle;
   
+  medium10: TextStyle;
   medium12: TextStyle;
   medium14: TextStyle;
   medium16: TextStyle;
@@ -152,6 +161,7 @@ export const T = typographyTokens as {
   medium24: TextStyle;
   medium28: TextStyle;
   medium32: TextStyle;
+  mediumItalic10: TextStyle;
   mediumItalic12: TextStyle;
   mediumItalic14: TextStyle;
   mediumItalic16: TextStyle;
@@ -161,6 +171,7 @@ export const T = typographyTokens as {
   mediumItalic28: TextStyle;
   mediumItalic32: TextStyle;
   
+  semibold10: TextStyle;
   semibold12: TextStyle;
   semibold14: TextStyle;
   semibold16: TextStyle;
@@ -169,6 +180,7 @@ export const T = typographyTokens as {
   semibold24: TextStyle;
   semibold28: TextStyle;
   semibold32: TextStyle;
+  semiboldItalic10: TextStyle;
   semiboldItalic12: TextStyle;
   semiboldItalic14: TextStyle;
   semiboldItalic16: TextStyle;
@@ -178,6 +190,7 @@ export const T = typographyTokens as {
   semiboldItalic28: TextStyle;
   semiboldItalic32: TextStyle;
   
+  bold10: TextStyle;
   bold12: TextStyle;
   bold14: TextStyle;
   bold16: TextStyle;
@@ -186,6 +199,7 @@ export const T = typographyTokens as {
   bold24: TextStyle;
   bold28: TextStyle;
   bold32: TextStyle;
+  boldItalic10: TextStyle;
   boldItalic12: TextStyle;
   boldItalic14: TextStyle;
   boldItalic16: TextStyle;
@@ -195,6 +209,7 @@ export const T = typographyTokens as {
   boldItalic28: TextStyle;
   boldItalic32: TextStyle;
   
+  extrabold10: TextStyle;
   extrabold12: TextStyle;
   extrabold14: TextStyle;
   extrabold16: TextStyle;
@@ -203,6 +218,7 @@ export const T = typographyTokens as {
   extrabold24: TextStyle;
   extrabold28: TextStyle;
   extrabold32: TextStyle;
+  extraboldItalic10: TextStyle;
   extraboldItalic12: TextStyle;
   extraboldItalic14: TextStyle;
   extraboldItalic16: TextStyle;
@@ -212,6 +228,7 @@ export const T = typographyTokens as {
   extraboldItalic28: TextStyle;
   extraboldItalic32: TextStyle;
   
+  black10: TextStyle;
   black12: TextStyle;
   black14: TextStyle;
   black16: TextStyle;
@@ -220,6 +237,7 @@ export const T = typographyTokens as {
   black24: TextStyle;
   black28: TextStyle;
   black32: TextStyle;
+  blackItalic10: TextStyle;
   blackItalic12: TextStyle;
   blackItalic14: TextStyle;
   blackItalic16: TextStyle;
