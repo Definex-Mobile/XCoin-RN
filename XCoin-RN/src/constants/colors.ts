@@ -45,6 +45,10 @@ export const colors = {
     mainLightBackground: {
         DEFAULT: "#F8F9FA",
     },
+    border: {
+        gray: "#D1D5DB",
+        light: "#E5E7EB",
+    },
 };
 
 module.exports = { colors };
