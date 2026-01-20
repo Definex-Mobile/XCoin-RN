@@ -35,6 +35,11 @@ export const colors = {
     mainLightBackground: {
         DEFAULT: "#F8F9FA",
     },
+    navigation: {
+        active: "#0063F5",
+        inactive: "#6C757D",
+        background: "#FFFFFF",
+    },
 };
 
 module.exports = { colors };

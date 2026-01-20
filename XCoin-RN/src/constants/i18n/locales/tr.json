@@ -28,6 +28,12 @@
     "remainingCouponsToSpin": "Çevirmek için kalan kupon sayısı",
     "totalNoOfReferral": "Toplam referans sayısı",
     "totalNoOfQualifiedReferral": "Toplam uygun referans sayısı"
+  },
+  "navigation": {
+    "home": "Ana Sayfa",
+    "portfolio": "Portföy",
+    "rewards": "Ödüller",
+    "market": "Piyasa",
+    "profile": "Profil"
   }
 }
-
