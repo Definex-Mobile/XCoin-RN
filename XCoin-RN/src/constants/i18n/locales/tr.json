@@ -18,7 +18,15 @@
   "splash": {
     "title": "XCoin'e Hoş Geldiniz",
     "subtitle": "Kripto para yatırımlarınızı yönetin",
-    "startButton": "Başla"
+    "startButton": "Başla",
+    "appName": "COINS",
+    "tagline": "Turkey's Highly Rated Cryptocurrency Exchange"
+  },
+  "tabs": {
+    "all": "Tümü",
+    "gainer": "Yükselenler",
+    "loser": "Düşenler",
+    "favourites": "Favorilerim"
   },
   "rewards": {
     "coupons": "Kuponlar",
@@ -30,4 +38,3 @@
     "totalNoOfQualifiedReferral": "Toplam uygun referans sayısı"
   }
 }
-
