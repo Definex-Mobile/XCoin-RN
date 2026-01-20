@@ -36,5 +36,10 @@
         "remainingCouponsToSpin": "Remaining Coupons to Spin",
         "totalNoOfReferral": "Total No of referral",
         "totalNoOfQualifiedReferral": "Total No of Qualified referral"
+    },
+    "dropdownBottomSheet": {
+        "markets": "Markets",
+        "updateMarket": "Update Market",
+        "defaultMarket": "Market-INR"
     }
 }

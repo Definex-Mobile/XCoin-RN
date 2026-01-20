@@ -36,5 +36,10 @@
     "remainingCouponsToSpin": "Çevirmek için kalan kupon sayısı",
     "totalNoOfReferral": "Toplam referans sayısı",
     "totalNoOfQualifiedReferral": "Toplam uygun referans sayısı"
+  },
+  "dropdownBottomSheet": {
+    "markets": "Piyasalar",
+    "updateMarket": "Piyasayı Güncelle",
+    "defaultMarket": "Piyasa-INR"
   }
 }
