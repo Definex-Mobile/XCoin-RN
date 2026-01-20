@@ -28,6 +28,16 @@ export const colors = {
     primaryBlue: {
         DEFAULT: "#0063F5",
     },
+    tab: {
+        activeBorder: "#0063F5",
+        activeText: "#0063F5",
+        inactiveText: "#6C757D",
+    },
+    coin: {
+        name: "#212529",
+        symbol: "#6C757D",
+        price: "#343A40",
+    },
     rewards: {
         DEFAULT: "#F8F9FA",
         darkText: "#343A40"
