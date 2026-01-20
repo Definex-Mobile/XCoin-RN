@@ -3,6 +3,7 @@ import { Text, View, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useRouter } from "expo-router";
 import { constants } from "../src/constants/constants";
+import { useTranslation } from "../src/hooks/useTranslation";
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -24,11 +25,13 @@ export default function SplashScreen() {
             className="w-16 h-16"
             resizeMode="contain"
           />
-          <Text className="bold42 text-gray-800 ml-3">{"COINS"}</Text>
+          <Text className="bold42 text-gray-800 ml-3">
+            {useTranslation("splash.appName")}
+          </Text>
         </View>
       </View>
       <Text className="semibold12 text-gray-400 italic">
-        {"Turkey's Highly Rated Cryptocurrency Exchange"}
+        {useTranslation("splash.tagline")}
       </Text>
     </View>
   );
