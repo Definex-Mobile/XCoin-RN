@@ -45,5 +45,10 @@
     "depositINR": "Deposit INR",
     "withDrawINR": "Withdraw INR",
     "yourCoins": "Your Coins"
+  },
+  "dropdownBottomSheet": {
+    "markets": "Piyasalar",
+    "updateMarket": "Piyasayı Güncelle",
+    "defaultMarket": "Piyasa-INR"
   }
 }
