@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { T } from "../../constants/typography";
 
 type Props = {
   label: string;
