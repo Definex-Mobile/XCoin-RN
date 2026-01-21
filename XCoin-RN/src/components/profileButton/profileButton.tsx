@@ -3,15 +3,14 @@ import {
   View,
   Text,
   Pressable,
-  Image,
-  ImageSourcePropType,
 } from "react-native";
+import { SvgProps } from "react-native-svg";
 import { colors } from "../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 
 interface ProfileButtonProps {
   title: string;
-  icon: ImageSourcePropType;
+  icon: React.FC<SvgProps>;
   onPress: () => void;
   isLast?: boolean;
 }
@@ -31,7 +30,7 @@ export default function ProfileButton({
       }`}
     >
       <View className="flex-row items-center gap-4">
-        <Image source={icon} className="w-6 h-6" resizeMode="contain" />
+        {React.createElement(icon, { width: 24, height: 24 })}
         <Text className="thinItalic18 text-text">{title}</Text>
       </View>
 

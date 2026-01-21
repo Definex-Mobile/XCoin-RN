@@ -3,6 +3,14 @@ import { ScrollView, View } from "react-native";
 import { ProfileHeader } from "../../src/components/profileHeader/profileHeader";
 import ProfileButton from "../../src/components/profileButton/profileButton";
 
+// SVG Icons
+import IconHistory from "../../assets/images/icon_history.svg";
+import IconBankDetails from "../../assets/images/icon_bank_details.svg";
+import IconNotifications from "../../assets/images/icon_notifications.svg";
+import IconSecurity from "../../assets/images/icon_security.svg";
+import IconHelpSupport from "../../assets/images/icon_help_support.svg";
+import IconTermsConditions from "../../assets/images/icon_terms_conditions.svg";
+
 export default function Profile() {
   return (
     <ScrollView className="flex-1 bg-mainLightBackground">
@@ -15,32 +23,32 @@ export default function Profile() {
       <View className="mt-6">
         <ProfileButton
           title="History"
-          icon={require("../../assets/images/icon_history.png")}
+          icon={IconHistory}
           onPress={() => console.log("History pressed")}
         />
         <ProfileButton
           title="Bank Details"
-          icon={require("../../assets/images/icon_bank_details.png")}
+          icon={IconBankDetails}
           onPress={() => console.log("Bank Details pressed")}
         />
         <ProfileButton
           title="Notifications"
-          icon={require("../../assets/images/icon_notifications.png")}
+          icon={IconNotifications}
           onPress={() => console.log("Notifications pressed")}
         />
         <ProfileButton
           title="Security"
-          icon={require("../../assets/images/icon_security.png")}
+          icon={IconSecurity}
           onPress={() => console.log("Security pressed")}
         />
         <ProfileButton
           title="Help and Support"
-          icon={require("../../assets/images/icon_help_support.png")}
+          icon={IconHelpSupport}
           onPress={() => console.log("Help and Support pressed")}
         />
         <ProfileButton
           title="Terms and Conditions"
-          icon={require("../../assets/images/icon_terms_conditions.png")}
+          icon={IconTermsConditions}
           onPress={() => console.log("Terms and Conditions pressed")}
           isLast={true}
         />
