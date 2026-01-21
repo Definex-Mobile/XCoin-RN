@@ -35,7 +35,12 @@ export default function ProfileButton({
         <Text className="thinItalic18 text-text">{title}</Text>
       </View>
 
-      <Ionicons name="chevron-forward" size={20} color={colors.text.light} />
+      <Ionicons
+        className="px-4"
+        name="chevron-forward"
+        size={20}
+        color={colors.text.light}
+      />
     </Pressable>
   );
 }
