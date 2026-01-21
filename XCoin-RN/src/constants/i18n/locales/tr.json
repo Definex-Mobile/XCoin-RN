@@ -41,5 +41,19 @@
     "markets": "Piyasalar",
     "updateMarket": "Piyasayı Güncelle",
     "defaultMarket": "Piyasa-INR"
+  },
+  "portfolio": {
+    "portfolio": "Portföy",
+    "holdingValue" : "Holding değeri",
+    "investedValue": "Yatırım değeri",
+    "availableINR": "Uygun INR",
+    "depositINR": "Deposit INR",
+    "withDrawINR": "Withdraw INR",
+    "yourCoins": "Your Coins"
+  },
+  "dropdownBottomSheet": {
+    "markets": "Piyasalar",
+    "updateMarket": "Piyasayı Güncelle",
+    "defaultMarket": "Piyasa-INR"
   }
 }
