@@ -1,10 +1,17 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
+import { ProfileHeader } from "../../src/components/profileHeader/profileHeader";
 import ProfileButton from "../../src/components/profileButton/profileButton";
 
 export default function Profile() {
   return (
     <ScrollView className="flex-1 bg-mainLightBackground">
+      <ProfileHeader
+        image="https://www.pngall.com/wp-content/uploads/10/Cardano-Crypto-Logo.png"
+        name="DefineX"
+        mail="definex@teamdefinex.com"
+        phone="+90 555 555 55 55"
+      />
       <View className="mt-6">
         <ProfileButton
           title="History"
