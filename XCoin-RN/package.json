@@ -8,6 +8,7 @@
     "ios": "expo start --ios"
   },
   "dependencies": {
+    "axios": "^1.13.2",
     "base64-js": "^1.5.1",
     "expo": "~54.0.31",
     "expo-constants": "~18.0.13",
