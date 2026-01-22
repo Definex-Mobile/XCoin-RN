@@ -54,9 +54,9 @@ export default function Portfolio() {
 
       if (popupMessages.length > 0) {
         Alert.alert(
-          "Hata",
+          useTranslation("common.errorText"),
           popupMessages.join("\n"),
-          [{ text: "Tamam" }],
+          [{ text: useTranslation("common.ok") }],
           { cancelable: true }
         );
       }

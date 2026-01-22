@@ -8,12 +8,14 @@
     "welcome": "Hoş Geldiniz",
     "loading": "Yükleniyor...",
     "error": "Bir hata oluştu",
+    "errorTitle": "Hata",
     "retry": "Tekrar Dene",
     "cancel": "İptal",
     "save": "Kaydet",
     "delete": "Sil",
     "edit": "Düzenle",
-    "close": "Kapat"
+    "close": "Kapat",
+    "ok": "Tamam"
   },
   "splash": {
     "title": "XCoin'e Hoş Geldiniz",
