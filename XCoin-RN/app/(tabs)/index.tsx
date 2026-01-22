@@ -46,7 +46,7 @@ export default function Home() {
             <ScrollView className="flex-1">
                 <View className="pt-4">
                     <BannerCard
-                        title={t("bannerCard.title") + " Agilan"}
+                        title={t("bannerCard.title") + " Agilan,"}
                         description={t("bannerCard.description")}
                         buttonText={t("bannerCard.buttonText")}
                         onButtonPress={handleBannerPress}

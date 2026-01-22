@@ -17,9 +17,9 @@ export default function TabsLayout() {
                 tabBarStyle: {
                     backgroundColor: colors.navigation.background,
                     borderTopWidth: 0,
-                    height: 70,
-                    paddingBottom: 12,
-                    paddingTop: 8,
+                    height: 88,
+                    paddingBottom: 20,
+                    paddingTop: 20,
                     paddingHorizontal: 16,
                     ...Platform.select({
                         ios: {

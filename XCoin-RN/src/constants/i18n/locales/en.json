@@ -1,8 +1,8 @@
 {
     "bannerCard": {
         "title": "Welcome",
-        "description": "Make your first investment today",
-        "buttonText": "Invest Now"
+        "description": "Make your first Investment today",
+        "buttonText": "Invest Today"
     },
     "common": {
         "welcome": "Welcome",
