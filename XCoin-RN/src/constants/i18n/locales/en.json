@@ -8,12 +8,14 @@
         "welcome": "Welcome",
         "loading": "Loading...",
         "error": "An error occurred",
+        "errorTitle": "Error",
         "retry": "Try Again",
         "cancel": "Cancel",
         "save": "Save",
         "delete": "Delete",
         "edit": "Edit",
-        "close": "Close"
+        "close": "Close",
+        "ok": "Okey"
     },
     "splash": {
         "title": "Welcome to XCoin",
