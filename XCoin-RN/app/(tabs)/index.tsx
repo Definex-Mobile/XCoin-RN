@@ -1,59 +1,80 @@
-import React from "react";
-import { View, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, ScrollView, Text } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import BannerCard, {
     BannerType,
 } from "../../src/components/bannerCard/bannerCard";
-import { useTranslation } from "../../src/hooks/useTranslation";
+import { useTranslation as useI18nTranslation } from "../../src/constants/i18n";
 import { CryptoCoinList } from '../../src/components/cryptoCoinList/cryptoCoinList';
 import type { CryptoCoin } from '../../src/types/cryptoCoin';
-
-const HOME_MOCK_DATA: CryptoCoin[] = [
-    {
-        longName: "Bitcoin",
-        shortName: "BTC",
-        currentPrice: 32312.12,
-        changeRatio: 1.86,
-        currency: "usd",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/800px-Bitcoin.svg.png",
-    },
-    {
-        longName: "Ethereum",
-        shortName: "ETH",
-        currentPrice: 1234.5,
-        changeRatio: -2.12,
-        currency: "usd",
-        imageUrl: "https://www.kindpng.com/picc/m/128-1287761_persystance-networks-ethereum-logo-ethereum-sign-transparent-background.png",
-    },
-    {
-        longName: "Cardano",
-        shortName: "ADA",
-        currentPrice: 1234.5,
-        changeRatio: 11.98,
-        currency: "usd",
-        imageUrl: "https://www.pngall.com/wp-content/uploads/10/Cardano-Crypto-Logo.png",
-    },
-];
+import { getTrendingCoins } from '../../src/api/services/trendingService';
 
 export default function Home() {
+    // Call hook once at the top
+    const { t } = useI18nTranslation();
+
+    const [loading, setLoading] = useState(true);
+    const [trendingCoins, setTrendingCoins] = useState<CryptoCoin[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchTrendingCoins = async () => {
+            setLoading(true);
+            setError(null);
+
+            try {
+                const response = await getTrendingCoins();
+                setTrendingCoins(response.trendingList);
+            } catch (err) {
+                const errorMessage = err instanceof Error ? err.message : 'Failed to fetch trending coins';
+                setError(errorMessage);
+                console.error('Trending coins fetch error:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTrendingCoins();
+    }, []);
+
     function handleBannerPress(): void {
         console.log("Button Pressed");
     }
 
     return (
-        <ScrollView className="flex-1 bg-background-gray">
-            <View className="pt-4">
-                <BannerCard
-                    title={useTranslation("bannerCard.title") + " <Username>,"}
-                    description={useTranslation("bannerCard.description")}
-                    buttonText={useTranslation("bannerCard.buttonText")}
-                    onButtonPress={handleBannerPress}
-                    image={require("../../assets/images/img-welcome-card.png")}
-                    bannerType={BannerType.HOME}
-                />
-            </View>
-            <View className="px-4">
-                <CryptoCoinList data={HOME_MOCK_DATA} />
-            </View>
-        </ScrollView>
+        <SafeAreaView className="flex-1 bg-background-gray" edges={['top']}>
+            <ScrollView className="flex-1">
+                <View className="pt-4">
+                    <BannerCard
+                        title={t("bannerCard.title") + " Agilan"}
+                        description={t("bannerCard.description")}
+                        buttonText={t("bannerCard.buttonText")}
+                        onButtonPress={handleBannerPress}
+                        image={require("../../assets/images/img-welcome-card.png")}
+                        bannerType={BannerType.HOME}
+                    />
+                </View>
+
+                <View className="px-4 mt-6">
+                    <Text className="bold20 text-coin-name mb-3">
+                        {t("home.trendingCoins")}
+                    </Text>
+
+                    {loading && !error && (
+                        <Text className="regular14 text-coin-symbol">
+                            {t("common.loading")}
+                        </Text>
+                    )}
+
+                    {error && (
+                        <Text className="regular14 text-accent">
+                            {error}
+                        </Text>
+                    )}
+
+                    {!loading && !error && <CryptoCoinList data={trendingCoins} />}
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }

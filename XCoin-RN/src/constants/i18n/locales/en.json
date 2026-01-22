@@ -51,7 +51,7 @@
     },
     "portfolio": {
         "portfolio": "Portfolio",
-        "holdingValue" : "Holding value",
+        "holdingValue": "Holding value",
         "investedValue": "Invested value",
         "availableINR": "Available INR",
         "depositINR": "Deposit INR",
@@ -62,5 +62,8 @@
         "markets": "Markets",
         "updateMarket": "Update Market",
         "defaultMarket": "Market-INR"
+    },
+    "home": {
+        "trendingCoins": "Trending Coins"
     }
 }

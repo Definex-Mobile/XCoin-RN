@@ -51,7 +51,7 @@
   },
   "portfolio": {
     "portfolio": "Portföy",
-    "holdingValue" : "Holding değeri",
+    "holdingValue": "Holding değeri",
     "investedValue": "Yatırım değeri",
     "availableINR": "Uygun INR",
     "depositINR": "Deposit INR",
@@ -62,5 +62,8 @@
     "markets": "Piyasalar",
     "updateMarket": "Piyasayı Güncelle",
     "defaultMarket": "Piyasa-INR"
+  },
+  "home": {
+    "trendingCoins": "Trend Coinler"
   }
 }
