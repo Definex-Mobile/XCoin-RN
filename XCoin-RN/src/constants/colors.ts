@@ -50,6 +50,13 @@ export const colors = {
         inactive: "#6C757D",
         background: "#FFFFFF",
     },
+    border: {
+        gray: "#D1D5DB",
+        light: "#E5E7EB",
+    },
+    overlay: {
+        dark: "rgba(0,0,0,0.5)",
+    },
 };
 
 module.exports = { colors };

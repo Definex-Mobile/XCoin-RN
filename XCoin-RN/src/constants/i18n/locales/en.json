@@ -43,5 +43,10 @@
         "rewards": "Rewards",
         "market": "Market",
         "profile": "Profile"
+    },
+    "dropdownBottomSheet": {
+        "markets": "Markets",
+        "updateMarket": "Update Market",
+        "defaultMarket": "Market-INR"
     }
 }

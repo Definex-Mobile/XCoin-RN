@@ -43,5 +43,10 @@
     "rewards": "Ödüller",
     "market": "Piyasa",
     "profile": "Profil"
+  },
+  "dropdownBottomSheet": {
+    "markets": "Piyasalar",
+    "updateMarket": "Piyasayı Güncelle",
+    "defaultMarket": "Piyasa-INR"
   }
 }
