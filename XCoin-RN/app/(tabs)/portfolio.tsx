@@ -6,6 +6,7 @@ import type { PortfolioApiResponse, PortfolioCoin } from '../../src/types/portfo
 import { getPortfolioSummary, getPortfolioList } from '../../src/api/services/portfolioService';
 import { useTranslation } from "../../src/hooks/useTranslation";
 import { CryptoCoinList } from '../../src/components/cryptoCoinList/cryptoCoinList';
+import { constants } from "../../src/constants/constants";
 
 export default function Portfolio() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -29,13 +30,11 @@ export default function Portfolio() {
       ]);
 
       const popupMessages: string[] = [];
-
       if (summaryRes.status === "fulfilled") {
         setPortfolioData(summaryRes.value);
       } else {
         const msg =
-          (summaryRes.reason as any)?.message ??
-          "Summary fetch failed";
+          summaryRes.reason?.message ?? "Summary fetch failed";
         setSummaryError(msg);
         console.error("Summary fetch error:", summaryRes.reason);
         popupMessages.push(`Özet: ${msg}`);
@@ -45,8 +44,7 @@ export default function Portfolio() {
         setPortfolioListData(listRes.value.portfolioList);
       } else {
         const msg =
-          (listRes.reason as any)?.message ??
-          "List fetch failed";
+          listRes.reason?.message ?? "List fetch failed";
         setListError(msg);
         console.error("List fetch error:", listRes.reason);
         popupMessages.push(`Liste: ${msg}`);
