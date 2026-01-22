@@ -39,6 +39,13 @@
     "totalNoOfReferral": "Toplam referans sayısı",
     "totalNoOfQualifiedReferral": "Toplam uygun referans sayısı"
   },
+  "navigation": {
+    "home": "Ana Sayfa",
+    "portfolio": "Portföy",
+    "rewards": "Ödüller",
+    "market": "Piyasa",
+    "profile": "Profil"
+  },
   "dropdownBottomSheet": {
     "markets": "Piyasalar",
     "updateMarket": "Piyasayı Güncelle",

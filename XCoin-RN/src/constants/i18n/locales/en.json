@@ -39,6 +39,13 @@
         "totalNoOfReferral": "Total No of referral",
         "totalNoOfQualifiedReferral": "Total No of Qualified referral"
     },
+    "navigation": {
+        "home": "Home",
+        "portfolio": "Portfolio",
+        "rewards": "Rewards",
+        "market": "Market",
+        "profile": "Profile"
+    },
     "dropdownBottomSheet": {
         "markets": "Markets",
         "updateMarket": "Update Market",

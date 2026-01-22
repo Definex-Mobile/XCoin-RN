@@ -1,61 +1,98 @@
 import { Tabs } from 'expo-router';
+import { Platform } from 'react-native';
+import { colors } from '../../src/constants/colors';
+import { useTranslation } from '../../src/hooks/useTranslation';
+import HomeIcon from '../../assets/icons/home_menu.svg';
+import PortfolioIcon from '../../assets/icons/portfolio_menu.svg';
+import RewardsIcon from '../../assets/icons/rewards_menu.svg';
+import MarketIcon from '../../assets/icons/market_menu.svg';
+import ProfileIcon from '../../assets/icons/profile_menu.svg';
 
 export default function TabsLayout() {
     return (
         <Tabs
             screenOptions={{
-                tabBarActiveTintColor: '#0f3460',
-                tabBarInactiveTintColor: '#888',
+                tabBarActiveTintColor: colors.navigation.active,
+                tabBarInactiveTintColor: colors.navigation.inactive,
                 tabBarStyle: {
-                    backgroundColor: '#fff',
-                    borderTopWidth: 1,
-                    borderTopColor: '#eee',
-                    height: 60,
-                    paddingBottom: 8,
+                    backgroundColor: colors.navigation.background,
+                    borderTopWidth: 0,
+                    height: 70,
+                    paddingBottom: 12,
                     paddingTop: 8,
+                    paddingHorizontal: 16,
+                    ...Platform.select({
+                        ios: {
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: -2 },
+                            shadowOpacity: 0.1,
+                            shadowRadius: 4,
+                        },
+                        android: {
+                            elevation: 8,
+                        },
+                    }),
                 },
-                headerStyle: {
-                    backgroundColor: '#1a1a2e',
+                tabBarLabelStyle: {
+                    fontFamily: 'Roboto-ThinItalic',
+                    fontSize: 10,
+                    marginTop: 2,
                 },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                    fontWeight: 'bold',
+                tabBarIconStyle: {
+                    width: 20,
+                    height: 20,
                 },
+                headerShown: false,
             }}
         >
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: 'Ana Sayfa',
-                    tabBarLabel: 'Home',
+                    title: 'Home',
+                    tabBarLabel: useTranslation('navigation.home'),
+                    tabBarIcon: ({ color }) => (
+                        <HomeIcon width={20} height={20} color={color} />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="portfolio"
                 options={{
-                    title: 'Portföy',
-                    tabBarLabel: 'Portfolio',
+                    title: 'Portfolio',
+                    tabBarLabel: useTranslation('navigation.portfolio'),
+                    tabBarIcon: ({ color }) => (
+                        <PortfolioIcon width={20} height={20} color={color} />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="rewards"
                 options={{
-                    title: 'Ödüller',
-                    tabBarLabel: 'Rewards',
+                    title: 'Rewards',
+                    tabBarLabel: useTranslation('navigation.rewards'),
+                    tabBarIcon: ({ color }) => (
+                        <RewardsIcon width={20} height={20} color={color} />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="market"
                 options={{
-                    title: 'Piyasa',
-                    tabBarLabel: 'Market',
+                    title: 'Market',
+                    tabBarLabel: useTranslation('navigation.market'),
+                    tabBarIcon: ({ color }) => (
+                        <MarketIcon width={20} height={20} color={color} />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="profile"
                 options={{
-                    title: 'Profil',
-                    tabBarLabel: 'Profile',
+                    title: 'Profile',
+                    tabBarLabel: useTranslation('navigation.profile'),
+                    tabBarIcon: ({ color }) => (
+                        <ProfileIcon width={20} height={20} color={color} />
+                    ),
                 }}
             />
         </Tabs>
