@@ -57,6 +57,9 @@ export const colors = {
     overlay: {
         dark: "rgba(0,0,0,0.5)",
     },
+    shadow: {
+        DEFAULT: "#000000",
+    },
 };
 
 module.exports = { colors };
