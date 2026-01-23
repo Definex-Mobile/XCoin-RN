@@ -1,6 +1,6 @@
 export const colors = {
     primary: {
-        DEFAULT: "#0f3460",
+        DEFAULT: "#9300F5",
         dark: "#0a2342",
         light: "#1a4d8f",
     },
@@ -10,7 +10,7 @@ export const colors = {
         light: "#2d2d44",
     },
     accent: {
-        DEFAULT: "#e94560",
+        DEFAULT: "#F59300",
         dark: "#c93850",
         light: "#ff6b85",
     },

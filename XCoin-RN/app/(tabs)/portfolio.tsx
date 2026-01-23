@@ -30,7 +30,7 @@ export default function Portfolio() {
       ]);
 
       const popupMessages: string[] = [];
-      if (summaryRes.status === "fulfilled") {
+      if (summaryRes.status === constants.axiosStatus.fullFilled) {
         setPortfolioData(summaryRes.value);
       } else {
         const msg =
@@ -40,7 +40,7 @@ export default function Portfolio() {
         popupMessages.push(`Özet: ${msg}`);
       }
 
-      if (listRes.status === "fulfilled") {
+      if (listRes.status === constants.axiosStatus.fullFilled) {
         setPortfolioListData(listRes.value.portfolioList);
       } else {
         const msg =
