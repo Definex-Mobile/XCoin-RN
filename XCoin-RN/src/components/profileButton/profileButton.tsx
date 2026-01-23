@@ -1,16 +1,15 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Pressable,
-} from "react-native";
-import { SvgProps } from "react-native-svg";
+import { View, Text, Pressable } from "react-native";
+import Svg, { Path } from "react-native-svg";
 import { colors } from "../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 
 interface ProfileButtonProps {
   title: string;
-  icon: React.FC<SvgProps>;
+  icon: {
+    viewBox: string;
+    path: string;
+  };
   onPress: () => void;
   isLast?: boolean;
 }
@@ -30,7 +29,9 @@ export default function ProfileButton({
       }`}
     >
       <View className="flex-row items-center gap-4">
-        {React.createElement(icon, { width: 24, height: 24 })}
+        <Svg width={24} height={24} viewBox={icon.viewBox} fill="none">
+          <Path d={icon.path} fill={colors.primaryBlue.DEFAULT} />
+        </Svg>
         <Text className="thinItalic18 text-text">{title}</Text>
       </View>
 

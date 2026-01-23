@@ -41,5 +41,13 @@
         "markets": "Markets",
         "updateMarket": "Update Market",
         "defaultMarket": "Market-INR"
+    },
+    "profile": {
+        "history": "History",
+        "bankDetails": "Bank Details",
+        "notifications": "Notifications",
+        "security": "Security",
+        "helpSupport": "Help and Support",
+        "termsConditions": "Terms and Conditions"
     }
 }
