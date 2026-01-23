@@ -10,3 +10,5 @@ export interface CryptoCoin {
 export interface TrendingListResponse {
     trendingList: CryptoCoin[];
 }
+
+export type TrendingApiResponse = TrendingListResponse;
