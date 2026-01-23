@@ -8,12 +8,14 @@
         "welcome": "Welcome",
         "loading": "Loading...",
         "error": "An error occurred",
+        "errorTitle": "Error",
         "retry": "Try Again",
         "cancel": "Cancel",
         "save": "Save",
         "delete": "Delete",
         "edit": "Edit",
-        "close": "Close"
+        "close": "Close",
+        "ok": "Okey"
     },
     "splash": {
         "title": "Welcome to XCoin",
@@ -36,6 +38,27 @@
         "remainingCouponsToSpin": "Remaining Coupons to Spin",
         "totalNoOfReferral": "Total No of referral",
         "totalNoOfQualifiedReferral": "Total No of Qualified referral"
+    },
+    "navigation": {
+        "home": "Home",
+        "portfolio": "Portfolio",
+        "rewards": "Rewards",
+        "market": "Market",
+        "profile": "Profile"
+    },
+    "dropdownBottomSheet": {
+        "markets": "Markets",
+        "updateMarket": "Update Market",
+        "defaultMarket": "Market-INR"
+    },
+    "portfolio": {
+        "portfolio": "Portfolio",
+        "holdingValue" : "Holding value",
+        "investedValue": "Invested value",
+        "availableINR": "Available INR",
+        "depositINR": "Deposit INR",
+        "withDrawINR": "Withdraw INR",
+        "yourCoins": "Your Coins"
     },
     "dropdownBottomSheet": {
         "markets": "Markets",

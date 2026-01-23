@@ -8,12 +8,14 @@
     "welcome": "Hoş Geldiniz",
     "loading": "Yükleniyor...",
     "error": "Bir hata oluştu",
+    "errorTitle": "Hata",
     "retry": "Tekrar Dene",
     "cancel": "İptal",
     "save": "Kaydet",
     "delete": "Sil",
     "edit": "Düzenle",
-    "close": "Kapat"
+    "close": "Kapat",
+    "ok": "Tamam"
   },
   "splash": {
     "title": "XCoin'e Hoş Geldiniz",
@@ -36,6 +38,27 @@
     "remainingCouponsToSpin": "Çevirmek için kalan kupon sayısı",
     "totalNoOfReferral": "Toplam referans sayısı",
     "totalNoOfQualifiedReferral": "Toplam uygun referans sayısı"
+  },
+  "navigation": {
+    "home": "Ana Sayfa",
+    "portfolio": "Portföy",
+    "rewards": "Ödüller",
+    "market": "Piyasa",
+    "profile": "Profil"
+  },
+  "dropdownBottomSheet": {
+    "markets": "Piyasalar",
+    "updateMarket": "Piyasayı Güncelle",
+    "defaultMarket": "Piyasa-INR"
+  },
+  "portfolio": {
+    "portfolio": "Portföy",
+    "holdingValue" : "Holding değeri",
+    "investedValue": "Yatırım değeri",
+    "availableINR": "Uygun INR",
+    "depositINR": "Deposit INR",
+    "withDrawINR": "Withdraw INR",
+    "yourCoins": "Your Coins"
   },
   "dropdownBottomSheet": {
     "markets": "Piyasalar",
