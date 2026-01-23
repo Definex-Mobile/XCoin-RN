@@ -1,8 +1,14 @@
 {
     "bannerCard": {
         "title": "Welcome",
-        "description": "Make your first investment today",
-        "buttonText": "Invest Now"
+        "referTitle": "Refer and Earn",
+        "referDesc": "Refer you Friend and Win Cryptocoins",
+        "referButtonText": "Refer Now",
+        "likeTitle": "Rewards",
+        "likeDesc": "Like, Share & get free coupons",
+        "likeButtonText": "Share Now",
+        "description": "Make your first Investment today",
+        "buttonText": "Invest Today"
     },
     "common": {
         "welcome": "Welcome",
@@ -53,7 +59,7 @@
     },
     "portfolio": {
         "portfolio": "Portfolio",
-        "holdingValue" : "Holding value",
+        "holdingValue": "Holding value",
         "investedValue": "Invested value",
         "availableINR": "Available INR",
         "depositINR": "Deposit INR",
@@ -64,6 +70,9 @@
         "markets": "Markets",
         "updateMarket": "Update Market",
         "defaultMarket": "Market-INR"
+    },
+    "home": {
+        "trendingCoins": "Trending Coins"
     },
     "profile": {
         "history": "History",
