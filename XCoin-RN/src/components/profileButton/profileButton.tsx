@@ -1,17 +1,15 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  Image,
-  ImageSourcePropType,
-} from "react-native";
+import { View, Text, Pressable } from "react-native";
+import Svg, { Path } from "react-native-svg";
 import { colors } from "../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 
 interface ProfileButtonProps {
   title: string;
-  icon: ImageSourcePropType;
+  icon: {
+    viewBox: string;
+    path: string;
+  };
   onPress: () => void;
   isLast?: boolean;
 }
@@ -31,7 +29,9 @@ export default function ProfileButton({
       }`}
     >
       <View className="flex-row items-center gap-4">
-        <Image source={icon} className="w-6 h-6" resizeMode="contain" />
+        <Svg width={24} height={24} viewBox={icon.viewBox} fill="none">
+          <Path d={icon.path} fill={colors.primaryBlue.DEFAULT} />
+        </Svg>
         <Text className="thinItalic18 text-text">{title}</Text>
       </View>
 

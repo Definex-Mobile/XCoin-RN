@@ -67,5 +67,13 @@
   },
   "home": {
     "trendingCoins": "Trend Coinler"
+  },
+  "profile": {
+    "history": "Geçmiş",
+    "bankDetails": "Banka Bilgileri",
+    "notifications": "Bildirimler",
+    "security": "Güvenlik",
+    "helpSupport": "Yardım ve Destek",
+    "termsConditions": "Şartlar ve Koşullar"
   }
 }

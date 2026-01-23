@@ -2,6 +2,8 @@ import React from "react";
 import { ScrollView, View } from "react-native";
 import { ProfileHeader } from "../../src/components/profileHeader/profileHeader";
 import ProfileButton from "../../src/components/profileButton/profileButton";
+import { profileButtonData } from "../../src/components/profileButton/profileButtonData";
+import { useTranslation } from "../../src/hooks/useTranslation";
 
 export default function Profile() {
   return (
@@ -12,38 +14,16 @@ export default function Profile() {
         mail="definex@teamdefinex.com"
         phone="+90 555 555 55 55"
       />
-      <View className="mt-6">
-        <ProfileButton
-          title="History"
-          icon={require("../../assets/images/icon_history.png")}
-          onPress={() => console.log("History pressed")}
-        />
-        <ProfileButton
-          title="Bank Details"
-          icon={require("../../assets/images/icon_bank_details.png")}
-          onPress={() => console.log("Bank Details pressed")}
-        />
-        <ProfileButton
-          title="Notifications"
-          icon={require("../../assets/images/icon_notifications.png")}
-          onPress={() => console.log("Notifications pressed")}
-        />
-        <ProfileButton
-          title="Security"
-          icon={require("../../assets/images/icon_security.png")}
-          onPress={() => console.log("Security pressed")}
-        />
-        <ProfileButton
-          title="Help and Support"
-          icon={require("../../assets/images/icon_help_support.png")}
-          onPress={() => console.log("Help and Support pressed")}
-        />
-        <ProfileButton
-          title="Terms and Conditions"
-          icon={require("../../assets/images/icon_terms_conditions.png")}
-          onPress={() => console.log("Terms and Conditions pressed")}
-          isLast={true}
-        />
+      <View className="mt-8">
+        {profileButtonData.map((button, index) => (
+          <ProfileButton
+            key={button.id}
+            title={useTranslation(button.titleKey)}
+            icon={button.icon}
+            onPress={button.onPress}
+            isLast={index === profileButtonData.length - 1}
+          />
+        ))}
       </View>
     </ScrollView>
   );
