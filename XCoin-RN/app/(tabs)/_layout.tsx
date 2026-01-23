@@ -2,6 +2,7 @@ import { Tabs } from 'expo-router';
 import { Platform, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../../src/constants/colors';
+import { T } from '../../src/constants/typography';
 import { useTranslation as useI18nTranslation } from '../../src/constants/i18n';
 import HomeIcon from '../../assets/icons/home_menu.svg';
 import PortfolioIcon from '../../assets/icons/portfolio_menu.svg';
@@ -34,7 +35,7 @@ export default function TabsLayout() {
                         paddingHorizontal: 16,
                         ...Platform.select({
                             ios: {
-                                shadowColor: '#000',
+                                shadowColor: colors.shadow.DEFAULT,
                                 shadowOffset: { width: 0, height: -2 },
                                 shadowOpacity: 0.1,
                                 shadowRadius: 4,
@@ -45,8 +46,7 @@ export default function TabsLayout() {
                         }),
                     },
                     tabBarLabelStyle: {
-                        fontFamily: 'Roboto-ThinItalic',
-                        fontSize: 10,
+                        ...T.thinItalic10,
                         marginTop: 2,
                     },
                     tabBarIconStyle: {
