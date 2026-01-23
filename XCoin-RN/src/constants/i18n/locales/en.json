@@ -1,6 +1,12 @@
 {
     "bannerCard": {
         "title": "Welcome",
+        "referTitle": "Refer and Earn",
+        "referDesc": "Refer you Friend and Win Cryptocoins",
+        "referButtonText": "Refer Now",
+        "likeTitle": "Rewards",
+        "likeDesc": "Like, Share & get free coupons",
+        "likeButtonText": "Share Now",
         "description": "Make your first Investment today",
         "buttonText": "Invest Today"
     },
