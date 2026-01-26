@@ -24,9 +24,7 @@ export default function Home() {
                 const response = await getTrendingCoins();
                 setTrendingCoins(response.trendingList);
             } catch (err) {
-                const errorMessage = err instanceof Error ? err.message : 'Failed to fetch trending coins';
-                setError(errorMessage);
-                console.error('Trending coins fetch error:', err);
+                setError(t('common.fetchError'));
             } finally {
                 setLoading(false);
             }

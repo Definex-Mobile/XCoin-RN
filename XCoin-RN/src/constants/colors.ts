@@ -60,6 +60,10 @@ export const colors = {
     shadow: {
         DEFAULT: "#000000",
     },
+    market: {
+        up: "#21BF73",
+        down: "#D90429",
+    },
 };
 
 module.exports = { colors };

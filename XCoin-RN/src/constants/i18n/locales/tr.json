@@ -9,6 +9,7 @@
     "loading": "Yükleniyor...",
     "error": "Bir hata oluştu",
     "errorTitle": "Hata",
+    "fetchError": "Veri yüklenemedi. Lütfen tekrar deneyin.",
     "retry": "Tekrar Dene",
     "cancel": "İptal",
     "save": "Kaydet",
@@ -67,6 +68,12 @@
   },
   "home": {
     "trendingCoins": "Trend Coinler"
+  },
+  "market": {
+    "coins": "Coinler",
+    "marketUp": "Piyasa yükselişte",
+    "marketDown": "Piyasa düşüşte",
+    "inThePast24Hours": "Son 24 saatte"
   },
   "profile": {
     "history": "Geçmiş",
