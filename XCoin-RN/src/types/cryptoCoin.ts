@@ -12,3 +12,12 @@ export interface TrendingListResponse {
 }
 
 export type TrendingApiResponse = TrendingListResponse;
+
+export interface MarketStatusResponse {
+    marketStatus: 'UP' | 'DOWN';
+    ratio: number;
+}
+
+export interface MarketListResponse {
+    marketList: CryptoCoin[];
+}

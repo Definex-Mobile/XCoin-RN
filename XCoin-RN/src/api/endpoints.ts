@@ -1,4 +1,3 @@
-// API URL LIST
 export const BASE_URL = "https://xcoin-70afa.web.app"
 
 export const ENDPOINTS = {
@@ -7,7 +6,7 @@ export const ENDPOINTS = {
     GAINERS: "/api/market/GAINERS/marketList.json",
     LOSERS: "/api/market/LOSERS/marketList.json",
     MARKET_STATUS: "/api/market/status.json",
-    
+
     PORTFOLIO_SUMMARY: "/api/portfolio/summary.json",
     PORTFOLIO_LIST: "/api/portfolio/portfolioList.json",
 
