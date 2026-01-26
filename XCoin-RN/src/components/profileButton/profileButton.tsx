@@ -21,7 +21,7 @@ export default function ProfileButton({
   isLast = false,
 }: ProfileButtonProps) {
   return (
-    <View className="bg-mainLightBackground">
+    <View className="bg-white">
       <Pressable
         onPress={onPress}
         className="flex-row items-center justify-between py-[26px] px-4"

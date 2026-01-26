@@ -7,7 +7,7 @@ import { useTranslation } from "../../src/hooks/useTranslation";
 
 export default function Profile() {
   return (
-    <ScrollView className="flex-1 bg-mainLightBackground">
+    <ScrollView className="flex-1 bg-white">
       <ProfileHeader
         image="https://www.pngall.com/wp-content/uploads/10/Cardano-Crypto-Logo.png"
         name="DefineX"
