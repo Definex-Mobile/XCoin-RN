@@ -9,7 +9,7 @@ export default function Profile() {
   return (
     <ScrollView className="flex-1 bg-mainLightBackground">
       <ProfileHeader
-        image="https://www.pngall.com/wp-content/uploads/10/Cardano-Crypto-Logo.png"
+        image="https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif"
         name="DefineX"
         mail="definex@teamdefinex.com"
         phone="+90 555 555 55 55"
