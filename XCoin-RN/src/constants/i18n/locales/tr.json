@@ -25,6 +25,14 @@
     "appName": "COINS",
     "tagline": "Turkey's Highly Rated Cryptocurrency Exchange"
   },
+  "updateDialog": {
+    "title": "Güncelleme Gerekli",
+    "message": "XCoin'in yeni bir sürümü mevcut. Uygulamayı kullanmaya devam etmek için lütfen güncelleyin.",
+    "currentVersion": "Mevcut Sürüm",
+    "requiredVersion": "Gerekli Sürüm",
+    "updateButton": "Şimdi Güncelle",
+    "exitButton": "Uygulamadan Çık"
+  },
   "tabs": {
     "all": "Tümü",
     "gainer": "Yükselenler",
