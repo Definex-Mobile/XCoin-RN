@@ -13,7 +13,7 @@ type Props = {
 
 export function CryptoCoinListItem({ coin }: Props) {
   const isPositive = coin.changeRatio >= 0;
-  const changeColor = isPositive
+  const valueColor = isPositive
     ? "text-crypto-positive"
     : "text-crypto-negative";
   const currencySymbol = getCurrencySymbol(coin.currency);
@@ -40,7 +40,7 @@ export function CryptoCoinListItem({ coin }: Props) {
           {formatMoney(coin.currentPrice, currencySymbol)}
         </Text>
         <Text
-          className={`medium10 ${changeColor} mt-[5px] me-[16px] leading-[10px]`}
+          className={`medium10 ${valueColor} mt-[5px] me-[16px] leading-[10px]`}
         >
           {formatPercentage(coin.changeRatio)}
         </Text>
