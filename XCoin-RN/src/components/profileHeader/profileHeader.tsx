@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Image, Text, ImageSourcePropType } from "react-native";
+import { View, Text, ImageSourcePropType } from "react-native";
+import { SmartImage } from "../smartImage/smartImage";
 
 export type ProfileHeaderProps = {
   image?: string;
@@ -12,16 +13,15 @@ const fallbackLogo: ImageSourcePropType = require("../../../assets/images/xcoin_
 
 export function ProfileHeader(data: ProfileHeaderProps) {
   const { image, name, mail, phone } = data
-  const uri = image?.trim() ?? ""
-  const hasImage = uri.length > 0
-  const imgSource: ImageSourcePropType = hasImage ? { uri } : fallbackLogo
 
   return (
     <View className="mx-4 mt-3 rounded-xl bg-primaryBlue overflow-hidden items-center justify-center">
-      <Image
-        source={imgSource}
+      <SmartImage
+        uri={image}
+        fallback={fallbackLogo}
         className="mt-6 h-[88px] w-[88px] rounded-full"
-        resizeMode="cover"
+        width={88}
+        height={88}
       />
 
       <Text className="mt-3 bold20 text-white text-center">{name}</Text>
