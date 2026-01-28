@@ -67,11 +67,6 @@
         "withDrawINR": "Withdraw INR",
         "yourCoins": "Your Coins"
     },
-    "dropdownBottomSheet": {
-        "markets": "Markets",
-        "updateMarket": "Update Market",
-        "defaultMarket": "Market-INR"
-    },
     "home": {
         "trendingCoins": "Trending Coins"
     },

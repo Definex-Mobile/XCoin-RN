@@ -19,10 +19,7 @@ export function CryptoCoinListItem({ coin }: Props) {
   const currencySymbol = getCurrencySymbol(coin.currency);
 
   return (
-    <View
-      className="bg-crypto-cardBg rounded-xl ps-4 pe-1.5 pt-4 pb-4 mb-2 flex-row items-center"
-      style={{ elevation: 2 }}
-    >
+    <View className="bg-crypto-cardBg rounded-xl ps-4 pe-1.5 pt-4 pb-4 mb-2 flex-row items-center shadow-sm">
       <View className="w-10 h-10 rounded-full overflow-hidden bg-white mr-3">
         <Image
           source={{ uri: coin.imageUrl }}
@@ -43,8 +40,7 @@ export function CryptoCoinListItem({ coin }: Props) {
           {formatMoney(coin.currentPrice, currencySymbol)}
         </Text>
         <Text
-          className={`medium10 ${changeColor} mt-[5px] me-[16px]`}
-          style={{ lineHeight: 10 }}
+          className={`medium10 ${changeColor} mt-[5px] me-[16px] leading-[10px]`}
         >
           {formatPercentage(coin.changeRatio)}
         </Text>
