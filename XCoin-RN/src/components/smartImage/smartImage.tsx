@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ImageSourcePropType, StyleProp, ImageStyle } from 'react-native';
+import { Image, ImageSourcePropType, StyleProp, ImageStyle, ImageResizeMode } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 
 export interface SmartImageProps {
@@ -9,6 +9,7 @@ export interface SmartImageProps {
     className?: string;
     width?: number;
     height?: number;
+    resizeMode?: ImageResizeMode;
 }
 
 const isSvg = (uri: string): boolean => {
@@ -22,10 +23,11 @@ export const SmartImage: React.FC<SmartImageProps> = ({
     className,
     width,
     height,
+    resizeMode = 'cover',
 }) => {
     const trimmedUri = uri?.trim();
     if (!trimmedUri || trimmedUri.length === 0) {
-        return <Image source={fallback} style={style} className={className} />;
+        return <Image source={fallback} style={style} className={className} resizeMode={resizeMode} />;
     }
 
     if (isSvg(trimmedUri)) {
@@ -44,7 +46,7 @@ export const SmartImage: React.FC<SmartImageProps> = ({
             source={{ uri: trimmedUri }}
             style={style}
             className={className}
-            resizeMode="cover"
+            resizeMode={resizeMode}
         />
     );
 };
