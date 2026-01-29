@@ -21,26 +21,31 @@ export default function ProfileButton({
   isLast = false,
 }: ProfileButtonProps) {
   return (
-    <Pressable
-      onPress={onPress}
-      style={{ borderBottomColor: colors.border.light }}
-      className={`flex-row items-center justify-between py-[26px] px-4 bg-white ${
-        !isLast ? "border-b" : ""
-      }`}
-    >
-      <View className="flex-row items-center gap-4">
-        <Svg width={24} height={24} viewBox={icon.viewBox} fill="none">
-          <Path d={icon.path} fill={colors.primaryBlue.DEFAULT} />
-        </Svg>
-        <Text className="thinItalic18 text-text">{title}</Text>
-      </View>
+    <View className="bg-white">
+      <Pressable
+        onPress={onPress}
+        className="flex-row items-center justify-between py-[26px] px-4"
+      >
+        <View className="flex-row items-center gap-4">
+          <Svg width={24} height={24} viewBox={icon.viewBox} fill="none">
+            <Path d={icon.path} fill={colors.primaryBlue.DEFAULT} />
+          </Svg>
+          <Text className="thinItalic18 text-text">{title}</Text>
+        </View>
 
-      <Ionicons
-        className="px-4"
-        name="chevron-forward"
-        size={20}
-        color={colors.text.light}
-      />
-    </Pressable>
+        <Ionicons
+          className="px-4"
+          name="chevron-forward"
+          size={20}
+          color={colors.text.light}
+        />
+      </Pressable>
+      {!isLast && (
+        <View
+          style={{ backgroundColor: colors.border.light }}
+          className="h-[1px] mx-4"
+        />
+      )}
+    </View>
   );
 }
