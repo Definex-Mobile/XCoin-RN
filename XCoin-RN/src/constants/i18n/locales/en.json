@@ -81,5 +81,14 @@
         "security": "Security",
         "helpSupport": "Help and Support",
         "termsConditions": "Terms and Conditions"
+    },
+    "coinDetail": {
+        "exchange": "Exchange",
+        "buy": "BUY",
+        "sell": "SELL",
+        "transactions": "Transactions",
+        "minPrice": "Min",
+        "maxPrice": "Max",
+        "noChartData": "No chart data available"
     }
 }

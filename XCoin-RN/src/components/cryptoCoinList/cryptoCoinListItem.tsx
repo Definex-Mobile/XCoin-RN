@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 import type { CryptoCoin } from "../../types/cryptoCoin";
 import { getCurrencySymbol, formatPercentage, formatMoney } from "../../utils/money";
 
@@ -8,12 +9,22 @@ type Props = {
 };
 
 export function CryptoCoinListItem({ coin }: Props) {
+    const router = useRouter();
     const isPositive = coin.changeRatio >= 0;
     const changeColor = isPositive ? "text-crypto-positive" : "text-crypto-negative";
     const currencySymbol = getCurrencySymbol(coin.currency);
 
+    const handlePress = () => {
+        router.push(`/screens/coin-detail?symbol=${coin.shortName}&name=${coin.longName}`);
+    };
+
     return (
-        <View className="bg-crypto-cardBg rounded-xl ps-4 pe-1.5 pt-4 pb-4 mb-2 flex-row items-center" style={{ elevation: 2 }}>
+        <TouchableOpacity 
+            onPress={handlePress}
+            className="bg-crypto-cardBg rounded-xl ps-4 pe-1.5 pt-4 pb-4 mb-2 flex-row items-center" 
+            style={{ elevation: 2 }}
+            activeOpacity={0.7}
+        >
             <View className="w-10 h-10 rounded-full overflow-hidden bg-white mr-3">
                 <Image
                     source={{ uri: coin.imageUrl }}
@@ -48,6 +59,6 @@ export function CryptoCoinListItem({ coin }: Props) {
                     {formatPercentage(coin.changeRatio)}
                 </Text>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }

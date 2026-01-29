@@ -75,5 +75,14 @@
     "security": "Güvenlik",
     "helpSupport": "Yardım ve Destek",
     "termsConditions": "Şartlar ve Koşullar"
+  },
+  "coinDetail": {
+    "exchange": "Değiştir",
+    "buy": "AL",
+    "sell": "SAT",
+    "transactions": "İşlemler",
+    "minPrice": "Min",
+    "maxPrice": "Max",
+    "noChartData": "Grafik verisi yok"
   }
 }
