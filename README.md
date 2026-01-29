@@ -1,1 +1,0 @@
-# XCoin-RN

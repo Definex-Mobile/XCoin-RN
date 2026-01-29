@@ -25,6 +25,9 @@ export const colors = {
         dark: "#000000",
         white: "#ffffff",
     },
+    error: {
+        DEFAULT: "#F54927",
+    },
     primaryBlue: {
         DEFAULT: "#0063F5",
     },
