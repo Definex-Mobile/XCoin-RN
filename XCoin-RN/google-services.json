@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "115076399325",
+    "project_id": "xcoin-rn",
+    "storage_bucket": "xcoin-rn.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115076399325:android:5724a4179db35d937f1b34",
+        "android_client_info": {
+          "package_name": "com.definex.xcoin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4HMwgwfVNtzAGb8WA084AyOdG5_e0rhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,7 +7,7 @@ import { useTranslation } from "../../src/hooks/useTranslation";
 
 export default function Profile() {
   return (
-    <ScrollView className="flex-1 bg-mainLightBackground">
+    <ScrollView className="flex-1 bg-white">
       <ProfileHeader
         image="https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif"
         name="DefineX"

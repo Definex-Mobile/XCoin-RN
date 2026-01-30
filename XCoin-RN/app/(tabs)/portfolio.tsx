@@ -65,6 +65,17 @@ export default function Portfolio() {
     fetchPortfolio();
   }, []);
 
+  const getFilteredCoins = () => {
+    if (selectedIndex === 0) {
+      return portfolioListData.filter(coin => coin.changeRatio > 0);
+    } else if (selectedIndex === 1) {
+      return portfolioListData.filter(coin => coin.changeRatio < 0);
+    }
+    return portfolioListData;
+  };
+
+  const filteredCoins = getFilteredCoins();
+
   return (
     <View className="flex-1 mt-3 bg-mainLightBackground">
       <View>
@@ -73,7 +84,7 @@ export default function Portfolio() {
         )}
 
         {!loading && !summaryError && portfolioData && (
-          <PortfolioCard className="pt-3 mx-4" data={portfolioData} />
+          <PortfolioCard className="pt-[12px] mx-4" data={portfolioData} />
         )}
 
         <MultipleSegmentButton
@@ -94,7 +105,7 @@ export default function Portfolio() {
       <ScrollView className="flex-1 mt-3" showsVerticalScrollIndicator={false}>
         <View className="px-4 pb-10">
 
-          {!listError && <CryptoCoinList data={portfolioListData} />}
+          {!listError && <CryptoCoinList data={filteredCoins} />}
         </View>
       </ScrollView>
     </View>
