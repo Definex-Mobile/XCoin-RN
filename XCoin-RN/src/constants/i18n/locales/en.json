@@ -31,6 +31,14 @@
         "appName": "COINS",
         "tagline": "Turkey's Highly Rated Cryptocurrency Exchange"
     },
+    "updateDialog": {
+        "title": "Update Required",
+        "message": "A new version of XCoin is available. Please update to continue using the app.",
+        "currentVersion": "Current Version",
+        "requiredVersion": "Required Version",
+        "updateButton": "Update Now",
+        "exitButton": "Exit App"
+    },
     "tabs": {
         "all": "All",
         "gainer": "Gainer",
