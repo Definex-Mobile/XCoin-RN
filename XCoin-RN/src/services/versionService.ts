@@ -25,27 +25,25 @@ function compareVersions(v1: string, v2: string): number {
 
 export async function checkAppVersion(): Promise<VersionCheckResult> {
     try {
-        const {
-            getRemoteConfig,
-            fetchAndActivate,
-            getValue,
-            setDefaults,
-            setConfigSettings
-        } = await import('@react-native-firebase/remote-config');
+        const [appModule, remoteConfigModule] = await Promise.all([
+            import('@react-native-firebase/app'),
+            import('@react-native-firebase/remote-config')
+        ]);
 
-        const config = getRemoteConfig();
+        const app = appModule.getApp();
+        const config = remoteConfigModule.getRemoteConfig(app);
 
-        await setDefaults(config, {
+        await remoteConfigModule.setDefaults(config, {
             minimum_version: DEFAULT_VERSION,
         });
 
-        await setConfigSettings(config, {
+        await remoteConfigModule.setConfigSettings(config, {
             minimumFetchIntervalMillis: CACHE_INTERVAL_MS,
         });
 
-        await fetchAndActivate(config);
+        await remoteConfigModule.fetchAndActivate(config);
 
-        const requiredVersion = getValue(config, 'minimum_version').asString();
+        const requiredVersion = remoteConfigModule.getValue(config, 'minimum_version').asString();
         const currentVersion = Constants.expoConfig?.version || DEFAULT_VERSION;
         const needsUpdate = compareVersions(currentVersion, requiredVersion) < 0;
 
