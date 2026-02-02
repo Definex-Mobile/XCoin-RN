@@ -2,17 +2,29 @@ import React, { useMemo } from "react";
 import { View, Text, Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import type { ChartDataPoint } from "../../types/coinDetail";
+import type { TimeRange } from "../../types/coinDetail";
 import { getCurrencySymbol } from "../../utils/money";
 import { useTranslation as useI18nTranslation } from "../../constants/i18n";
 import { colors } from "../../constants/colors";
+
+const X_AXIS_LABELS: Record<TimeRange, string[]> = {
+  "1H": ["16:00", "16:20", "16:40", "17:00", "17:20"],
+  "24H": ["16:00", "20:00", "00:00", "04:00", "08:00"],
+  "1W": ["Sun", "Mon", "Tue", "Wed", "Thu"],
+  "1M": ["1 Ocak", "8 Ocak", "15 Ocak", "22 Ocak", "29 Ocak"],
+  "6M": ["Ağu", "Eyl", "Eki", "Kas", "Ara"],
+  "1Y": ["Oca", "Mar", "Haz", "Eyl", "Ara"],
+  All: ["2022", "2023", "2024", "2025", "2026"],
+};
 
 interface PriceChartProps {
   graphArray: ChartDataPoint[];
   pointArray: number[];
   currency: string;
+  timeRange: TimeRange;
 }
 
-export function PriceChart({ graphArray, pointArray, currency }: PriceChartProps) {
+export function PriceChart({ graphArray, pointArray, currency, timeRange }: PriceChartProps) {
   const { t } = useI18nTranslation();
   const screenWidth = Dimensions.get("window").width;
   const currencySymbol = getCurrencySymbol(currency);
@@ -26,15 +38,16 @@ export function PriceChart({ graphArray, pointArray, currency }: PriceChartProps
     }
 
     const prices = graphArray.map((point) => point.price);
-
-    const labels = graphArray.map((point, index) => {
-      const interval = Math.max(1, Math.floor((graphArray.length - 1) / 4));
-      if (index === 0 || index === graphArray.length - 1 || index % interval === 0) {
-        const date = new Date(point.timestamp * 1000);
-        return `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
-      }
-      return "";
-    });
+    const sourceLabels = X_AXIS_LABELS[timeRange];
+    const n = graphArray.length;
+    const labels: string[] = new Array(n).fill("");
+    if (sourceLabels.length > 0) {
+      const step = n > 1 ? (n - 1) / (sourceLabels.length - 1) : 0;
+      sourceLabels.forEach((label, i) => {
+        const idx = step === 0 ? 0 : Math.floor(i * step);
+        if (idx < n) labels[idx] = label;
+      });
+    }
 
     return {
       labels,
@@ -46,7 +59,7 @@ export function PriceChart({ graphArray, pointArray, currency }: PriceChartProps
         },
       ],
     };
-  }, [graphArray]);
+  }, [graphArray, timeRange]);
 
   const chartConfig = useMemo(
     () => ({
@@ -93,7 +106,7 @@ export function PriceChart({ graphArray, pointArray, currency }: PriceChartProps
           <View style={{ width: screenWidth, overflow: "hidden" }}>
             <LineChart
               data={chartData}
-              width={screenWidth}
+              width={screenWidth - 40}
               height={300}
               chartConfig={chartConfig}
               bezier={false}
@@ -107,7 +120,7 @@ export function PriceChart({ graphArray, pointArray, currency }: PriceChartProps
               withVerticalLabels={true}
               segments={segments}
               style={{
-                paddingRight: 32,
+                paddingRight: 24,
                 paddingTop: 16,
               }}
             />

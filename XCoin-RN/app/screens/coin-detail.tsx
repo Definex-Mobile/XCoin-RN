@@ -1,88 +1,92 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { View, ScrollView, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import type { CoinDetailData, TimeRange } from "../../src/types/coinDetail";
+import type { CoinDetailData, TimeRange, ChartDataPoint } from "../../src/types/coinDetail";
 import { CoinDetailHeader } from "../../src/components/coinDetailHeader/coinDetailHeader";
 import { PriceChart } from "../../src/components/priceChart/priceChart";
 import { TimeRangeSelector } from "../../src/components/timeRangeSelector/timeRangeSelector";
 import { CoinBalanceCard } from "../../src/components/coinBalanceCard/coinBalanceCard";
 import { useTranslation as useI18nTranslation } from "../../src/constants/i18n";
+import { getCurrencySymbol } from "../../src/utils/money";
 
-const generateMockChartData = () => {
+const POINTS_COUNT = 28;
+
+function generateRandomChartData(): ChartDataPoint[] {
   const now = Date.now() / 1000;
-  const points = 10;
-  const graphArray = [];
-  
+  const graphArray: ChartDataPoint[] = [];
   let currentPrice = 94500;
-  
-  for (let i = 0; i < points; i++) {
-    const progress = i / points;
-    
-    if (progress < 0.1) {
-      currentPrice = 94500 + Math.random() * 300;
-    } else if (progress < 0.25) {
-      currentPrice = currentPrice + 100 + Math.random() * 200;
-    } else if (progress < 0.40) {
-      currentPrice = currentPrice - 50 - Math.random() * 100;
-    } else if (progress < 0.60) {
-      currentPrice = currentPrice + 80 + Math.random() * 150;
-    } else if (progress < 0.80) {
-      currentPrice = currentPrice + 150 + Math.random() * 250;
-    } else if (progress < 0.95) {
-      currentPrice = currentPrice - 100 - Math.random() * 150;
-    } else {
-      currentPrice = currentPrice + 50 + Math.random() * 100;
-    }
-    
+  const upwardDriftPerStep = 60;
+
+  for (let i = 0; i < POINTS_COUNT; i++) {
+    const randomWiggle = (Math.random() - 0.5) * 450;
+    currentPrice = currentPrice + upwardDriftPerStep + randomWiggle;
+    currentPrice = Math.max(90000, Math.min(104000, currentPrice));
     graphArray.push({
-      timestamp: now - ((points - i) * 180),
+      timestamp: now - (POINTS_COUNT - i) * 180,
       price: currentPrice,
     });
   }
-  
   return graphArray;
-};
+}
 
-const calculatePointArray = (graphArray: any[]) => {
-  const prices = graphArray.map(point => point.price);
+function calculatePointArray(graphArray: ChartDataPoint[]): number[] {
+  if (graphArray.length === 0) return [];
+  const prices = graphArray.map((p) => p.price);
   const min = Math.min(...prices);
   const max = Math.max(...prices);
-  
   const pointCount = 5;
   const step = (max - min) / (pointCount - 1);
-  
-  const pointArray = [];
-  for (let i = 0; i < pointCount; i++) {
-    pointArray.push(min + (step * i));
-  }
-  
-  return pointArray;
-};
+  return Array.from({ length: pointCount }, (_, i) => min + step * i);
+}
 
-const mockGraphArray = generateMockChartData();
-const mockPointArray = calculatePointArray(mockGraphArray);
-
-const MOCK_COIN_DETAIL: CoinDetailData = {
+const DEFAULT_COIN_DETAIL: CoinDetailData = {
   symbol: "BTC",
   name: "Bitcoin",
   currentPrice: 98509.75,
   priceChange: 1700.254,
   priceChangePercentage: 9.77,
   imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/800px-Bitcoin.svg.png",
-  chartData: mockGraphArray,
+  chartData: [],
   userBalance: 0.00,
   userBalanceFiat: 0.00,
   currency: "inr",
 };
 
+function parseCoinDetailFromParams(params: Record<string, string | string[] | undefined>): CoinDetailData {
+  const symbol = (params.symbol as string) ?? DEFAULT_COIN_DETAIL.symbol;
+  const name = (params.name as string) ?? DEFAULT_COIN_DETAIL.name;
+  const currentPrice = Number(params.currentPrice) || DEFAULT_COIN_DETAIL.currentPrice;
+  const priceChangePercentage = Number(params.priceChangePercentage) ?? DEFAULT_COIN_DETAIL.priceChangePercentage;
+  const priceChange = currentPrice * (priceChangePercentage / 100);
+  const imageUrl = (params.imageUrl as string) ?? DEFAULT_COIN_DETAIL.imageUrl;
+  const currency = (params.currency as string) ?? DEFAULT_COIN_DETAIL.currency;
+
+  return {
+    ...DEFAULT_COIN_DETAIL,
+    symbol,
+    name,
+    currentPrice,
+    priceChange,
+    priceChangePercentage,
+    imageUrl,
+    currency,
+  };
+}
+
 export default function CoinDetail() {
   const router = useRouter();
-  const params = useLocalSearchParams();
+  const params = useLocalSearchParams<Record<string, string>>();
   const { t } = useI18nTranslation();
-  const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRange>('1H');
+  const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRange>("1H");
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const coinData = MOCK_COIN_DETAIL;
+  const coinData = useMemo(() => parseCoinDetailFromParams(params), [params.symbol, params.name, params.currentPrice, params.priceChangePercentage, params.imageUrl, params.currency]);
+
+  const graphArray = useMemo(
+    () => generateRandomChartData(),
+    [selectedTimeRange]
+  );
+  const pointArray = useMemo(() => calculatePointArray(graphArray), [graphArray]);
 
   const handleBack = () => {
     router.back();
@@ -123,17 +127,18 @@ export default function CoinDetail() {
 
         <View className="px-4 flex-row p-3 items-end content-between">
           <Text className="medium24 text-coin-name">
-            ₹{coinData.currentPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {getCurrencySymbol(coinData.currency)}{coinData.currentPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </Text>
           <Text className={`text-sm mt-1 pl-3 ${coinData.priceChangePercentage >= 0 ? 'text-crypto-positive' : 'text-crypto-negative'}`}>
-            + {coinData.priceChange.toLocaleString('en-IN', { minimumFractionDigits: 3, maximumFractionDigits: 3 })} ({coinData.priceChangePercentage.toFixed(2)}%)
+            {coinData.priceChangePercentage >= 0 ? '+' : ''}{coinData.priceChange.toLocaleString('en-IN', { minimumFractionDigits: 3, maximumFractionDigits: 3 })} ({coinData.priceChangePercentage >= 0 ? '+' : ''}{coinData.priceChangePercentage.toFixed(2)}%)
           </Text>
         </View>
 
         <PriceChart
-          graphArray={mockGraphArray}
-          pointArray={mockPointArray}
+          graphArray={graphArray}
+          pointArray={pointArray}
           currency={coinData.currency}
+          timeRange={selectedTimeRange}
         />
 
         <TimeRangeSelector
@@ -162,7 +167,7 @@ export default function CoinDetail() {
         <View className="h-20" />
       </ScrollView>
 
-      <View className="absolute bottom-0 left-0 right-0 bg-white px-4 py-4 flex-row" style={{ 
+      <View className="absolute bottom-3 left-0 right-0 bg-white px-4 py-4 flex-row" style={{ 
         shadowColor: '#000',
         shadowOffset: { width: 0, height: -2 },
         shadowOpacity: 0.1,

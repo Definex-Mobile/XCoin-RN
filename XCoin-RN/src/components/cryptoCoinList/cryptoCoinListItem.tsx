@@ -15,7 +15,15 @@ export function CryptoCoinListItem({ coin }: Props) {
     const currencySymbol = getCurrencySymbol(coin.currency);
 
     const handlePress = () => {
-        router.push(`/screens/coin-detail?symbol=${coin.shortName}&name=${coin.longName}`);
+        const params = new URLSearchParams({
+            symbol: coin.shortName,
+            name: coin.longName,
+            currentPrice: String(coin.currentPrice),
+            priceChangePercentage: String(coin.changeRatio),
+            imageUrl: coin.imageUrl,
+            currency: coin.currency,
+        });
+        router.push(`/screens/coin-detail?${params.toString()}`);
     };
 
     return (
