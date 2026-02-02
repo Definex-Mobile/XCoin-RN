@@ -8,6 +8,7 @@
     "ios": "expo run:ios"
   },
   "dependencies": {
+    "@react-native-firebase/analytics": "^23.8.4",
     "@react-native-firebase/app": "^23.8.4",
     "@react-native-firebase/remote-config": "^23.8.4",
     "axios": "^1.13.2",

@@ -8,6 +8,8 @@ import { useTranslation as useI18nTranslation } from "../../src/constants/i18n";
 import { getMarketStatus, getMarketList, type MarketCategory } from "../../src/api/services/marketService";
 import type { CryptoCoin, MarketStatusResponse } from "../../src/types/cryptoCoin";
 import { colors } from "../../src/constants/colors";
+import { logButtonClick, logTabSelect, logDropdownOpen, logDropdownSelect, logDropdownConfirm } from "../../src/services/analyticsService";
+import { SCREENS } from "../../src/constants/analyticsEvents";
 import SearchIcon from "../../assets/icons/ic_search.svg";
 
 const TABS: Tab[] = [
@@ -68,8 +70,17 @@ export default function Market() {
     }, [selectedTab]);
 
     const handleSearchPress = () => {
-        console.log("Search pressed");
+        logButtonClick(SCREENS.MARKET, "search");
         // TODO: Implement search functionality
+    };
+
+    const handleTabChange = (tabId: string) => {
+        logTabSelect(SCREENS.MARKET, tabId);
+        setSelectedTab(tabId);
+    };
+
+    const handleMarketChange = (value: string | null) => {
+        setSelectedMarket(value);
     };
 
     const isMarketUp = marketStatus?.marketStatus === 'UP';
@@ -106,7 +117,10 @@ export default function Market() {
                     </Text>
                     <DropdownBottomSheet
                         selectedValue={selectedMarket}
-                        onValueChange={setSelectedMarket}
+                        onValueChange={handleMarketChange}
+                        onOpen={() => logDropdownOpen(SCREENS.MARKET)}
+                        onItemSelect={(value) => logDropdownSelect(SCREENS.MARKET, value)}
+                        onConfirm={(value) => logDropdownConfirm(SCREENS.MARKET, value)}
                     />
                 </View>
 
@@ -114,7 +128,7 @@ export default function Market() {
                     <TabBar
                         tabs={TABS}
                         selectedTabId={selectedTab}
-                        onTabChange={setSelectedTab}
+                        onTabChange={handleTabChange}
                     />
                 </View>
 

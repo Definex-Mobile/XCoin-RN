@@ -23,28 +23,67 @@ function compareVersions(v1: string, v2: string): number {
     return 0;
 }
 
+function getFallbackResult(): VersionCheckResult {
+    const currentVersion = Constants.expoConfig?.version ?? DEFAULT_VERSION;
+    return {
+        needsUpdate: false,
+        currentVersion,
+        requiredVersion: currentVersion,
+    };
+}
+
+/** Expo Go has no Firebase native module – skip import to avoid RNFBAppModule error. */
+function shouldSkipFirebase(): boolean {
+    try {
+        const ownership = (Constants as { appOwnership?: string }).appOwnership;
+        return ownership === 'expo';
+    } catch {
+        return true;
+    }
+}
+
 export async function checkAppVersion(): Promise<VersionCheckResult> {
+    if (shouldSkipFirebase()) {
+        return getFallbackResult();
+    }
+
     try {
         const [appModule, remoteConfigModule] = await Promise.all([
             import('@react-native-firebase/app'),
             import('@react-native-firebase/remote-config')
         ]);
 
-        const app = appModule.getApp();
-        const config = remoteConfigModule.getRemoteConfig(app);
+        const getApp = appModule.default?.getApp ?? appModule.getApp;
+        if (typeof getApp !== 'function') {
+            if (__DEV__) console.log('[Version] Firebase native module not available – skipping remote config.');
+            return getFallbackResult();
+        }
 
-        await remoteConfigModule.setDefaults(config, {
-            minimum_version: DEFAULT_VERSION,
-        });
+        const app = getApp();
+        const getRemoteConfig = remoteConfigModule.default?.getRemoteConfig ?? remoteConfigModule.getRemoteConfig;
+        if (typeof getRemoteConfig !== 'function') return getFallbackResult();
 
-        await remoteConfigModule.setConfigSettings(config, {
-            minimumFetchIntervalMillis: CACHE_INTERVAL_MS,
-        });
+        const config = getRemoteConfig(app);
 
-        await remoteConfigModule.fetchAndActivate(config);
+        const setDefaults = remoteConfigModule.default?.setDefaults ?? remoteConfigModule.setDefaults;
+        const setConfigSettings = remoteConfigModule.default?.setConfigSettings ?? remoteConfigModule.setConfigSettings;
+        const fetchAndActivate = remoteConfigModule.default?.fetchAndActivate ?? remoteConfigModule.fetchAndActivate;
+        const getValue = remoteConfigModule.default?.getValue ?? remoteConfigModule.getValue;
 
-        const requiredVersion = remoteConfigModule.getValue(config, 'minimum_version').asString();
-        const currentVersion = Constants.expoConfig?.version || DEFAULT_VERSION;
+        if (typeof setDefaults === 'function') {
+            await setDefaults(config, { minimum_version: DEFAULT_VERSION });
+        }
+        if (typeof setConfigSettings === 'function') {
+            await setConfigSettings(config, { minimumFetchIntervalMillis: CACHE_INTERVAL_MS });
+        }
+        if (typeof fetchAndActivate === 'function') {
+            await fetchAndActivate(config);
+        }
+        if (typeof getValue !== 'function') return getFallbackResult();
+
+        const value = getValue(config, 'minimum_version');
+        const requiredVersion = value?.asString?.() ?? DEFAULT_VERSION;
+        const currentVersion = Constants.expoConfig?.version ?? DEFAULT_VERSION;
         const needsUpdate = compareVersions(currentVersion, requiredVersion) < 0;
 
         return {
@@ -53,13 +92,7 @@ export async function checkAppVersion(): Promise<VersionCheckResult> {
             requiredVersion,
         };
     } catch (error) {
-        console.error('Version check error:', error);
-
-        const currentVersion = Constants.expoConfig?.version || DEFAULT_VERSION;
-        return {
-            needsUpdate: false,
-            currentVersion,
-            requiredVersion: currentVersion,
-        };
+        if (__DEV__) console.log('[Version] Remote config unavailable:', (error as Error)?.message ?? error);
+        return getFallbackResult();
     }
 }

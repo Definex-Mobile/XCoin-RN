@@ -7,6 +7,8 @@ import { getPortfolioSummary, getPortfolioList } from '../../src/api/services/po
 import { useTranslation } from "../../src/hooks/useTranslation";
 import { CryptoCoinList } from '../../src/components/cryptoCoinList/cryptoCoinList';
 import { constants } from "../../src/constants/constants";
+import { logSegmentSelect } from "../../src/services/analyticsService";
+import { SCREENS } from "../../src/constants/analyticsEvents";
 
 export default function Portfolio() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -65,6 +67,12 @@ export default function Portfolio() {
     fetchPortfolio();
   }, []);
 
+  const handleSegmentChange = (index: number) => {
+    const segment = index === 0 ? "deposit_inr" : "withdraw_inr";
+    logSegmentSelect(SCREENS.PORTFOLIO, segment);
+    setSelectedIndex(index);
+  };
+
   const getFilteredCoins = () => {
     if (selectedIndex === 0) {
       return portfolioListData.filter(coin => coin.changeRatio > 0);
@@ -94,7 +102,7 @@ export default function Portfolio() {
             useTranslation('portfolio.withDrawINR'),
           ]}
           selectedIndex={selectedIndex}
-          onSelectedIndexChange={setSelectedIndex}
+          onSelectedIndexChange={handleSegmentChange}
         />
 
         <Text className="mt-8 mx-5 bold20 text-coin-name">
