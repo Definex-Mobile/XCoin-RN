@@ -67,11 +67,6 @@
         "withDrawINR": "Withdraw INR",
         "yourCoins": "Your Coins"
     },
-    "dropdownBottomSheet": {
-        "markets": "Markets",
-        "updateMarket": "Update Market",
-        "defaultMarket": "Market-INR"
-    },
     "home": {
         "trendingCoins": "Trending Coins"
     },
@@ -88,5 +83,20 @@
         "security": "Security",
         "helpSupport": "Help and Support",
         "termsConditions": "Terms and Conditions"
+    },
+    "login": {
+        "title": "XCoin",
+        "subtitle": "Manage your crypto investments",
+        "email": "Email",
+        "password": "Password",
+        "button": "Login",
+        "signupText": "Don't have an account?",
+        "signupLink": "Sign up",
+        "errors": {
+            "emailRequired": "Email address is required.",
+            "passwordRequired": "Password is required.",
+            "emailInvalid": "Please enter a valid email address.",
+            "loginFailed": "An error occurred while logging in. Please try again."
+        }
     }
 }

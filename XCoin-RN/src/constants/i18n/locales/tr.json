@@ -61,11 +61,6 @@
     "withDrawINR": "Withdraw INR",
     "yourCoins": "Your Coins"
   },
-  "dropdownBottomSheet": {
-    "markets": "Piyasalar",
-    "updateMarket": "Piyasayı Güncelle",
-    "defaultMarket": "Piyasa-INR"
-  },
   "home": {
     "trendingCoins": "Trend Coinler"
   },
@@ -82,5 +77,20 @@
     "security": "Güvenlik",
     "helpSupport": "Yardım ve Destek",
     "termsConditions": "Şartlar ve Koşullar"
+  },
+  "login": {
+    "title": "XCoin Giriş",
+    "subtitle": "Kripto Para Portföyünüzü Yönetin",
+    "email": "Email",
+    "password": "Şifre",
+    "button": "Giriş Yap",
+    "signupText": "Hesabınız yok mu?",
+    "signupLink": "Kaydol",
+    "errors": {
+      "emailRequired": "Email adresi gereklidir.",
+      "passwordRequired": "Şifre gereklidir.",
+      "emailInvalid": "Geçerli bir email adresi girin.",
+      "loginFailed": "Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin."
+    }
   }
 }

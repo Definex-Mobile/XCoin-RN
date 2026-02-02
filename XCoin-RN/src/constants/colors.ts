@@ -19,6 +19,9 @@ export const colors = {
         dark: "#1a1a2e",
         gray: "#f5f5f5",
     },
+    error: {
+        DEFAULT: "#F54927",
+    },
     text: {
         DEFAULT: "#333333",
         light: "#888888",

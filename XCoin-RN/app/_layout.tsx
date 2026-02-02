@@ -3,12 +3,15 @@ import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { AuthProvider, useAuth } from "../src/hooks/useAuth";
+import LoginScreen from "./login/login";
+
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
 import "../src/constants/i18n";
 
-export default function RootLayout() {
+function RootLayoutContent() {
   const [fontsLoaded, fontError] = useFonts({
     "Roboto-Thin": require("../assets/fonts/roboto/Roboto-Thin.ttf"),
     "Roboto-ThinItalic": require("../assets/fonts/roboto/Roboto-ThinItalic.ttf"),
@@ -37,10 +40,18 @@ export default function RootLayout() {
     "Roboto-Black": require("../assets/fonts/roboto/Roboto-Black.ttf"),
     "Roboto-BlackItalic": require("../assets/fonts/roboto/Roboto-BlackItalic.ttf"),
   });
+  
+  const [showSplash, setShowSplash] = useState(true);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
+      // Splash ekranını 2 saniye göster
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+      }, 2000);
+      return () => clearTimeout(timer);
     }
   }, [fontsLoaded, fontError]);
 
@@ -48,12 +59,40 @@ export default function RootLayout() {
     return null;
   }
 
+  // 1. Splash Ekranı göster
+  if (showSplash) {
+    return (
+      <SafeAreaProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+        </Stack>
+      </SafeAreaProvider>
+    );
+  }
+
+  // 2. Login Ekranı (isAuthenticated false ise)
+  if (!isAuthenticated) {
+    return (
+      <SafeAreaProvider>
+        <LoginScreen />
+      </SafeAreaProvider>
+    );
+  }
+
+  // 3. Ana Ekran - Tabs (isAuthenticated true ise)
   return (
     <SafeAreaProvider>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
         <Stack.Screen name="(tabs)" />
       </Stack>
     </SafeAreaProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <RootLayoutContent />
+    </AuthProvider>
   );
 }
