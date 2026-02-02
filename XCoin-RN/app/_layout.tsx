@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { CrashlyticsService } from "../src/services/crashlytics";
 
 SplashScreen.preventAutoHideAsync();
 import "../src/constants/i18n";
@@ -37,6 +38,24 @@ export default function RootLayout() {
     "Roboto-Black": require("../assets/fonts/roboto/Roboto-Black.ttf"),
     "Roboto-BlackItalic": require("../assets/fonts/roboto/Roboto-BlackItalic.ttf"),
   });
+
+  useEffect(() => {
+    CrashlyticsService.initialize().catch(console.error);
+    
+    const setupGlobalErrorHandler = () => {
+      const ErrorUtils = (global as any).ErrorUtils;
+      if (!ErrorUtils) return;
+      
+      const originalHandler = ErrorUtils.getGlobalHandler?.();
+      
+      ErrorUtils.setGlobalHandler?.((error: Error, isFatal?: boolean) => {
+        CrashlyticsService.recordError(error, isFatal ? 'Fatal Error' : 'Non-Fatal Error');
+        originalHandler?.(error, isFatal);
+      });
+    };
+    
+    setupGlobalErrorHandler();
+  }, []);
 
   useEffect(() => {
     if (fontsLoaded || fontError) {
