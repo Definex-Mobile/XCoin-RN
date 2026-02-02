@@ -9,6 +9,7 @@
     "loading": "Yükleniyor...",
     "error": "Bir hata oluştu",
     "errorTitle": "Hata",
+    "fetchError": "Veri yüklenemedi. Lütfen tekrar deneyin.",
     "retry": "Tekrar Dene",
     "cancel": "İptal",
     "save": "Kaydet",
@@ -23,6 +24,14 @@
     "startButton": "Başla",
     "appName": "COINS",
     "tagline": "Turkey's Highly Rated Cryptocurrency Exchange"
+  },
+  "updateDialog": {
+    "title": "Güncelleme Gerekli",
+    "message": "XCoin'in yeni bir sürümü mevcut. Uygulamayı kullanmaya devam etmek için lütfen güncelleyin.",
+    "currentVersion": "Mevcut Sürüm",
+    "requiredVersion": "Gerekli Sürüm",
+    "updateButton": "Şimdi Güncelle",
+    "exitButton": "Uygulamadan Çık"
   },
   "tabs": {
     "all": "Tümü",
@@ -67,6 +76,12 @@
   },
   "home": {
     "trendingCoins": "Trend Coinler"
+  },
+  "market": {
+    "coins": "Coinler",
+    "marketUp": "Piyasa yükselişte",
+    "marketDown": "Piyasa düşüşte",
+    "inThePast24Hours": "Son 24 saatte"
   },
   "profile": {
     "history": "Geçmiş",

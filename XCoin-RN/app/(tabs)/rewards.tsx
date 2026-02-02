@@ -51,7 +51,7 @@ export default function RewardsCouponsScreen() {
   return (
     <ScrollView className="flex-1 bg-rewards">
       <RewardsCoupons sections={Sections} />
-      <View className="pt-4 gap-y-2">
+      <View className="pt-[16px] gap-y-[8px]">
         {Cards.map((card, index) => (
           <BannerCard key={index} {...card} />
         ))}

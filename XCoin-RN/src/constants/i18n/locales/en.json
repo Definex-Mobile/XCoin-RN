@@ -15,6 +15,7 @@
         "loading": "Loading...",
         "error": "An error occurred",
         "errorTitle": "Error",
+        "fetchError": "Failed to fetch data. Please try again.",
         "retry": "Try Again",
         "cancel": "Cancel",
         "save": "Save",
@@ -29,6 +30,14 @@
         "startButton": "Start",
         "appName": "COINS",
         "tagline": "Turkey's Highly Rated Cryptocurrency Exchange"
+    },
+    "updateDialog": {
+        "title": "Update Required",
+        "message": "A new version of XCoin is available. Please update to continue using the app.",
+        "currentVersion": "Current Version",
+        "requiredVersion": "Required Version",
+        "updateButton": "Update Now",
+        "exitButton": "Exit App"
     },
     "tabs": {
         "all": "All",
@@ -66,13 +75,14 @@
         "withDrawINR": "Withdraw INR",
         "yourCoins": "Your Coins"
     },
-    "dropdownBottomSheet": {
-        "markets": "Markets",
-        "updateMarket": "Update Market",
-        "defaultMarket": "Market-INR"
-    },
     "home": {
         "trendingCoins": "Trending Coins"
+    },
+    "market": {
+        "coins": "Coins",
+        "marketUp": "Market is up",
+        "marketDown": "Market is down",
+        "inThePast24Hours": "In the past 24 hours"
     },
     "profile": {
         "history": "History",
