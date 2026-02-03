@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 import type { CryptoCoin } from "../../types/cryptoCoin";
 import {
   getCurrencySymbol,

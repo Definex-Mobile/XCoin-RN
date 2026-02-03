@@ -37,6 +37,8 @@ export const colors = {
         name: "#212529",
         symbol: "#6C757D",
         price: "#343A40",
+        timeSelectorSelectedBg: "#ECF4FF",
+        timeSelectedUnselectedBg: "#DFE2E4"
     },
     rewards: {
         DEFAULT: "#F8F9FA",
