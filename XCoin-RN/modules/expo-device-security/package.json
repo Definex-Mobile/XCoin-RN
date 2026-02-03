@@ -1,0 +1,15 @@
+{
+    "name": "expo-device-security",
+    "version": "1.0.0",
+    "description": "Native jailbreak and root detection for React Native",
+    "main": "src/index.ts",
+    "scripts": {},
+    "keywords": [
+        "expo",
+        "security",
+        "jailbreak",
+        "root"
+    ],
+    "author": "XCoin Team",
+    "license": "MIT"
+}
