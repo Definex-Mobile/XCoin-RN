@@ -8,7 +8,7 @@ import { useTranslation } from "../../src/hooks/useTranslation";
 import { CryptoCoinList } from '../../src/components/cryptoCoinList/cryptoCoinList';
 import { constants } from "../../src/constants/constants";
 import { logSegmentSelect } from "../../src/services/analyticsService";
-import { SCREENS } from "../../src/constants/analyticsEvents";
+import { PARAMS, SCREENS } from "../../src/constants/analyticsEvents";
 
 export default function Portfolio() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -68,7 +68,7 @@ export default function Portfolio() {
   }, []);
 
   const handleSegmentChange = (index: number) => {
-    const segment = index === 0 ? "deposit_inr" : "withdraw_inr";
+    const segment = index === 0 ? PARAMS.DEPOSIT_INR : PARAMS.WITHDRAW_INR;
     logSegmentSelect(SCREENS.PORTFOLIO, segment);
     setSelectedIndex(index);
   };

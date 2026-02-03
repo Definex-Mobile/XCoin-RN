@@ -8,7 +8,7 @@ import { CryptoCoinList } from "../../src/components/cryptoCoinList/cryptoCoinLi
 import type { CryptoCoin } from "../../src/types/cryptoCoin";
 import { getTrendingCoins } from "../../src/api/services/trendingService";
 import { logButtonClick } from "../../src/services/analyticsService";
-import { SCREENS } from "../../src/constants/analyticsEvents";
+import { SCREENS, PARAMS } from "../../src/constants/analyticsEvents";
 
 export default function Home() {
   const { t } = useI18nTranslation();
@@ -36,7 +36,7 @@ export default function Home() {
   }, []);
 
   function handleBannerPress(): void {
-    logButtonClick(SCREENS.HOME, "welcome_banner_cta")
+    logButtonClick(SCREENS.HOME, PARAMS.WELCOME_BANNER_CTA)
     console.log("Button Pressed")
   }
 

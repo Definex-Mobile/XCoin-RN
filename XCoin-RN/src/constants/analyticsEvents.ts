@@ -1,9 +1,3 @@
-/**
- * Firebase Analytics event names and parameter keys.
- * Event names: snake_case, max 40 chars (Firebase recommends).
- * Param keys: snake_case, max 40 chars.
- */
-
 export const ANALYTICS_EVENTS = {
   BUTTON_CLICK: 'button_click',
   TAB_SELECT: 'tab_select',
@@ -29,3 +23,18 @@ export const SCREENS = {
   MARKET: 'market',
   PROFILE: 'profile',
 } as const;
+
+export const PARAMS = {
+  HISTORY: 'history',
+  BANK_DETAILS: 'bank_details',
+  NOTIFICATION: 'notifications',
+  SECURITY: 'security',
+  HELP_SUPPORT: 'help_support',
+  TERMS_COND: 'terms_conditions',
+  SEARCH: 'search',
+  WELCOME_BANNER_CTA: 'welcome_banner_cta',
+  EXIT: 'exit',
+  UPDATE: 'update',
+  DEPOSIT_INR: 'deposit_inr',
+  WITHDRAW_INR: 'withdraw_inr',
+} as const; 

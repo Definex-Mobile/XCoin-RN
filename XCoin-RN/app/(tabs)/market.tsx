@@ -9,7 +9,7 @@ import { getMarketStatus, getMarketList, type MarketCategory } from "../../src/a
 import type { CryptoCoin, MarketStatusResponse } from "../../src/types/cryptoCoin";
 import { colors } from "../../src/constants/colors";
 import { logButtonClick, logTabSelect, logDropdownOpen, logDropdownSelect, logDropdownConfirm } from "../../src/services/analyticsService";
-import { SCREENS } from "../../src/constants/analyticsEvents";
+import { SCREENS, PARAMS } from "../../src/constants/analyticsEvents";
 import SearchIcon from "../../assets/icons/ic_search.svg";
 
 const TABS: Tab[] = [
@@ -70,7 +70,7 @@ export default function Market() {
     }, [selectedTab]);
 
     const handleSearchPress = () => {
-        logButtonClick(SCREENS.MARKET, "search");
+        logButtonClick(SCREENS.MARKET, PARAMS.SEARCH);
         // TODO: Implement search functionality
     };
 
