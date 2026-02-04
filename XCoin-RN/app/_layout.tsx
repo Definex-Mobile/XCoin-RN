@@ -3,9 +3,13 @@ import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { checkDeviceSecurityStatus, getSecurityWarningMessage } from '../src/services/deviceSecurityService';
-import { SecurityBlockDialog } from '../src/components/securityBlockDialog/securityBlockDialog';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  checkDeviceSecurityStatus,
+  getSecurityWarningMessage,
+} from "../src/services/deviceSecurityService";
+import { SecurityBlockDialog } from "../src/components/securityBlockDialog/securityBlockDialog";
+import { CrashlyticsService } from "../src/services/crashlytics";
 
 SplashScreen.preventAutoHideAsync();
 import "../src/constants/i18n";
@@ -41,7 +45,28 @@ export default function RootLayout() {
   });
 
   const [isDeviceCompromised, setIsDeviceCompromised] = useState(false);
-  const [securityMessage, setSecurityMessage] = useState('');
+  const [securityMessage, setSecurityMessage] = useState("");
+
+  useEffect(() => {
+    CrashlyticsService.initialize().catch(console.error);
+
+    const setupGlobalErrorHandler = () => {
+      const ErrorUtils = (global as any).ErrorUtils;
+      if (!ErrorUtils) return;
+
+      const originalHandler = ErrorUtils.getGlobalHandler?.();
+
+      ErrorUtils.setGlobalHandler?.((error: Error, isFatal?: boolean) => {
+        CrashlyticsService.recordError(
+          error,
+          isFatal ? "Fatal Error" : "Non-Fatal Error"
+        );
+        originalHandler?.(error, isFatal);
+      });
+    };
+
+    setupGlobalErrorHandler();
+  }, []);
 
   useEffect(() => {
     if (fontsLoaded || fontError) {
@@ -68,11 +93,14 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <SecurityBlockDialog visible={isDeviceCompromised} message={securityMessage} />
+      <SecurityBlockDialog
+        visible={isDeviceCompromised}
+        message={securityMessage}
+      />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="screens/coin-detail"/>
+        <Stack.Screen name="screens/coin-detail" />
       </Stack>
     </SafeAreaProvider>
   );
