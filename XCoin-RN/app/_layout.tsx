@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { checkDeviceSecurityStatus, getSecurityWarningMessage } from '../src/services/deviceSecurityService';
+import { SecurityBlockDialog } from '../src/components/securityBlockDialog/securityBlockDialog';
 
 SplashScreen.preventAutoHideAsync();
 import "../src/constants/i18n";
@@ -38,11 +40,27 @@ export default function RootLayout() {
     "Roboto-BlackItalic": require("../assets/fonts/roboto/Roboto-BlackItalic.ttf"),
   });
 
+  const [isDeviceCompromised, setIsDeviceCompromised] = useState(false);
+  const [securityMessage, setSecurityMessage] = useState('');
+
   useEffect(() => {
     if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);
+
+  // Check device security on app startup
+  useEffect(() => {
+    const checkSecurity = async () => {
+      const result = await checkDeviceSecurityStatus();
+      if (result.isCompromised) {
+        setIsDeviceCompromised(true);
+        setSecurityMessage(getSecurityWarningMessage(result.reason));
+      }
+    };
+
+    checkSecurity();
+  }, []);
 
   if (!fontsLoaded && !fontError) {
     return null;
@@ -50,6 +68,7 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
+      <SecurityBlockDialog visible={isDeviceCompromised} message={securityMessage} />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="(tabs)" />
