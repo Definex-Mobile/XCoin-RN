@@ -3,7 +3,12 @@ import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  checkDeviceSecurityStatus,
+  getSecurityWarningMessage,
+} from "../src/services/deviceSecurityService";
+import { SecurityBlockDialog } from "../src/components/securityBlockDialog/securityBlockDialog";
 import { CrashlyticsService } from "../src/services/crashlytics";
 
 SplashScreen.preventAutoHideAsync();
@@ -39,21 +44,27 @@ export default function RootLayout() {
     "Roboto-BlackItalic": require("../assets/fonts/roboto/Roboto-BlackItalic.ttf"),
   });
 
+  const [isDeviceCompromised, setIsDeviceCompromised] = useState(false);
+  const [securityMessage, setSecurityMessage] = useState("");
+
   useEffect(() => {
     CrashlyticsService.initialize().catch(console.error);
-    
+
     const setupGlobalErrorHandler = () => {
       const ErrorUtils = (global as any).ErrorUtils;
       if (!ErrorUtils) return;
-      
+
       const originalHandler = ErrorUtils.getGlobalHandler?.();
-      
+
       ErrorUtils.setGlobalHandler?.((error: Error, isFatal?: boolean) => {
-        CrashlyticsService.recordError(error, isFatal ? 'Fatal Error' : 'Non-Fatal Error');
+        CrashlyticsService.recordError(
+          error,
+          isFatal ? "Fatal Error" : "Non-Fatal Error"
+        );
         originalHandler?.(error, isFatal);
       });
     };
-    
+
     setupGlobalErrorHandler();
   }, []);
 
@@ -63,15 +74,33 @@ export default function RootLayout() {
     }
   }, [fontsLoaded, fontError]);
 
+  // Check device security on app startup
+  useEffect(() => {
+    const checkSecurity = async () => {
+      const result = await checkDeviceSecurityStatus();
+      if (result.isCompromised) {
+        setIsDeviceCompromised(true);
+        setSecurityMessage(getSecurityWarningMessage(result.reason));
+      }
+    };
+
+    checkSecurity();
+  }, []);
+
   if (!fontsLoaded && !fontError) {
     return null;
   }
 
   return (
     <SafeAreaProvider>
+      <SecurityBlockDialog
+        visible={isDeviceCompromised}
+        message={securityMessage}
+      />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="screens/coin-detail" />
       </Stack>
     </SafeAreaProvider>
   );
