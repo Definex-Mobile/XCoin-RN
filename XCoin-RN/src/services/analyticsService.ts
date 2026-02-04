@@ -3,7 +3,13 @@ import { ANALYTICS_EVENTS, ANALYTICS_PARAMS, SCREENS } from '../constants/analyt
 
 type EventParams = Record<string, string | number | boolean>;
 
-let firebaseAnalytics: ReturnType<typeof import('@react-native-firebase/analytics').default> | null = null;
+type AnalyticsMod = {
+  getAnalytics: () => unknown;
+  logEvent: (analytics: unknown, name: string, params?: object) => Promise<void>;
+};
+
+let analyticsMod: AnalyticsMod | null = null;
+let analyticsInstance: unknown = null;
 let firebaseChecked = false;
 
 function isExpoGo(): boolean {
@@ -14,17 +20,17 @@ function isExpoGo(): boolean {
   }
 }
 
-function getAnalytics(): typeof firebaseAnalytics {
-  if (firebaseChecked) return firebaseAnalytics;
+function getAnalytics(): unknown {
+  if (firebaseChecked) return analyticsInstance;
   firebaseChecked = true;
   if (isExpoGo()) {
     if (__DEV__) console.log('[Analytics] Expo Go – events will only log to console.');
     return null;
   }
   try {
-    const analytics = require('@react-native-firebase/analytics').default;
-    firebaseAnalytics = analytics();
-    return firebaseAnalytics;
+    analyticsMod = require('@react-native-firebase/analytics') as AnalyticsMod;
+    analyticsInstance = analyticsMod.getAnalytics();
+    return analyticsInstance;
   } catch {
     if (__DEV__) {
       console.log('[Analytics] Firebase native module not available – events will only log to console.');
@@ -35,9 +41,9 @@ function getAnalytics(): typeof firebaseAnalytics {
 
 export function logEvent(eventName: string, params?: EventParams): void {
   const analytics = getAnalytics();
-  if (analytics) {
+  if (analytics && analyticsMod) {
     try {
-      analytics.logEvent(eventName, params ?? {});
+      void analyticsMod.logEvent(analytics, eventName, params ?? {});
     } catch (error) {
       if (__DEV__) console.warn('[Analytics] logEvent failed:', eventName, error);
     }

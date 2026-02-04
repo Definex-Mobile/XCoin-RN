@@ -48,38 +48,21 @@ export async function checkAppVersion(): Promise<VersionCheckResult> {
     }
 
     try {
-        const [appModule, remoteConfigModule] = await Promise.all([
-            import('@react-native-firebase/app'),
-            import('@react-native-firebase/remote-config')
-        ]);
-
-        const getApp = appModule.default?.getApp ?? appModule.getApp;
-        if (typeof getApp !== 'function') {
-            if (__DEV__) console.log('[Version] Firebase native module not available – skipping remote config.');
-            return getFallbackResult();
-        }
+        const { getApp } = await import('@react-native-firebase/app');
+        const {
+            getRemoteConfig,
+            setDefaults,
+            setConfigSettings,
+            fetchAndActivate,
+            getValue,
+        } = await import('@react-native-firebase/remote-config');
 
         const app = getApp();
-        const getRemoteConfig = remoteConfigModule.default?.getRemoteConfig ?? remoteConfigModule.getRemoteConfig;
-        if (typeof getRemoteConfig !== 'function') return getFallbackResult();
-
         const config = getRemoteConfig(app);
 
-        const setDefaults = remoteConfigModule.default?.setDefaults ?? remoteConfigModule.setDefaults;
-        const setConfigSettings = remoteConfigModule.default?.setConfigSettings ?? remoteConfigModule.setConfigSettings;
-        const fetchAndActivate = remoteConfigModule.default?.fetchAndActivate ?? remoteConfigModule.fetchAndActivate;
-        const getValue = remoteConfigModule.default?.getValue ?? remoteConfigModule.getValue;
-
-        if (typeof setDefaults === 'function') {
-            await setDefaults(config, { minimum_version: DEFAULT_VERSION });
-        }
-        if (typeof setConfigSettings === 'function') {
-            await setConfigSettings(config, { minimumFetchIntervalMillis: CACHE_INTERVAL_MS });
-        }
-        if (typeof fetchAndActivate === 'function') {
-            await fetchAndActivate(config);
-        }
-        if (typeof getValue !== 'function') return getFallbackResult();
+        await setDefaults(config, { minimum_version: DEFAULT_VERSION });
+        await setConfigSettings(config, { minimumFetchIntervalMillis: CACHE_INTERVAL_MS });
+        await fetchAndActivate(config);
 
         const value = getValue(config, 'minimum_version');
         const requiredVersion = value?.asString?.() ?? DEFAULT_VERSION;
