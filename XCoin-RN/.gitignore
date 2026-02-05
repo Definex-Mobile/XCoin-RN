@@ -39,3 +39,20 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+<<<<<<< HEAD
+# Firebase config files (contains sensitive data)
+google-services.json
+GoogleService-Info.plist
+=======
+# native module build artifacts
+**/android/build/
+**/android/.gradle/
+**/android/.cxx/
+**/ios/build/
+**/*.class
+**/*.dex
+**/*.jar
+**/*.so
+**/*.dylib
+>>>>>>> development

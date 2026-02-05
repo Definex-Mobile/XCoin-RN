@@ -26,7 +26,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.XCoinRN",
+      "package": "com.definex.xcoin",
       "googleServicesFile": "./google-services.json"
     },
     "web": {
@@ -36,7 +36,8 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "@react-native-firebase/app"
+      "@react-native-firebase/app",
+      "@react-native-firebase/crashlytics"
     ],
     "scheme": "xcoin",
     "experiments": {
