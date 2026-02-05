@@ -1,6 +1,7 @@
 import "../global.css";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
+import { View, ActivityIndicator } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -10,6 +11,7 @@ import {
 } from "../src/services/deviceSecurityService";
 import { SecurityBlockDialog } from "../src/components/securityBlockDialog/securityBlockDialog";
 import { CrashlyticsService } from "../src/services/crashlytics";
+import { AuthProvider } from "../src/hooks/useAuth";
 
 SplashScreen.preventAutoHideAsync();
 import "../src/constants/i18n";
@@ -88,20 +90,34 @@ export default function RootLayout() {
   }, []);
 
   if (!fontsLoaded && !fontError) {
-    return null;
+    return (
+      <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0066FF" />
+      </View>
+    );
   }
 
   return (
-    <SafeAreaProvider>
-      <SecurityBlockDialog
-        visible={isDeviceCompromised}
-        message={securityMessage}
-      />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="screens/coin-detail" />
-      </Stack>
-    </SafeAreaProvider>
+    <AuthProvider>
+      <SafeAreaProvider>
+        <SecurityBlockDialog
+          visible={isDeviceCompromised}
+          message={securityMessage}
+        />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            animation: 'none',
+            contentStyle: { backgroundColor: 'white' }
+          }}
+          initialRouteName="index"
+        >
+          <Stack.Screen name="index" options={{ animation: 'none' }} />
+          <Stack.Screen name="screens/login" options={{ animation: 'slide_from_right' }} />
+          <Stack.Screen name="(tabs)" options={{ animation: 'slide_from_right' }} />
+          <Stack.Screen name="screens/coin-detail" />
+        </Stack>
+      </SafeAreaProvider>
+    </AuthProvider>
   );
 }

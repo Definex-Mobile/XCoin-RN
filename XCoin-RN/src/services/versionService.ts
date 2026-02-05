@@ -25,10 +25,12 @@ function compareVersions(v1: string, v2: string): number {
 
 export async function checkAppVersion(): Promise<VersionCheckResult> {
     try {
-        const [appModule, remoteConfigModule] = await Promise.all([
-            import('@react-native-firebase/app'),
-            import('@react-native-firebase/remote-config')
-        ]);
+        const appModule = require('@react-native-firebase/app');
+        const remoteConfigModule = require('@react-native-firebase/remote-config');
+        
+        if (!appModule.getApp || !remoteConfigModule.getRemoteConfig) {
+            throw new Error('Firebase modules not available');
+        }
 
         const app = appModule.getApp();
         const config = remoteConfigModule.getRemoteConfig(app);
