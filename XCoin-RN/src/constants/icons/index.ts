@@ -4,3 +4,4 @@ export { ic_notifications } from "./notifications";
 export { ic_security } from "./security";
 export { ic_help_support } from "./helpSupport";
 export { ic_terms_conditions } from "./termsConditions";
+export { ic_atm } from "./atm";

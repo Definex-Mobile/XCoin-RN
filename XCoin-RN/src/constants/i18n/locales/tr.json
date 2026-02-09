@@ -69,11 +69,6 @@
     "withDrawINR": "Withdraw INR",
     "yourCoins": "Your Coins"
   },
-  "dropdownBottomSheet": {
-    "markets": "Piyasalar",
-    "updateMarket": "Piyasayı Güncelle",
-    "defaultMarket": "Piyasa-INR"
-  },
   "home": {
     "trendingCoins": "Trend Coinler"
   },
@@ -89,7 +84,9 @@
     "notifications": "Bildirimler",
     "security": "Güvenlik",
     "helpSupport": "Yardım ve Destek",
-    "termsConditions": "Şartlar ve Koşullar"
+    "termsConditions": "Şartlar ve Koşullar",
+    "atmRoute": "En Yakın ATM'ye Rota",
+    "nearbyAtms": "Etrafındaki ATM'leri Bul"
   },
   "coinDetail": {
     "exchange": "Değiştir",
@@ -99,5 +96,12 @@
     "minPrice": "Min",
     "maxPrice": "Max",
     "noChartData": "Grafik verisi yok"
+  },
+  "location": {
+    "servicesDisabled": "Konum servisleri kapalı. Lütfen ayarlardan açın.",
+    "permissionDeniedTitle": "İzin Reddedildi",
+    "permissionDenied": "Navigasyon için konum izni gerekli.",
+    "fetchError": "Konum bilgisi alınamadı. Lütfen cihazınızın konum servislerinin (GPS) açık olduğundan emin olun.",
+    "genericError": "Konum işlemi sırasında bir hata oluştu."
   }
 }

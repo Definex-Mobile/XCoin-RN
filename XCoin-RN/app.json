@@ -25,9 +25,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "package": "com.definex.xcoin",
-      "googleServicesFile": "./google-services.json"
+      "predictiveBackGestureEnabled": false
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -37,7 +35,14 @@
       "expo-router",
       "expo-font",
       "@react-native-firebase/app",
-      "@react-native-firebase/crashlytics"
+      "@react-native-firebase/crashlytics",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow XCoin to access your location to find nearby ATMs.",
+          "isAndroidBackgroundLocationEnabled": false
+        }
+      ]
     ],
     "scheme": "xcoin",
     "experiments": {
