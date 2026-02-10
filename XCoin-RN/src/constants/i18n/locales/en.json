@@ -10,6 +10,19 @@
         "description": "Make your first Investment today",
         "buttonText": "Invest Today"
     },
+    "location": {
+        "servicesDisabled": "Location services are disabled. Please enable them in settings.",
+        "permissionDeniedTitle": "Permission Denied",
+        "permissionDenied": "Location permission is required for navigation.",
+        "fetchError": "Location could not be fetched. Please make sure GPS is enabled.",
+        "genericError": "An error occurred during location process."
+    },
+    "imagePicker": {
+        "title": "Change Profile Photo",
+        "takePhoto": "Take Photo",
+        "chooseFromGallery": "Choose from Gallery",
+        "cancel": "Cancel"
+    },
     "common": {
         "welcome": "Welcome",
         "loading": "Loading...",

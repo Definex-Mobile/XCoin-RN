@@ -4,6 +4,19 @@
     "description": "Bugün ilk yatırımınızı yapın",
     "buttonText": "Hemen Yatırım Yap"
   },
+  "location": {
+    "servicesDisabled": "Konum servisleri kapalı. Lütfen ayarlardan açın.",
+    "permissionDeniedTitle": "İzin Reddedildi",
+    "permissionDenied": "Navigasyon için konum izni gerekli.",
+    "fetchError": "Konum bilgisi alınamadı. Lütfen cihazınızın konum servislerinin (GPS) açık olduğundan emin olun.",
+    "genericError": "Konum işlemi sırasında bir hata oluştu."
+  },
+  "imagePicker": {
+    "title": "Profil Fotoğrafını Değiştir",
+    "takePhoto": "Fotoğraf Çek",
+    "chooseFromGallery": "Galeriden Seç",
+    "cancel": "İptal"
+  },
   "common": {
     "welcome": "Hoş Geldiniz",
     "loading": "Yükleniyor...",
