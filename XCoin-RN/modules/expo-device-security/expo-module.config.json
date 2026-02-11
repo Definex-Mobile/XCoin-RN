@@ -1,0 +1,16 @@
+{
+    "platforms": [
+        "ios",
+        "android"
+    ],
+    "ios": {
+        "modules": [
+            "DeviceSecurityModule"
+        ]
+    },
+    "android": {
+        "modules": [
+            "expo.modules.devicesecurity.DeviceSecurityModule"
+        ]
+    }
+}

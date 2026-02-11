@@ -8,11 +8,15 @@
     "ios": "expo run:ios",
     "android:release": "OBFUSCATE=true expo run:android --variant release",
     "ios:release": "OBFUSCATE=true expo run:ios --configuration Release",
-    "bundle:analyze": "OBFUSCATE=true npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./bundle-output.js"
+    "bundle:analyze": "OBFUSCATE=true npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./bundle-output.js",
+    "firebase-debug:android": "adb shell setprop debug.firebase.analytics.app com.definex.xcoin",
+    "firebase-debug:android:off": "adb shell setprop debug.firebase.analytics.app .none."
   },
   "dependencies": {
+    "@react-native-firebase/analytics": "^23.8.4",
     "@react-native-firebase/app": "^23.8.4",
     "@react-native-firebase/remote-config": "^23.8.4",
+    "@react-native-firebase/crashlytics": "^23.8.4",
     "axios": "^1.13.2",
     "base64-js": "^1.5.1",
     "expo": "~54.0.31",
