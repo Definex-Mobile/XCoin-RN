@@ -3,9 +3,12 @@ import { ScrollView, View } from "react-native";
 import { RewardsCoupons, RewardsCouponsSection } from "../../src/components/rewardsCoupons/rewardsCoupons";
 import { useTranslation } from "../../src/hooks/useTranslation";
 import BannerCard, { BannerType, BannerCardProps } from "../../src/components/bannerCard/bannerCard";
+import { logButtonClick } from "../../src/services/analyticsService";
+import { SCREENS } from "../../src/constants/analyticsEvents";
 
 function handleBannerPress(type: BannerType): void {
-  console.log(`${type} Button Pressed`);
+  const buttonName = type === BannerType.REFER ? "refer_banner" : "like_banner";
+  logButtonClick(SCREENS.REWARDS, buttonName);
 }
 
 export default function RewardsCouponsScreen() {
