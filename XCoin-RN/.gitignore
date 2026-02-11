@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+# IDE
+.idea/
+
 # Expo
 .expo/
 dist/
@@ -11,6 +14,7 @@ expo-env.d.ts
 
 # Native
 .kotlin/
+.gradle/
 *.orig.*
 *.jks
 *.p8
@@ -20,6 +24,11 @@ expo-env.d.ts
 
 # Metro
 .metro-health-check*
+
+# Bundle analysis
+bundle-output.js
+bundle-output.js.map
+export-test/
 
 # debug
 npm-debug.*

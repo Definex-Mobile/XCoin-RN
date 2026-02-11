@@ -23,12 +23,18 @@ interface DropdownBottomSheetProps {
   selectedValue?: string | null;
   onValueChange: (value: string | null) => void;
   placeholder?: string;
+  onOpen?: () => void;
+  onItemSelect?: (value: string) => void;
+  onConfirm?: (value: string) => void;
 }
 
 export default function DropdownBottomSheet({
   selectedValue,
   onValueChange,
   placeholder,
+  onOpen,
+  onItemSelect,
+  onConfirm,
 }: DropdownBottomSheetProps) {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
@@ -39,6 +45,7 @@ export default function DropdownBottomSheet({
   );
 
   const handleOpen = () => {
+    onOpen?.();
     setTempSelectedValue(selectedValue);
     setIsVisible(true);
   };
@@ -48,11 +55,13 @@ export default function DropdownBottomSheet({
   };
 
   const handleItemPress = (value: string) => {
+    onItemSelect?.(value);
     setTempSelectedValue(value);
   };
 
   const handleUpdate = () => {
     if (tempSelectedValue) {
+      onConfirm?.(tempSelectedValue);
       onValueChange(tempSelectedValue);
     }
     handleClose();
