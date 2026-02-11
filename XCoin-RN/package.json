@@ -5,9 +5,12 @@
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
-    "ios": "expo run:ios"
+    "ios": "expo run:ios",
+    "firebase-debug:android": "adb shell setprop debug.firebase.analytics.app com.definex.xcoin",
+    "firebase-debug:android:off": "adb shell setprop debug.firebase.analytics.app .none."
   },
   "dependencies": {
+    "@react-native-firebase/analytics": "^23.8.4",
     "@react-native-firebase/app": "^23.8.4",
     "@react-native-firebase/remote-config": "^23.8.4",
     "@react-native-firebase/crashlytics": "^23.8.4",

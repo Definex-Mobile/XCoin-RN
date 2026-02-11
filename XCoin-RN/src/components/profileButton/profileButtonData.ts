@@ -7,42 +7,44 @@ import {
   ic_help_support,
   ic_terms_conditions,
 } from "../../constants/icons";
+import { logButtonClick } from "../../services/analyticsService";
+import { SCREENS, PARAMS } from "../../constants/analyticsEvents";
 
 export const profileButtonData: ProfileButtonData[] = [
   {
     id: "history",
     titleKey: "profile.history",
     icon: ic_history,
-    onPress: () => console.log("History pressed"),
+    onPress: () => logButtonClick(SCREENS.PROFILE, PARAMS.HISTORY),
   },
   {
     id: "bankDetails",
     titleKey: "profile.bankDetails",
     icon: ic_bank_details,
-    onPress: () => console.log("Bank Details pressed"),
+    onPress: () => logButtonClick(SCREENS.PROFILE, PARAMS.BANK_DETAILS),
   },
   {
     id: "notifications",
     titleKey: "profile.notifications",
     icon: ic_notifications,
-    onPress: () => console.log("Notifications pressed"),
+    onPress: () => logButtonClick(SCREENS.PROFILE, PARAMS.NOTIFICATION),
   },
   {
     id: "security",
     titleKey: "profile.security",
     icon: ic_security,
-    onPress: () => console.log("Security pressed"),
+    onPress: () => logButtonClick(SCREENS.PROFILE, PARAMS.SECURITY),
   },
   {
     id: "helpSupport",
     titleKey: "profile.helpSupport",
     icon: ic_help_support,
-    onPress: () => console.log("Help and Support pressed"),
+    onPress: () => logButtonClick(SCREENS.PROFILE, PARAMS.HELP_SUPPORT),
   },
   {
     id: "termsConditions",
     titleKey: "profile.termsConditions",
     icon: ic_terms_conditions,
-    onPress: () => console.log("Terms and Conditions pressed"),
+    onPress: () => logButtonClick(SCREENS.PROFILE, PARAMS.TERMS_COND),
   },
 ];

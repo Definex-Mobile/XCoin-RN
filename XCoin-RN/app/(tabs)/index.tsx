@@ -7,6 +7,8 @@ import { useTranslation as useI18nTranslation } from "../../src/constants/i18n";
 import { CryptoCoinList } from "../../src/components/cryptoCoinList/cryptoCoinList";
 import type { CryptoCoin } from "../../src/types/cryptoCoin";
 import { getTrendingCoins } from "../../src/api/services/trendingService";
+import { logButtonClick } from "../../src/services/analyticsService";
+import { SCREENS, PARAMS } from "../../src/constants/analyticsEvents";
 
 export default function Home() {
   const { t } = useI18nTranslation();
@@ -34,7 +36,8 @@ export default function Home() {
   }, []);
 
   function handleBannerPress(): void {
-    console.log("Button Pressed");
+    logButtonClick(SCREENS.HOME, PARAMS.WELCOME_BANNER_CTA)
+    console.log("Button Pressed")
   }
 
   return (
