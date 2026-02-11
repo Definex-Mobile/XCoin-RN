@@ -29,7 +29,8 @@
     "delete": "Sil",
     "edit": "Düzenle",
     "close": "Kapat",
-    "ok": "Tamam"
+    "ok": "Tamam",
+    "selectOptions": "Seçenekleri Belirleyin"
   },
   "splash": {
     "title": "XCoin'e Hoş Geldiniz",

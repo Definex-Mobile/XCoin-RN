@@ -35,7 +35,8 @@
         "delete": "Delete",
         "edit": "Edit",
         "close": "Close",
-        "ok": "Okey"
+        "ok": "Okey",
+        "selectOptions": "Select Options"
     },
     "splash": {
         "title": "Welcome to XCoin",
