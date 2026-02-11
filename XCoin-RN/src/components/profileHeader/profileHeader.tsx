@@ -30,14 +30,7 @@ export function ProfileHeader(data: ProfileHeaderProps) {
         {onImagePress && (
           <TouchableOpacity
             onPress={onImagePress}
-            className="absolute bottom-0 right-0 bg-white rounded-full p-1.5"
-            style={{
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-            }}
+            className="absolute bottom-0 right-0 bg-white rounded-full p-1.5 shadow-md shadow-black"
           >
             <Ionicons name="camera" size={16} color={colors.primaryBlue.DEFAULT} />
           </TouchableOpacity>
