@@ -103,7 +103,16 @@
         "notifications": "Notifications",
         "security": "Security",
         "helpSupport": "Help and Support",
-        "termsConditions": "Terms and Conditions"
+        "termsConditions": "Terms and Conditions",
+        "debug": {
+            "crashlyticsTestButton": "Test Crashlytics (Log + Error)",
+            "crashlyticsTestTitle": "Crashlytics Test",
+            "crashlyticsTestMessage": "Log and error recorded! It will appear in Firebase Console in 5-10 minutes.",
+            "crashButton": "Test Crash (Closes the App!)",
+            "crashTitle": "Crash Test",
+            "crashMessage": "The app will now close. When you reopen it, the crash report will be sent to Firebase.",
+            "crashConfirm": "Crash Now"
+        }
     },
     "coinDetail": {
         "exchange": "Exchange",

@@ -82,11 +82,6 @@
     "withDrawINR": "Withdraw INR",
     "yourCoins": "Your Coins"
   },
-  "dropdownBottomSheet": {
-    "markets": "Piyasalar",
-    "updateMarket": "Piyasayı Güncelle",
-    "defaultMarket": "Piyasa-INR"
-  },
   "home": {
     "trendingCoins": "Trend Coinler"
   },
@@ -102,7 +97,16 @@
     "notifications": "Bildirimler",
     "security": "Güvenlik",
     "helpSupport": "Yardım ve Destek",
-    "termsConditions": "Şartlar ve Koşullar"
+    "termsConditions": "Şartlar ve Koşullar",
+    "debug": {
+      "crashlyticsTestButton": "Test Crashlytics (Log + Error)",
+      "crashlyticsTestTitle": "Crashlytics Test",
+      "crashlyticsTestMessage": "Log ve hata kaydedildi! Firebase Console'da 5-10 dakika içinde görünecek.",
+      "crashButton": "Test Crash (Uygulamayı Kapatır!)",
+      "crashTitle": "Crash Test",
+      "crashMessage": "Uygulama şimdi kapanacak. Tekrar açtığınızda crash raporu Firebase'e gönderilecek.",
+      "crashConfirm": "Crash Yap"
+    }
   },
   "coinDetail": {
     "exchange": "Değiştir",

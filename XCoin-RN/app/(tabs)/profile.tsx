@@ -131,26 +131,26 @@ export default function Profile() {
                 "Test Context"
               );
               Alert.alert(
-                "Crashlytics Test",
-                "Log ve hata kaydedildi! Firebase Console'da 5-10 dakika içinde görünecek."
+                t("profile.debug.crashlyticsTestTitle"),
+                t("profile.debug.crashlyticsTestMessage")
               );
             }}
             className="bg-blue-500 py-4 rounded-lg mb-3"
           >
             <Text className="text-white text-center font-bold">
-              Test Crashlytics (Log + Error)
+              {t("profile.debug.crashlyticsTestButton")}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => {
               Alert.alert(
-                "Crash Test",
-                "Uygulama şimdi kapanacak. Tekrar açtığınızda crash raporu Firebase'e gönderilecek.",
+                t("profile.debug.crashTitle"),
+                t("profile.debug.crashMessage"),
                 [
-                  { text: "İptal", style: "cancel" },
+                  { text: t("common.cancel"), style: "cancel" },
                   {
-                    text: "Crash Yap",
+                    text: t("profile.debug.crashConfirm"),
                     style: "destructive",
                     onPress: () => {
                       setTimeout(() => {
@@ -164,7 +164,7 @@ export default function Profile() {
             className="bg-red-500 py-4 rounded-lg"
           >
             <Text className="text-white text-center font-bold">
-              Test Crash (Uygulamayı Kapatır!)
+              {t("profile.debug.crashButton")}
             </Text>
           </TouchableOpacity>
         </View>
