@@ -90,7 +90,9 @@
         "notifications": "Notifications",
         "security": "Security",
         "helpSupport": "Help and Support",
-        "termsConditions": "Terms and Conditions"
+        "termsConditions": "Terms and Conditions",
+        "atmRoute": "Route to Nearest ATM",
+        "nearbyAtms": "Find Nearby ATMs"
     },
     "coinDetail": {
         "exchange": "Exchange",
@@ -101,6 +103,7 @@
         "maxPrice": "Max",
         "noChartData": "No chart data available"
     },
+
     "login": {
         "title": "XCoin",
         "subtitle": "Manage your crypto investments",
@@ -115,5 +118,12 @@
             "emailInvalid": "Please enter a valid email address.",
             "loginFailed": "An error occurred while logging in. Please try again."
         }
+    },
+    "location": {
+        "servicesDisabled": "Location services are disabled. Please enable them in settings.",
+        "permissionDeniedTitle": "Permission Denied",
+        "permissionDenied": "Location permission is required for navigation.",
+        "fetchError": "Location could not be fetched. Please make sure GPS is enabled.",
+        "genericError": "An error occurred during location process."
     }
 }
