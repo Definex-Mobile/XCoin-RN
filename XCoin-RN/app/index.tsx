@@ -5,6 +5,8 @@ import { useRouter } from "expo-router";
 import { constants } from "../src/constants/constants";
 import { useTranslation } from "../src/hooks/useTranslation";
 import { checkAppVersion, type VersionCheckResult } from "../src/services/versionService";
+import { logButtonClick } from "../src/services/analyticsService";
+import { SCREENS, PARAMS } from "../src/constants/analyticsEvents";
 import { UpdateDialog } from "../src/components/updateDialog/updateDialog";
 
 const IS_IOS = Platform.OS === constants.platform.IOS;
@@ -43,6 +45,7 @@ export default function SplashScreen() {
   }, [router]);
 
   const handleUpdate = () => {
+    logButtonClick(SCREENS.SPLASH, PARAMS.UPDATE);
     const storeUrl = IS_IOS
       ? constants.appStoreUrls.ios
       : constants.appStoreUrls.android;
@@ -51,6 +54,7 @@ export default function SplashScreen() {
   };
 
   const handleExit = () => {
+    logButtonClick(SCREENS.SPLASH, PARAMS.EXIT);
     BackHandler.exitApp();
   };
 
