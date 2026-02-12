@@ -5,14 +5,17 @@ import ProfileButton from "../../src/components/profileButton/profileButton";
 import { profileButtonData } from "../../src/components/profileButton/profileButtonData";
 import { useTranslation } from "../../src/hooks/useTranslation";
 import { CrashlyticsService } from "../../src/services/crashlytics";
+import { useAuth } from "../../src/hooks/useAuth";
 
 export default function Profile() {
+  const { userInfo } = useAuth();
+
   return (
     <ScrollView className="flex-1 bg-white">
       <ProfileHeader
         image="https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif"
         name="DefineX"
-        mail="definex@teamdefinex.com"
+        mail={userInfo?.email || "definex@teamdefinex.com"}
         phone="+90 555 555 55 55"
       />
       <View className="mt-8">
