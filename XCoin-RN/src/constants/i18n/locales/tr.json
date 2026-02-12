@@ -97,11 +97,27 @@
     "maxPrice": "Max",
     "noChartData": "Grafik verisi yok"
   },
+  "login": {
+    "title": "XCoin Giriş",
+    "subtitle": "Kripto Para Portföyünüzü Yönetin",
+    "email": "Email",
+    "password": "Şifre",
+    "button": "Giriş Yap",
+    "signupText": "Hesabınız yok mu?",
+    "signupLink": "Kaydol",
+    "errors": {
+      "emailRequired": "Email adresi gereklidir.",
+      "passwordRequired": "Şifre gereklidir.",
+      "emailInvalid": "Geçerli bir email adresi girin.",
+      "loginFailed": "Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin."
+    }
+  },
   "location": {
     "servicesDisabled": "Konum servisleri kapalı. Lütfen ayarlardan açın.",
     "permissionDeniedTitle": "İzin Reddedildi",
     "permissionDenied": "Navigasyon için konum izni gerekli.",
     "fetchError": "Konum bilgisi alınamadı. Lütfen cihazınızın konum servislerinin (GPS) açık olduğundan emin olun.",
     "genericError": "Konum işlemi sırasında bir hata oluştu."
+
   }
 }

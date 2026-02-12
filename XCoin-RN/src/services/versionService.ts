@@ -35,8 +35,12 @@ function getFallbackResult(): VersionCheckResult {
 /** Expo Go has no Firebase native module – skip import to avoid RNFBAppModule error. */
 function shouldSkipFirebase(): boolean {
     try {
-        const ownership = (Constants as { appOwnership?: string }).appOwnership;
-        return ownership === 'expo';
+        const appModule = require('@react-native-firebase/app');
+        const remoteConfigModule = require('@react-native-firebase/remote-config');
+        
+        if (!appModule.getApp || !remoteConfigModule.getRemoteConfig) {
+            throw new Error('Firebase modules not available');
+        }
     } catch {
         return true;
     }

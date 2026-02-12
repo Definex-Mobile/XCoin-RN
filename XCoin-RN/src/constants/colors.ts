@@ -66,6 +66,9 @@ export const colors = {
         up: "#21BF73",
         down: "#D90429",
     },
+    error: {
+        DEFAULT: "#F54927",
+    },
 };
 
 module.exports = { colors };
