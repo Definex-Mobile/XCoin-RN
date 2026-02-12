@@ -1,4 +1,5 @@
 const IS_DEV = process.env.APP_VARIANT === "development";
+const IS_PREBUILD = process.argv.some(arg => arg.includes("prebuild") || arg.includes("configure"));
 
 export default {
     expo: {
@@ -6,7 +7,7 @@ export default {
         slug: "XCoin-RN",
         version: "1.0.0",
         orientation: "portrait",
-        icon: IS_DEV ? "./assets/icon-dev.png" : "./assets/icon.png",
+        icon: IS_DEV ? "./assets/ic_dev.png" : "./assets/ic_prod.png",
         userInterfaceStyle: "light",
         newArchEnabled: true,
         splash: {
@@ -16,14 +17,14 @@ export default {
         },
         ios: {
             supportsTablet: true,
-            bundleIdentifier: IS_DEV ? "com.definex.xcoin.dev" : "com.definex.xcoin",
+            bundleIdentifier: (IS_DEV && !IS_PREBUILD) ? "com.definex.xcoin.dev" : "com.definex.xcoin",
             googleServicesFile: "./GoogleService-Info.plist"
         },
         android: {
-            package: IS_DEV ? "com.definex.xcoin.dev" : "com.definex.xcoin",
+            package: (IS_DEV && !IS_PREBUILD) ? "com.definex.xcoin.dev" : "com.definex.xcoin",
             googleServicesFile: "./google-services.json",
             adaptiveIcon: {
-                foregroundImage: IS_DEV ? "./assets/icon-dev.png" : "./assets/adaptive-icon.png",
+                foregroundImage: IS_DEV ? "./assets/ic_dev.png" : "./assets/ic_prod.png",
                 backgroundColor: "#ffffff"
             },
             edgeToEdgeEnabled: true,
