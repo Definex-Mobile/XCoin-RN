@@ -27,7 +27,7 @@ const WEIGHTS = {
   black: { weight: 900, family: 'Roboto-Black' },
 } as const;
 
-const SIZES = [10, 12, 14, 16, 18, 20, 24, 28, 32, 48] as const;
+const SIZES = [10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48] as const;
 
 type WeightKey = keyof typeof WEIGHTS;
 type Size = typeof SIZES[number];

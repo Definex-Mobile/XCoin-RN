@@ -112,6 +112,27 @@
       "loginFailed": "Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin."
     }
   },
+  "signup": {
+    "title": "Hesap Oluştur",
+    "subtitle": "Kripto yatırımlarını yönetmeye başla",
+    "firstName": "İsim",
+    "lastName": "Soyisim",
+    "phone": "Telefon Numarası",
+    "birthDate": "Doğum Tarihi",
+    "button": "Kayıt Ol",
+    "loginText": "Zaten hesabın var mı?",
+    "loginLink": "Giriş Yap",
+    "errors": {
+      "firstNameRequired": "İsim gereklidir.",
+      "firstNameInvalid": "Geçerli bir isim girin.",
+      "lastNameRequired": "Soyisim gereklidir.",
+      "lastNameInvalid": "Geçerli bir soyisim girin.",
+      "phoneRequired": "Telefon numarası gereklidir.",
+      "phoneInvalid": "Geçerli bir telefon numarası girin.",
+      "birthDateRequired": "Doğum tarihi gereklidir.",
+      "birthDateInvalid": "Geçerli bir doğum tarihi girin (GG/AA/YYYY)."
+    }
+  },
   "location": {
     "servicesDisabled": "Konum servisleri kapalı. Lütfen ayarlardan açın.",
     "permissionDeniedTitle": "İzin Reddedildi",

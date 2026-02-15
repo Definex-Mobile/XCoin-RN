@@ -27,6 +27,10 @@ export default function LoginScreen() {
   const signupText = useTranslation('login.signupText');
   const signupLink = useTranslation('login.signupLink');
 
+  const handleNavigateToSignUp = () => {
+    router.push('./sign-up');
+  };
+
   const handleLogin = async () => {
     if (!email.trim()) {
       setError(emailRequired);
@@ -116,7 +120,9 @@ export default function LoginScreen() {
           <View className="mt-auto mb-8">
             <Text className="text-center text-coin-symbol text-sm">
               {signupText}{' '}
-              <Text className="text-primaryBlue font-semibold">{signupLink}</Text>
+              <Text className="text-primaryBlue font-semibold" onPress={handleNavigateToSignUp}>
+                {signupLink}
+              </Text>
             </Text>
           </View>
         </View>

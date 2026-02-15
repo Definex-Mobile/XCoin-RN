@@ -114,6 +114,7 @@ export default function RootLayout() {
         >
           <Stack.Screen name="index" options={{ animation: 'none' }} />
           <Stack.Screen name="screens/login" options={{ animation: 'slide_from_right' }} />
+          <Stack.Screen name="screens/sign-up" options={{ animation: 'slide_from_right' }} />
           <Stack.Screen name="(tabs)" options={{ animation: 'slide_from_right' }} />
           <Stack.Screen name="screens/coin-detail" />
         </Stack>
