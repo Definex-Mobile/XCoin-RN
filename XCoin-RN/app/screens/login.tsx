@@ -47,14 +47,15 @@ export default function LoginScreen() {
     setError('');
 
     try {
-      setTimeout(() => {
-        login();
-        setLoading(false);
-        // Login başarılı olduğunda Home ekranına yönlendir
-        router.replace('/(tabs)');
-      }, 1000);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await login({
+        email: email.trim(),
+        lastLoginDate: new Date().toISOString(),
+      });
+      router.replace('/(tabs)');
     } catch (err) {
       setError(loginFailed);
+    } finally {
       setLoading(false);
     }
   };
