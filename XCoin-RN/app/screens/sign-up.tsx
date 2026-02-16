@@ -5,6 +5,10 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from '../../src/hooks/useTranslation';
 import { colors } from '../../src/constants/colors';
 import XCoinTextInput from '../../src/components/textInput/XCoinTextInput';
+import { generateSignUpJwt } from '../../src/services/jwtService';
+import * as SecureStore from 'expo-secure-store';
+
+const JWT_TOKEN_KEY = 'xcoin_auth_token';
 
 type SignUpFormErrors = {
   firstName?: string;
@@ -116,15 +120,27 @@ export default function SignUpScreen() {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (!validate()) return;
 
     setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      const token = await generateSignUpJwt({
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        phone: phone.trim(),
+        birthDate: birthDate.trim(),
+      });
+
+      await SecureStore.setItemAsync(JWT_TOKEN_KEY, token);
+
       router.replace('/screens/login');
-    }, 1000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoToLogin = () => {
