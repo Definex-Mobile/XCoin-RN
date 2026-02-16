@@ -37,4 +37,6 @@ export const PARAMS = {
   UPDATE: 'update',
   DEPOSIT_INR: 'deposit_inr',
   WITHDRAW_INR: 'withdraw_inr',
+  ATM_ROUTE: 'atm_route',
+  NEARBY_ATMS: 'nearby_atms',
 } as const; 

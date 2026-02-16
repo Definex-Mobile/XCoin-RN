@@ -26,7 +26,7 @@ export default function SplashScreen() {
           setShowUpdateDialog(true);
         } else {
           const timer = setTimeout(() => {
-            router.push("/(tabs)");
+            router.replace("/screens/login");
           }, constants.splash.loadingTime);
 
           return () => clearTimeout(timer);
@@ -34,7 +34,7 @@ export default function SplashScreen() {
       } catch (error) {
         console.error('Version check failed:', error);
         const timer = setTimeout(() => {
-          router.push("/(tabs)");
+          router.replace("/screens/login");
         }, constants.splash.loadingTime);
 
         return () => clearTimeout(timer);
@@ -60,6 +60,7 @@ export default function SplashScreen() {
 
   return (
     <View className="flex-1 bg-white items-center justify-between pb-8">
+      <StatusBar style="dark" backgroundColor="white" />
       <View className="flex-1 items-center justify-center">
         <View className="flex-row items-center justify-center">
           <Image

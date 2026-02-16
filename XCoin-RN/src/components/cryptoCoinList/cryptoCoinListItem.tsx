@@ -13,14 +13,33 @@ type Props = {
 };
 
 export function CryptoCoinListItem({ coin }: Props) {
+  const router = useRouter();
   const isPositive = coin.changeRatio >= 0;
   const valueColor = isPositive
     ? "text-crypto-positive"
     : "text-crypto-negative";
   const currencySymbol = getCurrencySymbol(coin.currency);
 
+  const handlePress = () => {
+    router.push({
+      pathname: "/screens/coin-detail",
+      params: {
+        symbol: coin.shortName,
+        name: coin.longName,
+        currentPrice: coin.currentPrice.toString(),
+        priceChangePercentage: coin.changeRatio.toString(),
+        imageUrl: coin.imageUrl,
+        currency: coin.currency,
+      },
+    });
+  };
+
   return (
-    <View className="bg-crypto-cardBg rounded-xl ps-4 pe-1.5 pt-4 pb-4 mb-2 flex-row items-center shadow-sm">
+    <TouchableOpacity
+      onPress={handlePress}
+      activeOpacity={0.7}
+      className="bg-crypto-cardBg rounded-xl ps-4 pe-1.5 pt-4 pb-4 mb-2 flex-row items-center shadow-sm"
+    >
       <View className="w-10 h-10 rounded-full overflow-hidden bg-white mr-3">
         <Image
           source={{ uri: coin.imageUrl }}
@@ -46,6 +65,6 @@ export function CryptoCoinListItem({ coin }: Props) {
           {formatPercentage(coin.changeRatio)}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
