@@ -113,7 +113,9 @@
             "crashTitle": "Crash Test",
             "crashMessage": "The app will now close. When you reopen it, the crash report will be sent to Firebase.",
             "crashConfirm": "Crash Now"
-        }
+        },
+        "atmRoute": "Route to Nearest ATM",
+        "nearbyAtms": "Find Nearby ATMs"
     },
     "coinDetail": {
         "exchange": "Exchange",
@@ -123,5 +125,20 @@
         "minPrice": "Min",
         "maxPrice": "Max",
         "noChartData": "No chart data available"
+    },
+    "login": {
+        "title": "XCoin",
+        "subtitle": "Manage your crypto investments",
+        "email": "Email",
+        "password": "Password",
+        "button": "Login",
+        "signupText": "Don't have an account?",
+        "signupLink": "Sign up",
+        "errors": {
+            "emailRequired": "Email address is required.",
+            "passwordRequired": "Password is required.",
+            "emailInvalid": "Please enter a valid email address.",
+            "loginFailed": "An error occurred while logging in. Please try again."
+        }
     }
 }

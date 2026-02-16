@@ -6,6 +6,7 @@ import {
   Text,
   Alert,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { ProfileHeader } from "../../src/components/profileHeader/profileHeader";
 import ProfileButton from "../../src/components/profileButton/profileButton";
@@ -18,11 +19,15 @@ import {
   getProfileImage,
 } from "../../src/services/profileStorageService";
 import ActionBottomSheet, { Action } from "../../src/components/actionBottomSheet/actionBottomSheet";
+import { useAuth } from "../../src/hooks/useAuth";
+import { colors } from "../../src/constants/colors";
 
 export default function Profile() {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isImageSheetVisible, setIsImageSheetVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
+  const { userInfo } = useAuth();
 
   useEffect(() => {
     loadProfileImage();
@@ -37,6 +42,15 @@ export default function Profile() {
 
   const handleImagePress = () => {
     setIsImageSheetVisible(true);
+  };
+
+  const handleButtonPress = async (onPress: any) => {
+    setLoading(true);
+    try {
+      await onPress?.();
+    } finally {
+      setLoading(false);
+    }
   };
 
   const imageActions: Action[] = [
@@ -78,7 +92,7 @@ export default function Profile() {
         <ProfileHeader
           image={profileImage || "https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif"}
           name="DefineX"
-          mail="definex@teamdefinex.com"
+          mail={userInfo?.email || "definex@teamdefinex.com"}
           phone="+90 555 555 55 55"
           onImagePress={handleImagePress}
         />
@@ -88,7 +102,7 @@ export default function Profile() {
               key={button.id}
               title={t(button.titleKey)}
               icon={button.icon}
-              onPress={button.onPress}
+              onPress={() => handleButtonPress(button.onPress)}
               isLast={index === profileButtonData.length - 1}
             />
           ))}
@@ -150,6 +164,23 @@ export default function Profile() {
         title={t("imagePicker.title")}
         actions={imageActions}
       />
+
+      {loading && (
+        <View
+          className="absolute inset-0 items-center justify-center bg-black/30"
+          style={{ zIndex: 999 }}
+        >
+          <View className="bg-white p-6 rounded-2xl items-center shadow-lg">
+            <ActivityIndicator
+              size="large"
+              color={colors.primaryBlue.DEFAULT}
+            />
+            <Text className="mt-4 regular16 text-text">
+              {t("common.loading")}
+            </Text>
+          </View>
+        </View>
+      )}
     </View>
   );
 }

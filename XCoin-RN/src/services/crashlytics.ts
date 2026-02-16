@@ -1,7 +1,17 @@
-import crashlytics from '@react-native-firebase/crashlytics';
+let crashlytics: any = null;
+
+try {
+  crashlytics = require('@react-native-firebase/crashlytics').default;
+} catch (error) {
+  console.warn('Firebase Crashlytics native module not available');
+}
 
 export const CrashlyticsService = {
   initialize: async () => {
+    if (!crashlytics) {
+      console.log('Crashlytics skip - native module not available');
+      return;
+    }
     try {
       await crashlytics().setCrashlyticsCollectionEnabled(true);
       crashlytics().log('Crashlytics başlatıldı');
@@ -11,6 +21,7 @@ export const CrashlyticsService = {
   },
 
   recordError: (error: Error, context?: string) => {
+    if (!crashlytics) return;
     try {
       if (context) {
         crashlytics().log(`Context: ${context}`);
@@ -22,6 +33,7 @@ export const CrashlyticsService = {
   },
 
   log: (message: string) => {
+    if (!crashlytics) return;
     try {
       crashlytics().log(message);
     } catch (error) {
