@@ -4,6 +4,19 @@
     "description": "Bugün ilk yatırımınızı yapın",
     "buttonText": "Hemen Yatırım Yap"
   },
+  "location": {
+    "servicesDisabled": "Konum servisleri kapalı. Lütfen ayarlardan açın.",
+    "permissionDeniedTitle": "İzin Reddedildi",
+    "permissionDenied": "Navigasyon için konum izni gerekli.",
+    "fetchError": "Konum bilgisi alınamadı. Lütfen cihazınızın konum servislerinin (GPS) açık olduğundan emin olun.",
+    "genericError": "Konum işlemi sırasında bir hata oluştu."
+  },
+  "imagePicker": {
+    "title": "Profil Fotoğrafını Değiştir",
+    "takePhoto": "Fotoğraf Çek",
+    "chooseFromGallery": "Galeriden Seç",
+    "cancel": "İptal"
+  },
   "common": {
     "welcome": "Hoş Geldiniz",
     "loading": "Yükleniyor...",
@@ -16,7 +29,8 @@
     "delete": "Sil",
     "edit": "Düzenle",
     "close": "Kapat",
-    "ok": "Tamam"
+    "ok": "Tamam",
+    "selectOptions": "Seçenekleri Belirleyin"
   },
   "splash": {
     "title": "XCoin'e Hoş Geldiniz",
@@ -85,6 +99,15 @@
     "security": "Güvenlik",
     "helpSupport": "Yardım ve Destek",
     "termsConditions": "Şartlar ve Koşullar",
+    "debug": {
+      "crashlyticsTestButton": "Test Crashlytics (Log + Error)",
+      "crashlyticsTestTitle": "Crashlytics Test",
+      "crashlyticsTestMessage": "Log ve hata kaydedildi! Firebase Console'da 5-10 dakika içinde görünecek.",
+      "crashButton": "Test Crash (Uygulamayı Kapatır!)",
+      "crashTitle": "Crash Test",
+      "crashMessage": "Uygulama şimdi kapanacak. Tekrar açtığınızda crash raporu Firebase'e gönderilecek.",
+      "crashConfirm": "Crash Yap"
+    },
     "atmRoute": "En Yakın ATM'ye Rota",
     "nearbyAtms": "Etrafındaki ATM'leri Bul"
   },
@@ -111,13 +134,5 @@
       "emailInvalid": "Geçerli bir email adresi girin.",
       "loginFailed": "Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin."
     }
-  },
-  "location": {
-    "servicesDisabled": "Konum servisleri kapalı. Lütfen ayarlardan açın.",
-    "permissionDeniedTitle": "İzin Reddedildi",
-    "permissionDenied": "Navigasyon için konum izni gerekli.",
-    "fetchError": "Konum bilgisi alınamadı. Lütfen cihazınızın konum servislerinin (GPS) açık olduğundan emin olun.",
-    "genericError": "Konum işlemi sırasında bir hata oluştu."
-
   }
 }

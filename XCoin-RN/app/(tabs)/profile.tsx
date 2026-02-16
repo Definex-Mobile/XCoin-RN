@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   View,
   TouchableOpacity,
   Text,
   Alert,
+  Platform,
   ActivityIndicator,
 } from "react-native";
 import { ProfileHeader } from "../../src/components/profileHeader/profileHeader";
@@ -12,13 +13,36 @@ import ProfileButton from "../../src/components/profileButton/profileButton";
 import { profileButtonData } from "../../src/components/profileButton/profileButtonData";
 import { useTranslation } from "react-i18next";
 import { CrashlyticsService } from "../../src/services/crashlytics";
+import { openCamera, openGallery } from "../../src/services/imagePickerService";
+import {
+  saveProfileImage,
+  getProfileImage,
+} from "../../src/services/profileStorageService";
+import ActionBottomSheet, { Action } from "../../src/components/actionBottomSheet/actionBottomSheet";
 import { useAuth } from "../../src/hooks/useAuth";
 import { colors } from "../../src/constants/colors";
 
 export default function Profile() {
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [isImageSheetVisible, setIsImageSheetVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const { userInfo } = useAuth();
+
+  useEffect(() => {
+    loadProfileImage();
+  }, []);
+
+  const loadProfileImage = async () => {
+    const savedImage = await getProfileImage();
+    if (savedImage) {
+      setProfileImage(savedImage);
+    }
+  };
+
+  const handleImagePress = () => {
+    setIsImageSheetVisible(true);
+  };
 
   const handleButtonPress = async (onPress: any) => {
     setLoading(true);
@@ -29,16 +53,49 @@ export default function Profile() {
     }
   };
 
+  const imageActions: Action[] = [
+    {
+      id: "camera",
+      label: t("imagePicker.takePhoto"),
+      icon: "camera",
+      onPress: async () => {
+        const result = await openCamera();
+        if (result.assets && result.assets[0]) {
+          const uri = result.assets[0].uri;
+          if (uri) {
+            setProfileImage(uri);
+            await saveProfileImage(uri);
+          }
+        }
+      },
+    },
+    {
+      id: "gallery",
+      label: t("imagePicker.chooseFromGallery"),
+      icon: "image",
+      onPress: async () => {
+        const result = await openGallery();
+        if (result.assets && result.assets[0]) {
+          const uri = result.assets[0].uri;
+          if (uri) {
+            setProfileImage(uri);
+            await saveProfileImage(uri);
+          }
+        }
+      },
+    },
+  ];
+
   return (
     <View className="flex-1 bg-white">
       <ScrollView className="flex-1">
         <ProfileHeader
-          image="https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif"
+          image={profileImage || "https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif"}
           name="DefineX"
           mail={userInfo?.email || "definex@teamdefinex.com"}
           phone="+90 555 555 55 55"
+          onImagePress={handleImagePress}
         />
-
         <View className="mt-8">
           {profileButtonData.map((button, index) => (
             <ProfileButton
@@ -61,26 +118,26 @@ export default function Profile() {
                   "Test Context"
                 );
                 Alert.alert(
-                  "Crashlytics Test",
-                  "Log ve hata kaydedildi! Firebase Console'da 5-10 dakika içinde görünecek."
+                  t("profile.debug.crashlyticsTestTitle"),
+                  t("profile.debug.crashlyticsTestMessage")
                 );
               }}
               className="bg-blue-500 py-4 rounded-lg mb-3"
             >
               <Text className="text-white text-center font-bold">
-                Test Crashlytics (Log + Error)
+                {t("profile.debug.crashlyticsTestButton")}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => {
                 Alert.alert(
-                  "Crash Test",
-                  "Uygulama şimdi kapanacak. Tekrar açtığınızda crash raporu Firebase'e gönderilecek.",
+                  t("profile.debug.crashTitle"),
+                  t("profile.debug.crashMessage"),
                   [
-                    { text: "İptal", style: "cancel" },
+                    { text: t("common.cancel"), style: "cancel" },
                     {
-                      text: "Crash Yap",
+                      text: t("profile.debug.crashConfirm"),
                       style: "destructive",
                       onPress: () => {
                         setTimeout(() => {
@@ -94,12 +151,19 @@ export default function Profile() {
               className="bg-red-500 py-4 rounded-lg"
             >
               <Text className="text-white text-center font-bold">
-                Test Crash (Uygulamayı Kapatır!)
+                {t("profile.debug.crashButton")}
               </Text>
             </TouchableOpacity>
           </View>
         )}
       </ScrollView>
+
+      <ActionBottomSheet
+        isVisible={isImageSheetVisible}
+        onClose={() => setIsImageSheetVisible(false)}
+        title={t("imagePicker.title")}
+        actions={imageActions}
+      />
 
       {loading && (
         <View
