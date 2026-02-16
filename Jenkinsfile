@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     sh "chmod +x ${env.PROJECT_DIR}/scripts/*.sh"
-                    echo "🚀 Build başlatıldı: ${env.BUILD_PLATFORM}"
+                    echo "🚀 Build başlatıldı: ${params.BUILD_PLATFORM}"
                 }
             }
         }

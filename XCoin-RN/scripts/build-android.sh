@@ -21,7 +21,7 @@ build_apk() {
 
     # 2. Expo Prebuild (Android klasörünü oluştur)
     log "Expo Prebuild çalıştırılıyor..."
-    npx expo prebuild --platform android --no-install --quiet
+    npx expo prebuild --platform android --no-install
 
     # 3. Android build dizinine gir
     cd android
