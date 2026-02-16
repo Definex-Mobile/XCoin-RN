@@ -12,16 +12,18 @@ import ProfileButton from "../../src/components/profileButton/profileButton";
 import { profileButtonData } from "../../src/components/profileButton/profileButtonData";
 import { useTranslation } from "react-i18next";
 import { CrashlyticsService } from "../../src/services/crashlytics";
+import { useAuth } from "../../src/hooks/useAuth";
 import { colors } from "../../src/constants/colors";
 
 export default function Profile() {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
+  const { userInfo } = useAuth();
 
   const handleButtonPress = async (onPress: any) => {
     setLoading(true);
     try {
-      await onPress();
+      await onPress?.();
     } finally {
       setLoading(false);
     }
@@ -33,9 +35,10 @@ export default function Profile() {
         <ProfileHeader
           image="https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif"
           name="DefineX"
-          mail="definex@teamdefinex.com"
+          mail={userInfo?.email || "definex@teamdefinex.com"}
           phone="+90 555 555 55 55"
         />
+
         <View className="mt-8">
           {profileButtonData.map((button, index) => (
             <ProfileButton
