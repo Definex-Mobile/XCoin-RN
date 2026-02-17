@@ -46,7 +46,7 @@ pipeline {
                 FIREBASE_APP_ID_ANDROID = "1:115076399325:android:5724a4179db35d937f1b34"
             }
             steps {
-                withCredentials([string(credentialsId: 'FIREBASE_TOKEN', variable: 'FIREBASE_TOKEN')]) {
+                withCredentials([string(credentialsId: 'xcoin-firebase-token', variable: 'FIREBASE_TOKEN')]) {
                     dir("${env.PROJECT_DIR}") {
                         sh './scripts/build-android.sh upload'
                     }
