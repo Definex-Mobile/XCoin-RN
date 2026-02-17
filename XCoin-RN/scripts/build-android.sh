@@ -64,12 +64,20 @@ upload_firebase() {
     fi
 
     APK_PATH="./build-output/XCoin-Release.apk"
-    
-    npx firebase-tools appdistribution:distribute "$APK_PATH" \
-        --app "$FIREBASE_APP_ID_ANDROID" \
-        --token "$FIREBASE_TOKEN" \
-        --groups "tester-group" \
-        --release-notes "Jenkins tarafından otomatik yüklenen sürüm." || fail "Firebase yüklemesi başarısız!"
+
+    DISTRIBUTE_ARGS=(
+        "$APK_PATH"
+        "--app" "$FIREBASE_APP_ID_ANDROID"
+        "--token" "$FIREBASE_TOKEN"
+        "--release-notes" "Jenkins tarafından otomatik yüklenen sürüm."
+    )
+
+    # Tester grubu tanımlıysa ekle
+    if [ -n "$FIREBASE_TESTER_GROUP" ]; then
+        DISTRIBUTE_ARGS+=("--groups" "$FIREBASE_TESTER_GROUP")
+    fi
+
+    npx firebase-tools appdistribution:distribute "${DISTRIBUTE_ARGS[@]}" || fail "Firebase yüklemesi başarısız!"
         
     log "✅ Firebase App Distribution tamamlandı!"
 }
