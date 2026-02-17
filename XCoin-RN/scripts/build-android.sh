@@ -90,9 +90,43 @@ upload_firebase() {
     log "✅ Firebase App Distribution tamamlandı!"
 }
 
+bump_version() {
+    log "Version bilgileri güncelleniyor..."
+    node "$(dirname "$0")/bump-version.js"
+    
+    git config user.email "jenkins-bot@definex.com"
+    git config user.name "Jenkins Bot"
+    git add app.json
+    git commit -m "chore(version): bump version [ci skip]" || echo "Değişiklik yok."
+}
+
+push_version() {
+    log "Değişiklikler repoya pushlanıyor..."
+    
+    # Jenkins'ten gelen GIT_AUTH_TOKEN veya benzeri bir değişkeni kullanabiliriz
+    # Veya URL zaten authenticated olabilir.
+    
+    CLEAN_BRANCH=${GIT_BRANCH#origin/}
+    TARGET_BRANCH=${CLEAN_BRANCH:-feature/jenkins-setup}
+
+    log "Pushing to: $TARGET_BRANCH"
+    
+    # Çakışmaları önlemek için rebase pull
+    if [[ -n "$GIT_TOKEN" ]]; then
+        REMOTE_URL=$(git remote get-url origin | sed -E "s|https://([^@]+@)?|https://$GIT_TOKEN@|")
+        git pull --rebase "$REMOTE_URL" "$TARGET_BRANCH" || log "Rebase failed"
+        git push "$REMOTE_URL" HEAD:refs/heads/"$TARGET_BRANCH" || fail "Git push başarısız!"
+    else
+        git pull --rebase origin "$TARGET_BRANCH" || log "Rebase failed"
+        git push origin HEAD:refs/heads/"$TARGET_BRANCH" || log "Push başarısız olabilir (yetki yoksa)"
+    fi
+}
+
 # Komut kontrolü
 case "$1" in
+    bump) bump_version ;;
     build) build_apk ;;
     upload) upload_firebase ;;
-    *) echo "Kullanım: $0 {build|upload}" ;;
+    push) push_version ;;
+    *) echo "Kullanım: $0 {bump|build|upload|push}" ;;
 esac

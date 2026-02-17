@@ -27,6 +27,14 @@ pipeline {
             }
         }
 
+        stage('Bump Version') {
+            steps {
+                dir("${env.PROJECT_DIR}") {
+                    sh './scripts/build-android.sh bump'
+                }
+            }
+        }
+
         stage('Build Android') {
             when {
                 expression { params.BUILD_PLATFORM == 'android' }
@@ -34,6 +42,16 @@ pipeline {
             steps {
                 dir("${env.PROJECT_DIR}") {
                     sh './scripts/build-android.sh build'
+                }
+            }
+        }
+
+        stage('Push Version') {
+            steps {
+                withCredentials([string(credentialsId: 'xcoin-git-token', variable: 'GIT_TOKEN')]) {
+                    dir("${env.PROJECT_DIR}") {
+                        sh './scripts/build-android.sh push'
+                    }
                 }
             }
         }
