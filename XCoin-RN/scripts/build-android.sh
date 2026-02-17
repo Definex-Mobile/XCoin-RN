@@ -19,14 +19,22 @@ build_apk() {
         npm install
     fi
 
-    # 2. Expo Prebuild (Android klasörünü sıfırdan oluştur)
+    # 2. Expo Prebuild (Android klasörünü oluştur)
     log "Expo Prebuild çalıştırılıyor..."
-    npx expo prebuild --platform android --no-install --clean
+    npx expo prebuild --platform android --no-install
 
-    # 3. Android build dizinine gir
+    # 3. ABI Filtreleme — Sadece arm64-v8a için derle (build süresini ~%75 azaltır)
+    log "ABI filtresi uygulanıyor (sadece arm64-v8a)..."
+    if ! grep -q "reactNativeArchitectures" android/gradle.properties 2>/dev/null; then
+        echo "" >> android/gradle.properties
+        echo "# CI Optimization: Sadece arm64-v8a derle" >> android/gradle.properties
+        echo "reactNativeArchitectures=arm64-v8a" >> android/gradle.properties
+    fi
+
+    # 4. Android build dizinine gir
     cd android
 
-    # 4. Bellek dostu Gradle Build
+    # 5. Bellek dostu Gradle Build
     log "Gradle Build Başlatılıyor (Release APK)..."
     ./gradlew --stop || true
 
