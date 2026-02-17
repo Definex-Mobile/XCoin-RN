@@ -19,9 +19,9 @@ build_apk() {
         npm install
     fi
 
-    # 2. Expo Prebuild (Android klasörünü oluştur)
+    # 2. Expo Prebuild (Android klasörünü sıfırdan oluştur)
     log "Expo Prebuild çalıştırılıyor..."
-    npx expo prebuild --platform android --no-install
+    npx expo prebuild --platform android --no-install --clean
 
     # 3. Android build dizinine gir
     cd android
