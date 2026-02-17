@@ -44,6 +44,7 @@ pipeline {
             }
             environment {
                 FIREBASE_APP_ID_ANDROID = "1:115076399325:android:5724a4179db35d937f1b34"
+                FIREBASE_TESTER_GROUP = "xcoin-cicd"
             }
             steps {
                 withCredentials([string(credentialsId: 'xcoin-firebase-token', variable: 'FIREBASE_TOKEN')]) {
