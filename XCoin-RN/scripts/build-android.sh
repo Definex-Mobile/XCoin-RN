@@ -55,18 +55,19 @@ build_apk() {
 upload_firebase() {
     log "Firebase App Distribution Yüklemesi Başlıyor..."
     
-    # Not: Firebase App ID ve Tester bilgileri Jenkins üzerinden environment variable olarak gelmeli
-    # Örn: FIREBASE_APP_ID_ANDROID, FIREBASE_TOKEN
-    
     if [ -z "$FIREBASE_APP_ID_ANDROID" ]; then
-        log "⚠️ FIREBASE_APP_ID_ANDROID tanımlı değil, yükleme atlanıyor."
-        return
+        fail "FIREBASE_APP_ID_ANDROID tanımlı değil!"
+    fi
+
+    if [ -z "$FIREBASE_TOKEN" ]; then
+        fail "FIREBASE_TOKEN tanımlı değil! 'npx firebase-tools login:ci' komutuyla token oluşturun."
     fi
 
     APK_PATH="./build-output/XCoin-Release.apk"
     
     npx firebase-tools appdistribution:distribute "$APK_PATH" \
         --app "$FIREBASE_APP_ID_ANDROID" \
+        --token "$FIREBASE_TOKEN" \
         --groups "tester-group" \
         --release-notes "Jenkins tarafından otomatik yüklenen sürüm." || fail "Firebase yüklemesi başarısız!"
         
