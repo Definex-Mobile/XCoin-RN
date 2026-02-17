@@ -91,13 +91,29 @@ upload_firebase() {
 }
 
 bump_version() {
-    log "Version bilgileri güncelleniyor..."
-    node "$(dirname "$0")/bump-version.js"
+    log "Version bilgileri okununuyor ve güncelleniyor (app.json)..."
     
+    node -e "
+        const fs = require('fs');
+        const appJson = JSON.parse(fs.readFileSync('app.json', 'utf8'));
+        
+        // Versiyon artırımı
+        const parts = appJson.expo.version.split('.');
+        parts[2] = parseInt(parts[2]) + 1;
+        appJson.expo.version = parts.join('.');
+        
+        // android.versionCode artırımı
+        if (!appJson.expo.android) appJson.expo.android = {};
+        appJson.expo.android.versionCode = (appJson.expo.android.versionCode || 0) + 1;
+        
+        fs.writeFileSync('app.json', JSON.stringify(appJson, null, 2) + '\n');
+        console.log('New Version:', appJson.expo.version, 'Code:', appJson.expo.android.versionCode);
+    "
+
     git config user.email "jenkins-bot@definex.com"
     git config user.name "Jenkins Bot"
     git add app.json
-    git commit -m "chore(version): bump version [ci skip]" || echo "Değişiklik yok."
+    git commit -m "chore(version): bump version to $(grep 'version' app.json | head -1 | awk -F'\"' '{print $4}') [ci skip]" || echo "Değişiklik yok."
 }
 
 push_version() {
