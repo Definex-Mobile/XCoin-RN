@@ -31,7 +31,7 @@ export const MultipleSegmentButton: React.FC<MultiButtonProps> = ({
 
         const containerClassName = isSelected
           ? 'bg-primary'
-          : 'bg-surface border border-outline';
+          : 'bg-onPrimary';
 
         const textClassName = isSelected
           ? 'text-onPrimary'

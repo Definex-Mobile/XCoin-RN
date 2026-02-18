@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
-import { useColorScheme } from "react-native";
+import { useColorScheme, View, ActivityIndicator } from "react-native";
 import { vars } from "nativewind";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemeService } from "../services/themeService";
@@ -71,6 +71,14 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return effectiveScheme === "dark" ? theme.dark_scheme : theme.light_scheme;
     }, [theme, themePreference, systemColorScheme]);
 
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, backgroundColor: "#FFFFFF", justifyContent: "center", alignItems: "center" }}>
+                <ActivityIndicator size="large" color="#0066FF" />
+            </View>
+        );
+    }
+
     return (
         <ThemeContext.Provider value={{
             theme,
@@ -80,9 +88,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             themePreference,
             setThemePreference: updateThemePreference
         }}>
-            <React.Fragment>
+            <View style={[{ flex: 1 }, getThemeVars(activeScheme)]}>
                 {children}
-            </React.Fragment>
+            </View>
         </ThemeContext.Provider>
     );
 };

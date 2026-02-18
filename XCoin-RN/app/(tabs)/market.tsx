@@ -87,67 +87,65 @@ export default function Market() {
     const statusColor = isMarketUp ? colors.tertiary : colors.error;
 
     return (
-        <SafeAreaView className="flex-1 bg-background-gray" edges={['top']}>
-            <ScrollView className="flex-1">
-                <View className="px-4 pt-4 flex-row justify-between items-start">
-                    <View className="flex-1">
-                        <View className="flex-row items-baseline">
-                            <Text className="medium20 text-text">
-                                {isMarketUp ? t('market.marketUp') : t('market.marketDown')}
+        <ScrollView className="flex-1 bg-background">
+            <View className="px-4 pt-4 flex-row justify-between items-start">
+                <View className="flex-1">
+                    <View className="flex-row items-baseline">
+                        <Text className="medium20 text-onSurface">
+                            {isMarketUp ? t('market.marketUp') : t('market.marketDown')}
+                        </Text>
+                        {marketStatus && (
+                            <Text className="regular16 ms-1" style={{ color: statusColor }}>
+                                {' '}- {Math.abs(marketStatus.ratio).toFixed(2)}%
                             </Text>
-                            {marketStatus && (
-                                <Text className="regular16 ms-1" style={{ color: statusColor }}>
-                                    {' '}- {Math.abs(marketStatus.ratio).toFixed(2)}%
-                                </Text>
-                            )}
-                        </View>
-                        <Text className="lightItalic12 text-onSurfaceVariant mt-1">
-                            {t('market.inThePast24Hours')}
-                        </Text>
+                        )}
                     </View>
-
-                    <Pressable onPress={handleSearchPress} className="p-2">
-                        <SearchIcon width={21} height={23} />
-                    </Pressable>
-                </View>
-
-                <View className="px-4 mt-6 flex-row justify-between items-center">
-                    <Text className="bold20 text-onSurface">
-                        {t('market.coins')}
+                    <Text className="lightItalic12 text-onSurfaceVariant mt-1">
+                        {t('market.inThePast24Hours')}
                     </Text>
-                    <DropdownBottomSheet
-                        selectedValue={selectedMarket}
-                        onValueChange={handleMarketChange}
-                        onOpen={() => logDropdownOpen(SCREENS.MARKET)}
-                        onItemSelect={(value) => logDropdownSelect(SCREENS.MARKET, value)}
-                        onConfirm={(value) => logDropdownConfirm(SCREENS.MARKET, value)}
-                    />
                 </View>
 
-                <View className="px-4 pt-4">
-                    <TabBar
-                        tabs={TABS}
-                        selectedTabId={selectedTab}
-                        onTabChange={handleTabChange}
-                    />
-                </View>
+                <Pressable onPress={handleSearchPress} className="p-2">
+                    <SearchIcon width={21} height={23} />
+                </Pressable>
+            </View>
 
-                <View className="px-4 mt-4">
-                    {loading && !error && (
-                        <Text className="regular14 text-onSurfaceVariant">
-                            {t("common.loading")}
-                        </Text>
-                    )}
+            <View className="px-4 mt-6 flex-row justify-between items-center">
+                <Text className="bold20 text-onSurface">
+                    {t('market.coins')}
+                </Text>
+                <DropdownBottomSheet
+                    selectedValue={selectedMarket}
+                    onValueChange={handleMarketChange}
+                    onOpen={() => logDropdownOpen(SCREENS.MARKET)}
+                    onItemSelect={(value) => logDropdownSelect(SCREENS.MARKET, value)}
+                    onConfirm={(value) => logDropdownConfirm(SCREENS.MARKET, value)}
+                />
+            </View>
 
-                    {error && (
-                        <Text className="regular14 text-accent">
-                            {error}
-                        </Text>
-                    )}
+            <View className="px-4 pt-4">
+                <TabBar
+                    tabs={TABS}
+                    selectedTabId={selectedTab}
+                    onTabChange={handleTabChange}
+                />
+            </View>
 
-                    {!loading && !error && <CryptoCoinList data={coins} />}
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+            <View className="px-4 mt-4">
+                {loading && !error && (
+                    <Text className="regular14 text-onSurfaceVariant">
+                        {t("common.loading")}
+                    </Text>
+                )}
+
+                {error && (
+                    <Text className="regular14 text-accent">
+                        {error}
+                    </Text>
+                )}
+
+                {!loading && !error && <CryptoCoinList data={coins} />}
+            </View>
+        </ScrollView>
     );
 }

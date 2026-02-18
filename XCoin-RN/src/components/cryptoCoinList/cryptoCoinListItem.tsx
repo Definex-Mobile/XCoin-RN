@@ -16,8 +16,8 @@ export function CryptoCoinListItem({ coin }: Props) {
   const router = useRouter();
   const isPositive = coin.changeRatio >= 0;
   const valueColor = isPositive
-    ? "text-crypto-positive"
-    : "text-crypto-negative";
+    ? "text-secondary"
+    : "text-error";
   const currencySymbol = getCurrencySymbol(coin.currency);
 
   const handlePress = () => {
@@ -38,7 +38,7 @@ export function CryptoCoinListItem({ coin }: Props) {
     <TouchableOpacity
       onPress={handlePress}
       activeOpacity={0.7}
-      className="bg-crypto-cardBg rounded-xl ps-4 pe-1.5 pt-4 pb-4 mb-2 flex-row items-center shadow-sm"
+      className="bg-surface rounded-xl ps-4 pe-1.5 pt-4 pb-4 mb-2 flex-row items-center shadow-sm"
     >
       <View className="w-10 h-10 rounded-full overflow-hidden bg-white mr-3">
         <Image

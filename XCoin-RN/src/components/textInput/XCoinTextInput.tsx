@@ -19,8 +19,8 @@ const XCoinTextInput = React.forwardRef<TextInput, XCoinTextInputProps>(
         <Text className="text-sm font-semibold text-onSurface mb-2">{label}</Text>
         <TextInput
           ref={ref}
-          className="bg-white border border-outlineVariant rounded-lg px-4 py-3 text-onSurface"
-          placeholderTextColor={activeScheme?.onSurfaceVariant || "#757575"}
+          className="bg-surface border border-outlineVariant rounded-lg px-4 py-3 text-onSurface"
+          placeholderTextColor={activeScheme?.onSurfaceVariant}
           secureTextEntry={secureTextEntry}
           editable={editable}
           {...props}

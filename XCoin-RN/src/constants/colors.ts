@@ -3,6 +3,9 @@ export const colors = {
     white: "#FFFFFF",
     black: "#000000",
     loader: "#0066FF",
+    bannerHome: "#203ED6",
+    bannerRefer: "#F59300",
+    bannerLike: "#9300F5",
 
     // Theme colors (CCS variables for NativeWind)
     primary: "var(--primary)",

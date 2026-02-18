@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '../../src/hooks/useAuth';
 import { useTranslation } from '../../src/hooks/useTranslation';
 import { colors } from '../../src/constants/colors';
+import { useTheme } from '../../src/context/ThemeContext';
 import XCoinTextInput from '../../src/components/textInput/XCoinTextInput';
 
 export default function LoginScreen() {
@@ -26,6 +27,7 @@ export default function LoginScreen() {
   const loginButton = useTranslation('login.button');
   const signupText = useTranslation('login.signupText');
   const signupLink = useTranslation('login.signupLink');
+  const { activeScheme } = useTheme();
 
   const handleLogin = async () => {
     if (!email.trim()) {
@@ -94,7 +96,7 @@ export default function LoginScreen() {
             />
 
             {error ? (
-              <View className="bg-red-50 border border-red-200 rounded-lg p-3">
+              <View className="bg-errorContainer border border-outlineVariant rounded-lg p-3">
                 <Text className="text-error text-sm font-medium">{error}</Text>
               </View>
             ) : null}
@@ -106,9 +108,9 @@ export default function LoginScreen() {
               activeOpacity={0.8}>
 
               {loading ? (
-                <ActivityIndicator color={colors.white} />
+                <ActivityIndicator color={activeScheme?.onPrimary} />
               ) : (
-                <Text className="text-white text-center font-bold text-base">{loginButton}</Text>
+                <Text className="text-onPrimary text-center font-bold text-base">{loginButton}</Text>
               )}
 
             </TouchableOpacity>

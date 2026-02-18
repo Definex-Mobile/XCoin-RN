@@ -29,30 +29,30 @@ export default function RewardsCouponsScreen() {
       ],
     },
   ];
-  
+
   const Cards: BannerCardProps[] = [
     {
       title: useTranslation("bannerCard.referTitle"),
       description: useTranslation("bannerCard.referDesc"),
-      buttonText: useTranslation("bannerCard.referButtonText"), 
+      buttonText: useTranslation("bannerCard.referButtonText"),
       onButtonPress: () => handleBannerPress(BannerType.REFER),
-      image: require("../../assets/images/img-refer-card.png"), 
+      image: require("../../assets/images/img-refer-card.png"),
       bannerType: BannerType.REFER,
       height: 160
     },
     {
-      title: useTranslation("bannerCard.likeTitle"), 
-      description: useTranslation("bannerCard.likeDesc"), 
-      buttonText: useTranslation("bannerCard.likeButtonText"), 
-      onButtonPress: () => handleBannerPress(BannerType.LIKE), 
-      image: require("../../assets/images/img-like-card.png"), 
+      title: useTranslation("bannerCard.likeTitle"),
+      description: useTranslation("bannerCard.likeDesc"),
+      buttonText: useTranslation("bannerCard.likeButtonText"),
+      onButtonPress: () => handleBannerPress(BannerType.LIKE),
+      image: require("../../assets/images/img-like-card.png"),
       bannerType: BannerType.LIKE,
       height: 160
     }
   ]
 
   return (
-    <ScrollView className="flex-1 bg-rewards">
+    <ScrollView className="flex-1 bg-background">
       <RewardsCoupons sections={Sections} />
       <View className="pt-[16px] gap-y-[8px]">
         {Cards.map((card, index) => (

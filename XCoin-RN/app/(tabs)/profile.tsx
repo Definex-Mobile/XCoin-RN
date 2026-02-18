@@ -197,7 +197,7 @@ export default function Profile() {
           <View className="bg-surface p-6 rounded-2xl items-center shadow-lg">
             <ActivityIndicator
               size="large"
-              color={activeScheme?.primary || colors.loader}
+              color={activeScheme?.primary}
             />
             <Text className="mt-4 regular16 text-onSurface">
               {t("common.loading")}

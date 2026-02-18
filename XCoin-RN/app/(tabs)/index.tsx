@@ -41,7 +41,7 @@ export default function Home() {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background-gray">
+    <ScrollView className="flex-1 bg-background">
       <View className="pt-4">
         <BannerCard
           title={t("bannerCard.title") + " Agilan,"}

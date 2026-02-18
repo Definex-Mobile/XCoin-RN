@@ -32,7 +32,7 @@ export default function ProfileButton({
       >
         <View className="flex-row items-center gap-4">
           <Svg width={24} height={24} viewBox={icon.viewBox} fill="none">
-            <Path d={icon.path} fill={activeScheme?.primary || colors.loader} />
+            <Path d={icon.path} fill={activeScheme?.primary} />
           </Svg>
           <Text className="thinItalic18 text-onSurface">{title}</Text>
         </View>
@@ -41,12 +41,12 @@ export default function ProfileButton({
           className="px-4"
           name="chevron-forward"
           size={20}
-          color={activeScheme?.onSurfaceVariant || "#757575"}
+          color={activeScheme?.onSurfaceVariant}
         />
       </Pressable>
       {!isLast && (
         <View
-          style={{ backgroundColor: activeScheme?.outlineVariant || "#E0E0E0" }}
+          style={{ backgroundColor: activeScheme?.outlineVariant }}
           className="h-[1px] mx-4"
         />
       )}

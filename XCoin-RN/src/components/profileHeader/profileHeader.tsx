@@ -35,7 +35,7 @@ export function ProfileHeader(data: ProfileHeaderProps) {
             onPress={onImagePress}
             className="absolute bottom-0 right-0 bg-surface rounded-full p-1.5 shadow-md shadow-shadow"
           >
-            <Ionicons name="camera" size={16} color={activeScheme?.primary || colors.loader} />
+            <Ionicons name="camera" size={16} color={activeScheme?.primary} />
           </TouchableOpacity>
         )}
       </View>

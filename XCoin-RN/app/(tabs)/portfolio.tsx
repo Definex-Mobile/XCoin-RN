@@ -85,7 +85,7 @@ export default function Portfolio() {
   const filteredCoins = getFilteredCoins();
 
   return (
-    <View className="flex-1 mt-3 bg-background">
+    <View className="flex-1 bg-background">
       <View>
         {loading && !portfolioData && (
           <View className="mx-4 pt-3 h-48 rounded-xl" />

@@ -12,9 +12,7 @@ import {
 import { SecurityBlockDialog } from "../src/components/securityBlockDialog/securityBlockDialog";
 import { CrashlyticsService } from "../src/services/crashlytics";
 import { AuthProvider } from "../src/hooks/useAuth";
-import { ThemeProvider, getThemeVars } from "../src/context/ThemeContext";
-import { ThemeService } from "../src/services/themeService";
-import { ThemeColors } from "../src/types/theme";
+import { ThemeProvider } from "../src/context/ThemeContext";
 import { colors } from "../src/constants/colors";
 
 SplashScreen.preventAutoHideAsync();
@@ -50,27 +48,10 @@ export default function RootLayout() {
     "Roboto-BlackItalic": require("../assets/fonts/roboto/Roboto-BlackItalic.ttf"),
   });
 
-  const [theme, setTheme] = useState<ThemeColors | null>(null);
-  const [themeLoading, setThemeLoading] = useState(true);
   const [isDeviceCompromised, setIsDeviceCompromised] = useState(false);
   const [securityMessage, setSecurityMessage] = useState("");
-  const systemColorScheme = useColorScheme();
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const response = await ThemeService.fetchTheme();
-        if (response.success) {
-          setTheme(response.data.default_theme);
-        }
-      } catch (err) {
-        console.error("Failed to fetch theme:", err);
-      } finally {
-        setThemeLoading(false);
-      }
-    };
-
-    loadData();
     CrashlyticsService.initialize().catch(console.error);
 
     // Check device security
@@ -85,17 +66,12 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    if ((fontsLoaded || fontError) && !themeLoading) {
+    if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, fontError, themeLoading]);
+  }, [fontsLoaded, fontError]);
 
-  const activeScheme = useMemo(() => {
-    if (!theme) return null;
-    return systemColorScheme === 'dark' ? theme.dark_scheme : theme.light_scheme;
-  }, [theme, systemColorScheme]);
-
-  if ((!fontsLoaded && !fontError) || themeLoading) {
+  if (!fontsLoaded && !fontError) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.white, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color={colors.loader} />
@@ -105,29 +81,27 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-      <View style={[{ flex: 1 }, getThemeVars(activeScheme)]}>
-        <AuthProvider>
-          <SafeAreaProvider>
-            <SecurityBlockDialog
-              visible={isDeviceCompromised}
-              message={securityMessage}
-            />
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                animation: 'none',
-                contentStyle: { backgroundColor: colors.background }
-              }}
-              initialRouteName="index"
-            >
-              <Stack.Screen name="index" options={{ animation: 'none' }} />
-              <Stack.Screen name="screens/login" options={{ animation: 'slide_from_right' }} />
-              <Stack.Screen name="(tabs)" options={{ animation: 'slide_from_right' }} />
-              <Stack.Screen name="screens/coin-detail" />
-            </Stack>
-          </SafeAreaProvider>
-        </AuthProvider>
-      </View>
+      <AuthProvider>
+        <SafeAreaProvider>
+          <SecurityBlockDialog
+            visible={isDeviceCompromised}
+            message={securityMessage}
+          />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              animation: 'none',
+              contentStyle: { backgroundColor: colors.background }
+            }}
+            initialRouteName="index"
+          >
+            <Stack.Screen name="index" options={{ animation: 'none' }} />
+            <Stack.Screen name="screens/login" options={{ animation: 'slide_from_right' }} />
+            <Stack.Screen name="(tabs)" options={{ animation: 'slide_from_right' }} />
+            <Stack.Screen name="screens/coin-detail" />
+          </Stack>
+        </SafeAreaProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
