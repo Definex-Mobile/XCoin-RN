@@ -43,7 +43,7 @@ build_apk() {
         "--build-cache"
         "--parallel"
         "--no-watch-fs"
-        "-Dorg.gradle.jvmargs=-Xmx3584m -XX:MaxMetaspaceSize=512m"
+        "-Dorg.gradle.jvmargs=-Xmx2560m -XX:MaxMetaspaceSize=512m"
         "-Pkotlin.compiler.execution.strategy=in-process"
         "-x" "lint"
         "-x" "lintVitalAnalyzeRelease"
