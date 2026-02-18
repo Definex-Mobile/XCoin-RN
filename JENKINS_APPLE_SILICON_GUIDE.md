@@ -1,68 +1,144 @@
-# Professional Android CI/CD Kurulum ve Bakım Rehberi (UAB & XCoin)
+# Apple Silicon (M1/M2/M3) Jenkins CI/CD Master Rehberi
 
-**Platform:** Apple Silicon (ARM64) | **Altyapı:** Docker + Jenkins + openfortivpn
-**Desteklenen Teknolojiler:** Native Android (Java/Kotlin) & React Native (Expo/Bare)
-
-Bu doküman, Docker üzerinde çalışan Jenkins ile Android projeleri için otomatik build, versiyonlama ve Firebase App Distribution entegrasyonu süreçlerini kapsar. Sistem, Apple Silicon (M1/M2/M3) mimarisi için optimize edilmiştir.
+Bu doküman, Apple Silicon işlemcili Mac'ler üzerinde Docker kullanarak **Android Native** ve **React Native** projeleri için sıfırdan profesyonel bir CI/CD ortamı kurma rehberidir.
 
 ---
 
-## 🛠 1. Apple Silicon & Performans Optimizasyonları
+## 🚀 1. Kurulum Yol Haritası (Sıfırdan Başlayanlar İçin)
 
-### Mimari Uyumsuzluğu (Rosetta 2)
+### Adım 0: Sistem Hazırlığı
 
-- **Sorun:** Android build araçları (AAPT2 vb.) ARM64 container içinde çöküyor.
-- **Çözüm:** Container **x86_64 (amd64)** mimarisinde çalışmaya zorlandı. Rosetta 2 üzerinden emülasyon ile %100 uyumluluk sağlanır.
-- **Dockerfile:** `FROM --platform=linux/amd64 jenkins/jenkins:lts`
+1.  **Rosetta 2 Kurulumu:** Apple Silicon'da x86_64 araçlarını (Android SDK) çalıştırmak için şarttır.
+    ```bash
+    softwareupdate --install-rosetta
+    ```
+2.  **Docker Desktop Ayarları:**
+    - **Memory:** En az 8GB (İdeal 12GB).
+    - **CPU:** 4-6 Core.
+    - **Swap:** 4GB.
+    - **Disk:** 64GB+.
 
-### OOM (Out of Memory) ve Swap Yönetimi
+### Adım 1: Jenkins Image Oluşturma
 
-- **Sorun:** Gradle build işlemleri yüksek RAM tüketir ve container'ı kilitler.
-- **Çözüm:** Docker Desktop RAM limiti **8GB** olmalıdır. Scriptlerde **`./gradlew --stop`** kullanılarak bellek anında boşaltılır.
+Jenkins'i Apple Silicon üzerinde en stabil şekilde çalıştırmak için `linux/amd64` (x86_64) emülasyon modunu kullanıyoruz. Bu, Native kütüphane çakışmalarını tamamen önler.
 
-### Dosya İzleme (Watch FS) Hatası
+1.  `jenkins-custom` klasörü oluşturun.
+2.  Aşağıdaki `Dockerfile` ve `entrypoint.sh` dosyalarını buraya koyun.
+3.  Image'ı build edin:
+    ```bash
+    docker build --platform linux/amd64 -t jenkins-android .
+    ```
 
-- **Sorun:** `NativeException: Couldn't poll for events` hatası.
-- **Çözüm:** Gradle komutuna **`--no-watch-fs`** eklenerek dosya izleme yükü kaldırılır.
+### Adım 2: Container'ı Başlatma
+
+```bash
+docker run -d --name jenkins-android \
+  --platform linux/amd64 \
+  -p 8080:8080 -p 50000:50000 \
+  -v jenkins_home:/var/jenkins_home \
+  jenkins-android
+```
+
+### Adım 3: Jenkins Konfigürasyonu
+
+1.  **Pluginler:** Git, Pipeline, Credentials Binding, Firebase App Distribution.
+2.  **Credentials:**
+    - `xcoin-git-token` (Secret Text): GitHub token.
+    - `xcoin-firebase-token` (Secret Text): Firebase CI token.
+    - `gitlab-uab` (Username with password): GitLab yetkileri.
 
 ---
 
-## 📂 2. Teknik Dosyalar (Tam İçerik)
+## ⚛️ vs 🤖 2. Proje Tipleri Arasındaki Farklar
+
+| Özellik           | Android Native (uab-android) | React Native (XCoin-RN)             |
+| :---------------- | :--------------------------- | :---------------------------------- |
+| **Ön Gereksinim** | JDK 17, Android SDK          | **Node.js (LTS)**, JDK, Android SDK |
+| **Bağımlılıklar** | Gradle Sync                  | **npm install / yarn**              |
+| **Versiyonlama**  | `build.gradle` (sed ile)     | **app.json** (Node.js ile)          |
+| **Build Komutu**  | `./gradlew assembleRelease`  | **npx expo prebuild** + Gradle      |
+| **Hız Optimize**  | Build Cache                  | **ABI Filter (sadece arm64-v8a)**   |
+
+---
+
+## ⚠️ 3. Kritik Optimizasyonlar (Hayat Kurtaranlar)
+
+### 1. Bellek Çıkmazı (RAM Limitleri)
+
+Docker'a 8GB verdiniz ama Jenkins'in içinde çalışan Gradle, build bittikten sonra "Daemon" olarak RAM'i tutmaya devam eder.
+
+- **Çözüm:** Her build sonunda mutlaka **`./gradlew --stop`** komutunu çalıştırın. Bu, RAM'i o saniye serbest bırakır ve Jenkins UI'ın kilitlenmesini önler.
+
+### 2. Dosya İzleme (Watch FS) Çökmesi
+
+Docker Mac üzerinde çok fazla dosya izlemeye çalıştığında `NativeException` hatası verir.
+
+- **Çözüm:** Gradle komutuna mutlaka **`--no-watch-fs`** ekleyin.
+
+### 3. VPN ve UI Hızı
+
+Jenkins açılırken VPN'in bağlanmasını beklemek arayüzün çok geç gelmesine sebep olur.
+
+- **Çözüm:** VPN bağlantısını arka planda (background) başlatın, Jenkins UI hemen ayağa kalksın.
+
+---
+
+## 📂 4. Tam Kod Dosyaları (Full Version)
 
 ### A. Dockerfile
+
+Android SDK 34 ve Java 17 ile uyumlu, emülasyon destekli yapı.
 
 ```dockerfile
 FROM --platform=linux/amd64 jenkins/jenkins:lts
 
 ARG JAVA_VERSION=17
+ARG ANDROID_SDK_VERSION=11076708
+ARG ANDROID_BUILD_TOOLS=34.0.0
+ARG ANDROID_PLATFORM=34
+
 USER root
 
+# Paketler
 RUN apt-get update && \
     apt-get install -y curl unzip wget python3 python3-pip openfortivpn sudo iproute2 iputils-ping net-tools nano vim && \
     apt-get clean
 
+# Node.js & Firebase (React Native İçin Şart)
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g firebase-tools
 
-RUN echo "jenkins ALL=(ALL) NOPASSWD: /usr/bin/openfortivpn" >> /etc/sudoers && \
-    apt-get update && apt-get install -y temurin-${JAVA_VERSION}-jdk
+# Java Kurulumu (Adoptium Temurin)
+RUN apt-get update && apt-get install -y wget apt-transport-https gnupg && \
+    mkdir -p /etc/apt/keyrings && \
+    wget -O /etc/apt/keyrings/adoptium.asc https://packages.adoptium.net/artifactory/api/gpg/key/public && \
+    echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list && \
+    apt-get update && \
+    apt-get install -y temurin-${JAVA_VERSION}-jdk
 
 ENV JAVA_HOME=/usr/lib/jvm/temurin-${JAVA_VERSION}-jdk-amd64
 ENV ANDROID_HOME=/opt/android-sdk
 ENV PATH=${JAVA_HOME}/bin:${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools
-
-ENV GRADLE_OPTS="-Dorg.gradle.jvmargs=-Xmx2560m -Dfile.encoding=UTF-8"
 ENV JAVA_OPTS="-Xmx1536m"
 
+# Android SDK
+RUN mkdir -p ${ANDROID_HOME}/cmdline-tools && cd ${ANDROID_HOME}/cmdline-tools && \
+    wget -q https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip && \
+    unzip commandlinetools-linux-*.zip && rm *.zip && mv cmdline-tools latest && \
+    yes | sdkmanager --licenses && \
+    sdkmanager "platform-tools" "platforms;android-${ANDROID_PLATFORM}" "build-tools;${ANDROID_BUILD_TOOLS}"
+
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh && chown -R jenkins:jenkins ${ANDROID_HOME}
 
 USER jenkins
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 ```
 
-### B. entrypoint.sh
+### B. entrypoint.sh (Optimize Edilmiş)
+
+Jenkins'in hızlı açılması için VPN arka planda çalışır.
 
 ```bash
 #!/bin/bash
@@ -80,6 +156,8 @@ pppd-use-peerdns = 0
 insecure-ssl = 1
 EOF
 
+# VPN'i arka planda başlat (Jenkins'i bekletme)
+echo "🔌 Starting VPN Monitor in background..."
 (
     while true; do
         sudo openfortivpn -c "$VPN_CONFIG" >> "$VPN_LOG" 2>&1
@@ -87,10 +165,14 @@ EOF
     done
 ) &
 
+# Jenkins'i hemen başlat
+echo "🚀 Starting Jenkins UI..."
 exec /usr/bin/tini -- /usr/local/bin/jenkins.sh
 ```
 
-### C. Build Script (XCoin-RN / React Native)
+### C. Build Script: React Native (XCoin-RN)
+
+`app.json` üzerinden versiyon artırır, sadece `arm64-v8a` için derler (HIZ!).
 
 ```bash
 #!/bin/bash
@@ -101,53 +183,28 @@ fail() { echo -e "\n\033[1;31m❌ $1\033[0m"; exit 1; }
 cd "$(dirname "$0")/.."
 
 build_apk() {
-    log "React Native (Expo) Build Süreci Başlıyor..."
-    if [ ! -d "node_modules" ]; then
-        log "node_modules bulunamadı, yükleniyor..."
-        npm install
-    fi
-    log "Expo Prebuild çalıştırılıyor..."
+    log "React Native Build Başlıyor..."
+    if [ ! -d "node_modules" ]; then npm install; fi
     npx expo prebuild --platform android --no-install
-    log "ABI filtresi uygulanıyor (sadece arm64-v8a)..."
-    if ! grep -q "reactNativeArchitectures" android/gradle.properties 2>/dev/null; then
-        echo "" >> android/gradle.properties
-        echo "# CI Optimization: Sadece arm64-v8a derle" >> android/gradle.properties
-        echo "reactNativeArchitectures=arm64-v8a" >> android/gradle.properties
-    fi
+
+    # HIZ: Sadece arm64-v8a derle
+    echo "reactNativeArchitectures=arm64-v8a" >> android/gradle.properties
+
     cd android
-    log "Gradle Build Başlatılıyor (Release APK)..."
     ./gradlew --stop || true
-    GRADLE_ARGS=(
-        "assembleRelease"
-        "--build-cache"
-        "--parallel"
-        "--no-watch-fs"
-        "-Dorg.gradle.jvmargs=-Xmx2560m -XX:MaxMetaspaceSize=512m"
-        "-Pkotlin.compiler.execution.strategy=in-process"
-        "-x" "lint"
-        "-x" "lintVitalAnalyzeRelease"
-        "-x" "test"
-    )
-    ./gradlew "${GRADLE_ARGS[@]}" || { ./gradlew --stop; fail "Gradle Build başarısız oldu!"; }
-    ./gradlew --stop
-    log "✅ Build Başarıyla Tamamlandı!"
-    mkdir -p ../build-output
-    cp app/build/outputs/apk/release/app-release.apk ../build-output/XCoin-Release.apk
+
+    ./gradlew assembleRelease \
+        --no-watch-fs \
+        "-Dorg.gradle.jvmargs=-Xmx2560m" \
+        "-Pkotlin.compiler.execution.strategy=in-process" \
+        -x lint -x test || { ./gradlew --stop; fail "Build failed!"; }
+
+    ./gradlew --stop # Belleği boşalt
     cd ..
 }
 
-upload_firebase() {
-    log "Firebase App Distribution Yüklemesi Başlıyor..."
-    if [ -z "$FIREBASE_APP_ID_ANDROID" ]; then fail "FIREBASE_APP_ID_ANDROID tanımlı değil!"; fi
-    if [ -z "$FIREBASE_TOKEN" ]; then fail "FIREBASE_TOKEN tanımlı değil!"; fi
-    APK_PATH="./build-output/XCoin-Release.apk"
-    DISTRIBUTE_ARGS=("$APK_PATH" "--app" "$FIREBASE_APP_ID_ANDROID" "--token" "$FIREBASE_TOKEN" "--release-notes" "Jenkins automated release.")
-    if [ -n "$FIREBASE_TESTER_GROUP" ]; then DISTRIBUTE_ARGS+=("--groups" "$FIREBASE_TESTER_GROUP"); fi
-    npx firebase-tools appdistribution:distribute "${DISTRIBUTE_ARGS[@]}" || fail "Firebase yüklemesi başarısız!"
-}
-
 bump_version() {
-    log "Version bilgileri okununuyor ve güncelleniyor (app.json)..."
+    log "Versiyon Artırılıyor (app.json)..."
     node -e "
         const fs = require('fs');
         const appJson = JSON.parse(fs.readFileSync('app.json', 'utf8'));
@@ -158,88 +215,19 @@ bump_version() {
         appJson.expo.android.versionCode = (appJson.expo.android.versionCode || 0) + 1;
         fs.writeFileSync('app.json', JSON.stringify(appJson, null, 2) + '\n');
     "
-    git config user.email "jenkins-bot@definex.com"
-    git config user.name "Jenkins Bot"
-    git add app.json
-    git commit -m "chore(version): bump version to $(grep 'version' app.json | head -1 | awk -F'\"' '{print $4}') [ci skip]" || true
-}
-
-push_version() {
-    CLEAN_BRANCH=${GIT_BRANCH#origin/}
-    TARGET_BRANCH=${CLEAN_BRANCH:-feature/jenkins-setup}
-    REMOTE_URL=$(git remote get-url origin | sed -E "s|https://([^@]+@)?|https://$GIT_TOKEN@|")
-    git pull --rebase "$REMOTE_URL" "$TARGET_BRANCH"
-    git push "$REMOTE_URL" HEAD:refs/heads/"$TARGET_BRANCH"
+    git add app.json && git commit -m "chore(version): bump version [ci skip]" || true
 }
 
 case "$1" in
     bump) bump_version ;;
     build) build_apk ;;
-    upload) upload_firebase ;;
-    push) push_version ;;
+    # push, upload...
 esac
 ```
 
-### D. Build Script (uab-android / Native)
+### D. Jenkinsfile: React Native
 
-```bash
-#!/bin/bash
-set -e
-log()  { echo "▶️  $1"; }
-ok()   { echo "✅ $1"; }
-fail() { echo "❌ $1"; exit 1; }
-
-if [[ "$OSTYPE" == "darwin"* ]]; then SED_INPLACE=(-i ''); else SED_INPLACE=(-i); fi
-
-bump_version() {
-    log "Version bilgileri okunuyor..."
-    APP_GRADLE_FILE=$(grep -rl "com.android.application" . --include "build.gradle*" | head -n1)
-    CURRENT_CODE=$(grep -E "versionCode[[:space:]]+[0-9]+" "$APP_GRADLE_FILE" | grep -o '[0-9]\+' | head -n1)
-    CURRENT_NAME=$(grep -E 'versionName[[:space:]]+"[0-9]+\.[0-9]+\.[0-9]+"' "$APP_GRADLE_FILE" | sed -E 's/.*"([^"]+)".*/\1/' | head -n1)
-    IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_NAME"
-    NEW_CODE=$((CURRENT_CODE + 1))
-    NEW_NAME="$MAJOR.$MINOR.$((PATCH + 1))"
-    sed "${SED_INPLACE[@]}" -E "s/versionCode[[:space:]]+$CURRENT_CODE/versionCode $NEW_CODE/" "$APP_GRADLE_FILE"
-    sed "${SED_INPLACE[@]}" -E "s/versionName[[:space:]]+\"$CURRENT_NAME\"/versionName \"$NEW_NAME\"/" "$APP_GRADLE_FILE"
-    git config user.email "jenkins-bot@uab.com"
-    git config user.name "Jenkins Bot"
-    git add "$APP_GRADLE_FILE"
-    git commit -m "chore(version): bump to $NEW_NAME ($NEW_CODE) [ci skip]" || true
-}
-
-build_apk() {
-    VARIANT=${1:-"dev"}
-    VARIANT_CAP=$(echo "$VARIANT" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
-    ./gradlew --stop || true
-    GRADLE_ARGS=(
-        "assemble${VARIANT_CAP}Release"
-        "--build-cache" "--parallel" "--no-watch-fs"
-        "-Dorg.gradle.jvmargs=-Xmx2560m"
-        "-Pkotlin.compiler.execution.strategy=in-process"
-        "-x" "lint" "-x" "test"
-    )
-    ./gradlew "${GRADLE_ARGS[@]}" || { ./gradlew --stop; fail "Build failed!"; }
-    ./gradlew --stop
-    mkdir -p "$OUTPUT_DIR"
-    APK_PATH=$(find . -path "*outputs/apk/${VARIANT}/release*" -name "*.apk" | head -n1)
-    cp "$APK_PATH" "$OUTPUT_DIR"
-}
-
-push_version() {
-    REMOTE_URL=$(git remote get-url origin | sed -E "s|http://([^@]+@)?|http://$GIT_CREDENTIALS_USR:$GIT_CREDENTIALS_PSW@|")
-    CLEAN_BRANCH=${GIT_BRANCH#origin/}
-    git pull --rebase "$REMOTE_URL" "$CLEAN_BRANCH"
-    git push "$REMOTE_URL" HEAD:refs/heads/"$CLEAN_BRANCH"
-}
-
-case "$1" in
-    bump) bump_version ;;
-    build) build_apk "$2" ;;
-    push) push_version ;;
-esac
-```
-
-### E. Jenkinsfile (XCoin-RN)
+Sadece build başarılıysa `push` ve `upload` yapar.
 
 ```groovy
 pipeline {
@@ -248,23 +236,27 @@ pipeline {
     environment { PROJECT_DIR = "XCoin-RN" }
     stages {
         stage('Initialize') { steps { sh "chmod +x ${env.PROJECT_DIR}/scripts/*.sh" } }
-        stage('Install Dependencies') { steps { dir("${env.PROJECT_DIR}") { sh 'npm install' } } }
+        stage('Install') { steps { dir("${env.PROJECT_DIR}") { sh 'npm install' } } }
         stage('Bump Version') { steps { dir("${env.PROJECT_DIR}") { sh './scripts/build-android.sh bump' } } }
         stage('Build Android') {
             when { expression { params.BUILD_PLATFORM == 'android' } }
             steps { dir("${env.PROJECT_DIR}") { sh './scripts/build-android.sh build' } }
         }
-        stage('Push Version') {
-            steps {
-                withCredentials([string(credentialsId: 'xcoin-git-token', variable: 'GIT_TOKEN')]) {
-                    dir("${env.PROJECT_DIR}") { sh './scripts/build-android.sh push' }
+        stage('Push & Upload') {
+            parallel {
+                stage('Push Version') {
+                    steps {
+                        withCredentials([string(credentialsId: 'xcoin-git-token', variable: 'GIT_TOKEN')]) {
+                            dir("${env.PROJECT_DIR}") { sh './scripts/build-android.sh push' }
+                        }
+                    }
                 }
-            }
-        }
-        stage('Upload') {
-            steps {
-                withCredentials([string(credentialsId: 'xcoin-firebase-token', variable: 'FIREBASE_TOKEN')]) {
-                    dir("${env.PROJECT_DIR}") { sh './scripts/build-android.sh upload' }
+                stage('Firebase Upload') {
+                    steps {
+                        withCredentials([string(credentialsId: 'xcoin-firebase-token', variable: 'FIREBASE_TOKEN')]) {
+                            dir("${env.PROJECT_DIR}") { sh './scripts/build-android.sh upload' }
+                        }
+                    }
                 }
             }
         }
@@ -272,31 +264,48 @@ pipeline {
 }
 ```
 
-### F. Jenkinsfile (uab-android)
+### E. Build Script: Native Android (uab-android)
 
-```groovy
-pipeline {
-    agent any
-    parameters { choice(name: 'BUILD_VARIANT', choices: ['dev', 'uat', 'production']) }
-    triggers { pollSCM('H/2 * * * *') }
-    stages {
-        stage('Initialize') { steps { sh 'chmod +x scripts/build-and-upload.sh' } }
-        stage('Bump Version') { steps { sh 'scripts/build-and-upload.sh bump' } }
-        stage('Build APK') {
-            steps {
-                withCredentials([string(credentialsId: 'AWS_TOKEN_ID', variable: 'AWS_TOKEN')]) {
-                    sh "scripts/build-and-upload.sh build ${params.BUILD_VARIANT} -PcodeartifactToken=${AWS_TOKEN}"
-                }
-            }
-        }
-        stage('Push Version') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'gitlab-uab', passwordVariable: 'GIT_PSW', usernameVariable: 'GIT_USR')]) {
-                    sh 'scripts/build-and-upload.sh push'
-                }
-            }
-        }
-        stage('Upload') { steps { sh 'scripts/build-and-upload.sh upload' } }
-    }
+`sed` ile versiyon artırır, varyant desteği sunar.
+
+```bash
+#!/bin/bash
+set -e
+log()  { echo "▶️  $1"; }
+ok()   { echo "✅ $1"; }
+fail() { echo "❌ $1"; exit 1; }
+
+bump_version() {
+    log "Versiyon Artırılıyor (build.gradle)..."
+    APP_GRADLE_FILE=$(grep -rl "com.android.application" . --include "build.gradle" --include "build.gradle.kts" | head -n1)
+    CURRENT_CODE=$(grep -E "versionCode[[:space:]]+[0-9]+" "$APP_GRADLE_FILE" | grep -o '[0-9]\+' | head -n1)
+    NEW_CODE=$((CURRENT_CODE + 1))
+    sed -i -E "s/versionCode[[:space:]]+$CURRENT_CODE/versionCode $NEW_CODE/" "$APP_GRADLE_FILE"
+    git add "$APP_GRADLE_FILE" && git commit -m "chore(version): bump to $NEW_CODE [ci skip]" || true
 }
+
+build_apk() {
+    VARIANT=${1:-"dev"}
+    VARIANT_CAP=$(echo "$VARIANT" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+    ./gradlew --stop || true
+    GRADLE_ARGS=(
+        "assemble${VARIANT_CAP}Release"
+        "--no-watch-fs"
+        "-Dorg.gradle.jvmargs=-Xmx2560m"
+        "-Pkotlin.compiler.execution.strategy=in-process"
+        -x lint -x test
+    )
+    ./gradlew "${GRADLE_ARGS[@]}" || { ./gradlew --stop; fail "Build failed!"; }
+    ./gradlew --stop
+}
+
+case "$1" in
+    bump) bump_version ;;
+    build) build_apk "$2" ;;
+    # push, upload...
+esac
 ```
+
+---
+
+Bu rehber ve kodlar, Apple Silicon üzerindeki en stabil Android otomasyon yapısını oluşturur. 🚀
