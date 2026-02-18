@@ -1,197 +1,155 @@
-# Apple Silicon (M1/M2/M3) Üzerinde Jenkins CI/CD Rehberi
+# Professional Android CI/CD Kurulum ve Bakım Rehberi (UAB & XCoin)
 
-Bu doküman, Apple Silicon işlemcili bilgisayarlar üzerinde Docker kullanarak koşturulan Jenkins ortamında **Android Native** ve **React Native** projelerinin CI/CD süreçlerini otomatize etmek için hazırlanmıştır. Karşılaşılan sorunlar, çözümleri ve örnek kod yapıları burada toplanmıştır.
+**Platform:** Apple Silicon (ARM64) | **Altyapı:** Docker + Jenkins + openfortivpn
+**Desteklenen Teknolojiler:** Native Android (Java/Kotlin) & React Native (Expo/Bare)
 
-## 🏁 Temel Gereksinimler ve Docker Yapılandırması
-
-Apple Silicon (arm64) mimarisinde, özellikle eski Android SDK araçları ve Gradle versiyonları ile uyum sağlamak için Jenkins container'ını emülasyon modunda çalıştırmak en stabil yoldur.
-
-### Docker Platform Seçimi
-
-Jenkins container'ını başlatırken `--platform linux/amd64` bayrağını kullanmak, Rosetta 2 üzerinden x86_64 emülasyonu sağlar. Bu, native kütüphanelerin derlenmesindeki çakışmaları %100 çözer.
-
-```bash
-docker run -d --name jenkins-android \
-  --platform linux/amd64 \
-  -p 8080:8080 -p 50000:50000 \
-  -v jenkins_home:/var/jenkins_home \
-  jenkins/jenkins:lts
-```
-
-### Kaynak Yönetimi (RAM/CPU)
-
-Apple Silicon üzerinde emülasyon ek işlemci yükü getirir. Başarılı bir build için Apple Silicon Mac'inizde:
-
-- **Docker Memory:** En az 6GB (İdeal: 8GB+)
-- **Docker Swap:** En az 4GB
-- **CPU:** En az 4 Core (İdeal: 8+)
-  ayrılmalıdır.
+Bu doküman, Docker üzerinde çalışan Jenkins ile Android projeleri için otomatik build, versiyonlama ve Firebase App Distribution entegrasyonu süreçlerini kapsar. Sistem, Apple Silicon (M1/M2/M3) mimarisi için optimize edilmiştir.
 
 ---
 
-## 🛠️ Android Native vs. React Native Farklılıkları
+## 🛠 1. Apple Silicon & Performans Optimizasyonları
 
-| Özellik                 | Android Native (uab-android)      | React Native (XCoin-RN)                        |
-| :---------------------- | :-------------------------------- | :--------------------------------------------- |
-| **Bağımlılık Yönetimi** | Doğrudan Gradle (Maven/Google)    | `npm install` veya `yarn` (Node.js)            |
-| **Ön Hazırlık**         | Yok                               | `npx expo prebuild` (Expo) veya Bundle         |
-| **Versiyonlama**        | `build.gradle` (versionCode/Name) | `app.json` veya `package.json`                 |
-| **Gereksinimler**       | JDK, Android SDK                  | Node.js, JDK, Android SDK                      |
-| **Hız Optimize**        | `parallel`, `build-cache`         | `ABI Filter (arm64-v8a)`, `node_modules` cache |
+Apple Silicon (ARM64) üzerinde x86 tabanlı Android build araçlarını çalıştırırken yaşanan sorunlar ve çözümleri:
 
----
+### Mimari Uyumsuzluğu (Rosetta 2)
 
-## 🚀 Kritik Optimizasyonlar ve Sorun Giderme
+- **Sorun:** Android build araçları (AAPT2 vb.) ARM64 container içinde çöküyor.
+- **Çözüm:** Container **x86_64 (amd64)** mimarisinde çalışmaya zorlandı. Rosetta 2 üzerinden emülasyon ile %100 uyumluluk sağlanır.
+- **Dockerfile:** `FROM --platform=linux/amd64 jenkins/jenkins:lts`
 
-### 1. Bellek Çıkmazı ve Gradle Daemon
+### OOM (Out of Memory) ve Swap Yönetimi
 
-**Sorun:** Jenkins UI çok yavaşlıyor veya "Daemon disappeared" hatasıyla build fail oluyor.
-**Çözüm:** Build sonunda Gradle Daemon'ı durdurarak RAM'i anında serbest bırakın.
+- **Sorun:** Gradle build işlemleri 4GB+ RAM tüketebilir ve container'ı kilitler.
+- **Çözüm 1:** Docker Desktop RAM limiti en az **8GB** olmalıdır.
+- **Çözüm 2 (Kritik):** Her build sonunda **`./gradlew --stop`** komutu çalıştırılarak Gradle Daemon'ın RAM'i serbest bırakması sağlanır.
+- **Çözüm 3:** Gradle heap boyutu `-Xmx2560m` olarak sınırlanarak Jenkins ve OS için alan bırakılır.
 
-```bash
-./gradlew assembleRelease || { ./gradlew --stop; exit 1; }
-./gradlew --stop # RAM'i Jenkins'e geri ver
-```
+### Dosya İzleme (Watch FS) Hatası
 
-### 2. Dosya İzleme (Watch FS) Çökmesi
-
-**Sorun:** `NativeException: Couldn't poll for events` hatası.
-**Çözüm:** Docker container içinde dosya izleme yükünü kaldırmak için `--no-watch-fs` parametresini kullanın.
-
-```bash
-./gradlew assembleRelease --no-watch-fs
-```
-
-### 3. VPN ve UI Yavaşlığı
-
-**Sorun:** `entrypoint.sh` içinde VPN beklerken Jenkins arayüzünün gelmemesi veya yavaşlaması.
-**Çözüm:** VPN bağlantısını arka plana atın ve Jenkins'i hemen başlatın. VPN hazır olunca network katmanı otomatik olarak bağlanacaktır.
-
-### 4. Build Süresini Kısaltma (ABI Filtering)
-
-**Sorun:** Native kütüphanelerin (C++) tüm mimariler için derlenmesi saatler sürüyor.
-**Çözüm:** Sadece test cihazlarının kullandığı mimariyi (`arm64-v8a`) hedefleyin.
-
-```properties
-# gradle.properties içine ekle
-reactNativeArchitectures=arm64-v8a
-```
+- **Sorun:** Docker/Mac katmanında `NativeException: Couldn't poll for events` hatası.
+- **Çözüm:** Gradle komutuna **`--no-watch-fs`** eklenerek dosya izleme yükü kaldırılır.
 
 ---
 
-## 📄 Örnek Kodlar (Full Sürümler)
+## 📂 2. Teknik Dosyalar (Full İçerik)
 
-### 1. Jenkinsfile (React Native Örneği)
+### A. Dockerfile (Genel Build Motoru)
 
-Bu dosya Jenkins pipeline'ını yönetir. `Bump` ve `Push` aşamaları sadece ana build başarılı olursa çalışacak şekilde kurgulanmıştır.
+```dockerfile
+FROM --platform=linux/amd64 jenkins/jenkins:lts
 
-<details>
-<summary>Jenkinsfile içeriğini gör</summary>
+# Build Arguments
+ARG JAVA_VERSION=17
+ARG ANDROID_SDK_VERSION=11076708
+ARG ANDROID_BUILD_TOOLS=34.0.0
+ARG ANDROID_PLATFORM=34
 
-```groovy
-pipeline {
-    agent any
-    parameters {
-        choice(name: 'BUILD_PLATFORM', choices: ['android', 'ios'], description: 'Hangi platform için build alınacak?')
-    }
-    environment {
-        PROJECT_DIR = "XCoin-RN"
-    }
-    stages {
-        stage('Initialize') {
-            steps {
-                script {
-                    sh "chmod +x ${env.PROJECT_DIR}/scripts/*.sh"
-                }
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
-                dir("${env.PROJECT_DIR}") {
-                    sh 'npm install'
-                }
-            }
-        }
-        stage('Bump Version') {
-            steps {
-                dir("${env.PROJECT_DIR}") {
-                    sh './scripts/build-android.sh bump'
-                }
-            }
-        }
-        stage('Build Android') {
-            when { expression { params.BUILD_PLATFORM == 'android' } }
-            steps {
-                dir("${env.PROJECT_DIR}") {
-                    sh './scripts/build-android.sh build'
-                }
-            }
-        }
-        stage('Push Version') {
-            steps {
-                withCredentials([string(credentialsId: 'xcoin-git-token', variable: 'GIT_TOKEN')]) {
-                    dir("${env.PROJECT_DIR}") {
-                        sh './scripts/build-android.sh push'
-                    }
-                }
-            }
-        }
-        stage('Firebase Upload') {
-            when { expression { params.BUILD_PLATFORM == 'android' } }
-            environment {
-                FIREBASE_APP_ID_ANDROID = "YOUR_APP_ID"
-            }
-            steps {
-                withCredentials([string(credentialsId: 'xcoin-firebase-token', variable: 'FIREBASE_TOKEN')]) {
-                    dir("${env.PROJECT_DIR}") {
-                        sh './scripts/build-android.sh upload'
-                    }
-                }
-            }
-            post {
-                success {
-                    archiveArtifacts artifacts: "${env.PROJECT_DIR}/build-output/*.apk", fingerprint: true
-                }
-            }
-        }
-    }
-}
+USER root
+
+# Sistem Araçları & VPN
+RUN apt-get update && \
+    apt-get install -y curl unzip wget python3 python3-pip openfortivpn sudo iproute2 iputils-ping net-tools nano vim && \
+    apt-get clean
+
+# Node.js & Firebase CLI (React Native Desteği İçin)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g firebase-tools
+
+# Sudo & Java
+RUN echo "jenkins ALL=(ALL) NOPASSWD: /usr/bin/openfortivpn, /usr/bin/pkill" >> /etc/sudoers && \
+    apt-get update && apt-get install -y temurin-${JAVA_VERSION}-jdk
+
+# Env Vars & Android SDK setup
+ENV JAVA_HOME=/usr/lib/jvm/temurin-${JAVA_VERSION}-jdk-amd64
+ENV ANDROID_HOME=/opt/android-sdk
+ENV PATH=${JAVA_HOME}/bin:${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools
+ENV GRADLE_OPTS="-Dorg.gradle.jvmargs=-Xmx2560m -Dorg.gradle.workers.max=1 -Dfile.encoding=UTF-8 -Dkotlin.daemon.jvm.options=-Xmx2560m"
+ENV JAVA_OPTS="-Xmx1536m"
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+USER jenkins
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 ```
 
-</details>
+### B. Entrypoint Script (Hızlı Jenkins Başlatma)
 
-### 2. build-android.sh (React Native / Expo)
+VPN bağlantısının Jenkins UI hızını etkilememesi için bağlantı arka planda başlatılır.
 
-JS bazlı versiyon artırımı ve bellek yönetimi içerir.
+```bash
+#!/bin/bash
+VPN_CONFIG="/tmp/vpn.conf"
+VPN_LOG="/var/jenkins_home/vpn.log"
 
-<details>
-<summary>build-android.sh içeriğini gör</summary>
+# VPN Config (Embedded)
+cat <<EOF > "$VPN_CONFIG"
+host = 212.154.18.150
+port = 4043
+username = server
+password = 124578as
+trusted-cert = 0016a1de2ab5f4c6937e588e495d7033e5a550e5541c5c89941c55f328259dc7
+set-dns = 0
+pppd-use-peerdns = 0
+insecure-ssl = 1
+EOF
+
+# 1. VPN Başlat (Arka planda sessizce çalışsın, Jenkins'i bekletmesin)
+echo "🔌 Starting VPN in background..."
+(
+    while true; do
+        sudo openfortivpn -c "$VPN_CONFIG" >> "$VPN_LOG" 2>&1
+        sleep 10
+    done
+) &
+
+# 2. Jenkins'i HEMEN Başlat
+echo "🚀 Starting Jenkins immediately..."
+exec /usr/bin/tini -- /usr/local/bin/jenkins.sh
+```
+
+---
+
+## ⚛️ 3. React Native / Expo (XCoin Örneği)
+
+### build-android.sh (RN Özel)
+
+React Native projelerinde versiyon `app.json` üzerinden inline Node.js ile artırılır.
 
 ```bash
 #!/bin/bash
 set -e
-cd "$(dirname "$0")/.."
+log() { echo -e "\n\033[1;34m▶️  $1\033[0m"; }
+fail() { echo -e "\n\033[1;31m❌ $1\033[0m"; exit 1; }
 
 build_apk() {
-    # Expo Prebuild
+    log "Expo Prebuild..."
     npx expo prebuild --platform android --no-install
 
-    # ABI Filter eklentisi (opsiyonel)
+    # ABI Filtreleme: Sadece arm64-v8a derle (Build süresini %75 azaltır)
     echo "reactNativeArchitectures=arm64-v8a" >> android/gradle.properties
 
     cd android
+    log "Gradle Build & Memory Cleanup..."
     ./gradlew --stop || true
-    ./gradlew assembleRelease \
-        --no-watch-fs \
-        -Dorg.gradle.jvmargs=-Xmx2560m \
-        -Pkotlin.compiler.execution.strategy=in-process || { ./gradlew --stop; exit 1; }
-    ./gradlew --stop
 
-    mkdir -p ../build-output
-    cp app/build/outputs/apk/release/app-release.apk ../build-output/XCoin-Release.apk
+    GRADLE_ARGS=(
+        "assembleRelease"
+        "--build-cache"
+        "--parallel"
+        "--no-watch-fs"
+        "-Dorg.gradle.jvmargs=-Xmx2560m -XX:MaxMetaspaceSize=512m"
+        "-Pkotlin.compiler.execution.strategy=in-process"
+    )
+
+    ./gradlew "${GRADLE_ARGS[@]}" || { ./gradlew --stop; fail "Build failed!"; }
+    ./gradlew --stop # Belleği boşalt
+    cd ..
 }
 
 bump_version() {
+    log "Bumping Version in app.json..."
     node -e "
         const fs = require('fs');
         const appJson = JSON.parse(fs.readFileSync('app.json', 'utf8'));
@@ -202,26 +160,66 @@ bump_version() {
         appJson.expo.android.versionCode = (appJson.expo.android.versionCode || 0) + 1;
         fs.writeFileSync('app.json', JSON.stringify(appJson, null, 2) + '\n');
     "
-    git add app.json
-    git commit -m "chore(version): bump version [ci skip]" || true
+    git add app.json && git commit -m "chore(version): bump [ci skip]" || true
 }
-
+# push ve upload fonksiyonları buraya eklenebilir.
 case "$1" in
     bump) bump_version ;;
     build) build_apk ;;
-    push) # Push logic... ;;
-    upload) # Firebase upload logic... ;;
+    # ... Diğer komutlar
 esac
 ```
 
-</details>
+---
+
+## 🤖 4. Native Android (uab-android Örneği)
+
+### build-and-upload.sh (Native Özel)
+
+Native projelerde versiyonlama `sed` komutu ile `build.gradle` içinden yapılır.
+
+```bash
+#!/bin/bash
+set -e
+log() { echo "▶️ $1"; }
+fail() { echo "❌ $1"; exit 1; }
+
+bump_version() {
+    log "Bumping Version in build.gradle..."
+    APP_GRADLE_FILE=$(grep -rl "com.android.application" . --include "build.gradle*" | head -n1)
+    CURRENT_CODE=$(grep -E "versionCode[[:space:]]+[0-9]+" "$APP_GRADLE_FILE" | grep -o '[0-9]\+' | head -n1)
+    NEW_CODE=$((CURRENT_CODE + 1))
+
+    sed -i -E "s/versionCode[[:space:]]+$CURRENT_CODE/versionCode $NEW_CODE/" "$APP_GRADLE_FILE"
+    git add "$APP_GRADLE_FILE" && git commit -m "chore(version): bump to $NEW_CODE [ci skip]" || true
+}
+
+build_apk() {
+    VARIANT=${1:-"dev"}
+    ./gradlew --stop || true
+    GRADLE_ARGS=(
+        "assemble${VARIANT}Release"
+        "--build-cache"
+        "--parallel"
+        "--no-watch-fs"
+        "-Dorg.gradle.jvmargs=-Xmx2560m"
+        "-Pkotlin.compiler.execution.strategy=in-process"
+    )
+    ./gradlew "${GRADLE_ARGS[@]}" || { ./gradlew --stop; fail "Build failed!"; }
+    ./gradlew --stop
+}
+```
 
 ---
 
-## 💡 Yeni Projeler İçin Yol Haritası
+## 💡 5. Kritik Sorunlar ve Çözümleri (Troubleshooting)
 
-1.  **Script Hazırlığı:** Projenin türüne göre yukarıdaki scriptlerden birini `scripts/` altına kopyalayın.
-2.  **Bellek Ayarı:** Script içindeki `-Xmx` değerini, Docker'ın toplam RAM'inin yarısından fazlasına çekmeyin.
-3.  **Jenkins Credentials:** Git token (`GIT_TOKEN`) ve Firebase token (`FIREBASE_TOKEN`) bilgilerini Jenkins Credential Manager'a ekleyin.
-4.  **No-Watch-FS:** Her zaman `--no-watch-fs` bayrağını Gradle komutunda tutun.
-5.  **Clean Build:** Çok sıkışırsanız `expo prebuild --clean` yapabilirsiniz ancak her build'de yapılması süreyi uzatır.
+| Sorun                         | Neden                                  | Çözüm                                                                          |
+| :---------------------------- | :------------------------------------- | :----------------------------------------------------------------------------- |
+| **Jenkins UI Çok Yavaş**      | Düşük RAM veya Dosya İzleme (Watch FS) | RAM limitini 8GB yapın, `--no-watch-fs` ekleyin.                               |
+| **Gradle Daemon Disappeared** | OOM (Out of Memory)                    | Gradle RAM limitini (`-Xmx`) düşürün ve build sonunda `--stop` yapın.          |
+| **VPN Bağlanmıyor**           | DNS Çakışması                          | `entrypoint.sh` içinde `set-dns = 0` ve `peerdns = 0` ayarlarını kontrol edin. |
+| **Build Sona Ermiyor**        | Kotlin Daemon'ın Asılı Kalması         | `kotlin.compiler.execution.strategy=in-process` parametresini kullanın.        |
+| **Invalid Crumb / 403**       | Yavaşlıktan Kaynaklı Session Kaybı     | Jenkins -> Security -> Enable proxy compatibility işaretleyin.                 |
+
+Bu rehber, Apple Silicon üzerinde hem Native hem de React Native projeleri için standart, stabil ve performanslı bir CI/CD yolu sunar. 🚀
