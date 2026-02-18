@@ -27,10 +27,10 @@ export default function TabsLayout() {
         <SafeAreaView className="flex-1 bg-background" edges={['top']}>
             <Tabs
                 screenOptions={{
-                    tabBarActiveTintColor: activeScheme?.primary || "#0066FF",
-                    tabBarInactiveTintColor: activeScheme?.onSurfaceVariant || "#757575",
+                    tabBarActiveTintColor: activeScheme?.primary,
+                    tabBarInactiveTintColor: activeScheme?.onSurfaceVariant,
                     tabBarStyle: {
-                        backgroundColor: activeScheme?.surface || "#FFFFFF",
+                        backgroundColor: activeScheme?.surface,
                         borderTopWidth: 0,
                         height: 88,
                         paddingBottom: 20,
@@ -38,7 +38,7 @@ export default function TabsLayout() {
                         paddingHorizontal: 16,
                         ...Platform.select({
                             ios: {
-                                shadowColor: activeScheme?.shadow || "#000000",
+                                shadowColor: activeScheme?.shadow,
                                 shadowOffset: { width: 0, height: -2 },
                                 shadowOpacity: 0.1,
                                 shadowRadius: 4,

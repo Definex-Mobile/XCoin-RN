@@ -20,13 +20,13 @@ export function SecurityBlockDialog({ visible, message }: SecurityBlockDialogPro
             statusBarTranslucent={true}
         >
             <View
-                style={{ backgroundColor: activeScheme?.scrim + '80' || 'rgba(0,0,0,0.5)' }}
+                style={{ backgroundColor: activeScheme?.scrim + '80' }}
                 className="flex-1 justify-center items-center p-5"
             >
                 <View
                     style={{
-                        backgroundColor: activeScheme?.surface || '#FFFFFF',
-                        shadowColor: activeScheme?.shadow || '#000000',
+                        backgroundColor: activeScheme?.surface,
+                        shadowColor: activeScheme?.shadow,
                         shadowOffset: { width: 0, height: 4 },
                         shadowOpacity: 0.3,
                         shadowRadius: 8,
@@ -35,7 +35,7 @@ export function SecurityBlockDialog({ visible, message }: SecurityBlockDialogPro
                     className="rounded-2xl p-6 w-full max-w-[400px] items-center"
                 >
                     <View
-                        style={{ backgroundColor: activeScheme?.errorContainer || '#F9DEDC' }}
+                        style={{ backgroundColor: activeScheme?.errorContainer }}
                         className="w-16 h-16 rounded-full justify-center items-center mb-4"
                     >
                         <Text className="text-3xl">🔒</Text>
@@ -49,7 +49,7 @@ export function SecurityBlockDialog({ visible, message }: SecurityBlockDialogPro
                     </Text>
 
                     <View
-                        style={{ borderTopColor: activeScheme?.outlineVariant || '#E0E0E0' }}
+                        style={{ borderTopColor: activeScheme?.outlineVariant }}
                         className="pt-4 border-t w-full"
                     >
                         <Text className="text-sm text-onSurfaceVariant text-center italic">
