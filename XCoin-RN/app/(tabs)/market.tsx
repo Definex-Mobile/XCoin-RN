@@ -84,7 +84,7 @@ export default function Market() {
     };
 
     const isMarketUp = marketStatus?.marketStatus === 'UP';
-    const statusColor = isMarketUp ? colors.market.up : colors.market.down;
+    const statusColor = isMarketUp ? colors.tertiary : colors.error;
 
     return (
         <SafeAreaView className="flex-1 bg-background-gray" edges={['top']}>
@@ -101,7 +101,7 @@ export default function Market() {
                                 </Text>
                             )}
                         </View>
-                        <Text className="lightItalic12 text-text-light mt-1">
+                        <Text className="lightItalic12 text-onSurfaceVariant mt-1">
                             {t('market.inThePast24Hours')}
                         </Text>
                     </View>
@@ -112,7 +112,7 @@ export default function Market() {
                 </View>
 
                 <View className="px-4 mt-6 flex-row justify-between items-center">
-                    <Text className="bold20 text-coin-name">
+                    <Text className="bold20 text-onSurface">
                         {t('market.coins')}
                     </Text>
                     <DropdownBottomSheet
@@ -134,7 +134,7 @@ export default function Market() {
 
                 <View className="px-4 mt-4">
                     {loading && !error && (
-                        <Text className="regular14 text-coin-symbol">
+                        <Text className="regular14 text-onSurfaceVariant">
                             {t("common.loading")}
                         </Text>
                     )}

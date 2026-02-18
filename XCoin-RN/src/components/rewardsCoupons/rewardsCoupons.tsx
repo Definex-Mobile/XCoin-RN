@@ -25,7 +25,7 @@ const shadowSmallStyle = {
 };
 
 function SectionCard({ title, rows }: RewardsCouponsSection) {
-  const valueClassName = "medium14 text-primaryBlue";
+  const valueClassName = "medium14 text-primary";
   const accentValueClassName = "medium14 text-rewards-darkText";
 
   return (

@@ -43,8 +43,8 @@ export function CoinBalanceCard({
       </View>
       
       <View className="flex-1">
-        <Text className="thinItalic16 text-coin-name">{name}</Text>
-        <Text className="thinItalic12 text-coin-symbol mt-0.5">
+        <Text className="thinItalic16 text-onSurface">{name}</Text>
+        <Text className="thinItalic12 text-onSurfaceVariant mt-0.5">
           {balance.toFixed(2)} {symbol}
         </Text>
       </View>
@@ -53,7 +53,7 @@ export function CoinBalanceCard({
         <Text className="thinItalic16 text-coin-price">
           {currencySymbol}{balanceFiat.toFixed(2)}
         </Text>
-        <Text className="medium10 text-coin-symbol mt-0.5">
+        <Text className="medium10 text-onSurfaceVariant mt-0.5">
           {percentage.toFixed(2)}%
         </Text>
       </View>

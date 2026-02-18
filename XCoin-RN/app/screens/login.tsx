@@ -61,15 +61,15 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-mainLightBackground" edges={['top', 'bottom']}>
+    <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
       >
         <View className="flex-1 justify-center px-6">
           <View className="mb-12">
-            <Text className="text-4xl mt-24 text-center font-bold text-coin-name mb-2">{loginTitle}</Text>
-            <Text className="text-lg text-center text-coin-symbol">{loginSubtitle}</Text>
+            <Text className="text-4xl mt-24 text-center font-bold text-onSurface mb-2">{loginTitle}</Text>
+            <Text className="text-lg text-center text-onSurfaceVariant">{loginSubtitle}</Text>
           </View>
 
           <View className="gap-4">
@@ -100,13 +100,13 @@ export default function LoginScreen() {
             ) : null}
 
             <TouchableOpacity
-              className="bg-primaryBlue rounded-lg py-4 mt-2"
+              className="bg-primary rounded-lg py-4 mt-2"
               onPress={handleLogin}
               disabled={loading}
               activeOpacity={0.8}>
 
               {loading ? (
-                <ActivityIndicator color={colors.text.white} />
+                <ActivityIndicator color={colors.white} />
               ) : (
                 <Text className="text-white text-center font-bold text-base">{loginButton}</Text>
               )}
@@ -115,9 +115,9 @@ export default function LoginScreen() {
           </View>
 
           <View className="mt-auto mb-8">
-            <Text className="text-center text-coin-symbol text-sm">
+            <Text className="text-center text-onSurfaceVariant text-sm">
               {signupText}{' '}
-              <Text className="text-primaryBlue font-semibold">{signupLink}</Text>
+              <Text className="text-primary font-semibold">{signupLink}</Text>
             </Text>
           </View>
         </View>

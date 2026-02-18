@@ -1,75 +1,39 @@
 export const colors = {
-    primary: {
-        DEFAULT: "#9300F5",
-        dark: "#0a2342",
-        light: "#1a4d8f",
-    },
-    secondary: {
-        DEFAULT: "#1a1a2e",
-        dark: "#0f0f1a",
-        light: "#2d2d44",
-    },
-    accent: {
-        DEFAULT: "#F59300",
-        dark: "#c93850",
-        light: "#ff6b85",
-    },
-    background: {
-        DEFAULT: "#ffffff",
-        dark: "#1a1a2e",
-        gray: "#f5f5f5",
-    },
-    text: {
-        DEFAULT: "#333333",
-        light: "#888888",
-        dark: "#000000",
-        white: "#ffffff",
-    },
-    primaryBlue: {
-        DEFAULT: "#0063F5",
-    },
-    tab: {
-        activeBorder: "#0063F5",
-        activeText: "#0063F5",
-        inactiveText: "#6C757D",
-    },
-    coin: {
-        name: "#212529",
-        symbol: "#6C757D",
-        price: "#343A40",
-        timeSelectorSelectedBg: "#ECF4FF",
-        timeSelectedUnselectedBg: "#DFE2E4"
-    },
-    rewards: {
-        DEFAULT: "#F8F9FA",
-        darkText: "#343A40"
-    },
-    mainLightBackground: {
-        DEFAULT: "#F8F9FA",
-    },
-    navigation: {
-        active: "#0063F5",
-        inactive: "#6C757D",
-        background: "#FFFFFF",
-    },
-    border: {
-        gray: "#D1D5DB",
-        light: "#E5E7EB",
-    },
-    overlay: {
-        dark: "rgba(0,0,0,0.5)",
-    },
-    shadow: {
-        DEFAULT: "#000000",
-    },
-    market: {
-        up: "#21BF73",
-        down: "#D90429",
-    },
-    error: {
-        DEFAULT: "#F54927",
-    },
+    // Splash screen and static colors
+    white: "#FFFFFF",
+    black: "#000000",
+    loader: "#0066FF",
+
+    // Theme colors (CCS variables for NativeWind)
+    primary: "var(--primary)",
+    onPrimary: "var(--on-primary)",
+    primaryContainer: "var(--primary-container)",
+    onPrimaryContainer: "var(--on-primary-container)",
+    secondary: "var(--secondary)",
+    onSecondary: "var(--on-secondary)",
+    secondaryContainer: "var(--secondary-container)",
+    onSecondaryContainer: "var(--on-secondary-container)",
+    tertiary: "var(--tertiary)",
+    onTertiary: "var(--on-tertiary)",
+    tertiaryContainer: "var(--tertiary-container)",
+    onTertiaryContainer: "var(--on-tertiary-container)",
+    error: "var(--error)",
+    onError: "var(--on-error)",
+    errorContainer: "var(--error-container)",
+    onErrorContainer: "var(--on-error-container)",
+    background: "var(--background)",
+    onBackground: "var(--on-background)",
+    surface: "var(--surface)",
+    onSurface: "var(--on-surface)",
+    surfaceVariant: "var(--surface-variant)",
+    onSurfaceVariant: "var(--on-surface-variant)",
+    outline: "var(--outline)",
+    outlineVariant: "var(--outline-variant)",
+    shadow: "var(--shadow)",
+    scrim: "var(--scrim)",
+    inverseSurface: "var(--inverse-surface)",
+    inverseOnSurface: "var(--inverse-on-surface)",
+    inversePrimary: "var(--inverse-primary)",
 };
 
 module.exports = { colors };
-

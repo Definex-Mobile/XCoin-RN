@@ -29,7 +29,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({
             onRequestClose={() => true}
         >
             <View
-                style={{ backgroundColor: colors.overlay.dark }}
+                style={{ backgroundColor: colors.scrim }}
                 className="flex-1 justify-center items-center px-6"
             >
                 <View className="bg-white rounded-2xl p-6 w-full max-w-sm">
@@ -37,13 +37,13 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({
                         {t('updateDialog.title')}
                     </Text>
 
-                    <Text className="regular14 text-text-light text-center mb-6">
+                    <Text className="regular14 text-onSurfaceVariant text-center mb-6">
                         {t('updateDialog.message')}
                     </Text>
 
                     <View className="bg-background-gray rounded-xl p-4 mb-6">
                         <View className="flex-row justify-between mb-2">
-                            <Text className="regular14 text-text-light">
+                            <Text className="regular14 text-onSurfaceVariant">
                                 {t('updateDialog.currentVersion')}:
                             </Text>
                             <Text className="medium14 text-text">
@@ -51,7 +51,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({
                             </Text>
                         </View>
                         <View className="flex-row justify-between">
-                            <Text className="regular14 text-text-light">
+                            <Text className="regular14 text-onSurfaceVariant">
                                 {t('updateDialog.requiredVersion')}:
                             </Text>
                             <Text className="medium14 text-text">
@@ -63,7 +63,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({
                     <Pressable
                         onPress={onUpdate}
                         className="h-12 rounded-lg items-center justify-center mb-3"
-                        style={{ backgroundColor: colors.primaryBlue.DEFAULT }}
+                        style={{ backgroundColor: colors.primary }}
                     >
                         <Text className="medium16 text-white">
                             {t('updateDialog.updateButton')}
@@ -74,7 +74,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({
                         onPress={onExit}
                         className="h-12 rounded-lg items-center justify-center border border-gray-300"
                     >
-                        <Text className="medium16 text-text-light">
+                        <Text className="medium16 text-onSurfaceVariant">
                             {t('updateDialog.exitButton')}
                         </Text>
                     </Pressable>

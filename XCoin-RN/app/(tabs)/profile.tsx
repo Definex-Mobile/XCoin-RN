@@ -21,8 +21,11 @@ import {
 import ActionBottomSheet, { Action } from "../../src/components/actionBottomSheet/actionBottomSheet";
 import { useAuth } from "../../src/hooks/useAuth";
 import { colors } from "../../src/constants/colors";
+import { useTheme, ThemePreference } from "../../src/context/ThemeContext";
+import { MultipleSegmentButton } from "../../src/components/multipSegmentButton/multipleSegmentButton";
 
 export default function Profile() {
+  const { activeScheme, themePreference, setThemePreference } = useTheme();
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isImageSheetVisible, setIsImageSheetVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -86,8 +89,17 @@ export default function Profile() {
     },
   ];
 
+  const themeOptions = [
+    t("profile.theme.light"),
+    t("profile.theme.dark"),
+    t("profile.theme.system")
+  ];
+
+  const themeValues: ThemePreference[] = ["light", "dark", "system"];
+  const currentThemeIndex = themeValues.indexOf(themePreference);
+
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-background">
       <ScrollView className="flex-1">
         <ProfileHeader
           image={profileImage || "https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif"}
@@ -96,6 +108,18 @@ export default function Profile() {
           phone="+90 555 555 55 55"
           onImagePress={handleImagePress}
         />
+
+        <View className="mt-8 px-4">
+          <Text className="bold18 text-onSurface mb-2 px-2">
+            {t("profile.theme.title")}
+          </Text>
+          <MultipleSegmentButton
+            buttons={themeOptions}
+            selectedIndex={currentThemeIndex}
+            onSelectedIndexChange={(index) => setThemePreference(themeValues[index])}
+          />
+        </View>
+
         <View className="mt-8">
           {profileButtonData.map((button, index) => (
             <ProfileButton
@@ -122,9 +146,9 @@ export default function Profile() {
                   t("profile.debug.crashlyticsTestMessage")
                 );
               }}
-              className="bg-blue-500 py-4 rounded-lg mb-3"
+              className="bg-primary py-4 rounded-lg mb-3"
             >
-              <Text className="text-white text-center font-bold">
+              <Text className="text-onPrimary text-center font-bold">
                 {t("profile.debug.crashlyticsTestButton")}
               </Text>
             </TouchableOpacity>
@@ -148,9 +172,9 @@ export default function Profile() {
                   ]
                 );
               }}
-              className="bg-red-500 py-4 rounded-lg"
+              className="bg-error py-4 rounded-lg"
             >
-              <Text className="text-white text-center font-bold">
+              <Text className="text-onError text-center font-bold">
                 {t("profile.debug.crashButton")}
               </Text>
             </TouchableOpacity>
@@ -167,15 +191,15 @@ export default function Profile() {
 
       {loading && (
         <View
-          className="absolute inset-0 items-center justify-center bg-black/30"
+          className="absolute inset-0 items-center justify-center bg-scrim/50"
           style={{ zIndex: 999 }}
         >
-          <View className="bg-white p-6 rounded-2xl items-center shadow-lg">
+          <View className="bg-surface p-6 rounded-2xl items-center shadow-lg">
             <ActivityIndicator
               size="large"
-              color={colors.primaryBlue.DEFAULT}
+              color={activeScheme?.primary || colors.loader}
             />
-            <Text className="mt-4 regular16 text-text">
+            <Text className="mt-4 regular16 text-onSurface">
               {t("common.loading")}
             </Text>
           </View>

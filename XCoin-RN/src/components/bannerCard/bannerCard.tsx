@@ -25,13 +25,13 @@ export interface BannerCardProps {
 const getBannerColor = (type?: BannerType): string => {
   switch (type) {
     case BannerType.HOME:
-      return colors.primaryBlue.DEFAULT;
+      return colors.primary;
     case BannerType.REFER:
-      return colors.accent.DEFAULT;
+      return colors.secondary;
     case BannerType.LIKE:
-      return colors.primary.DEFAULT;
+      return colors.primary;
     default:
-      return colors.primaryBlue.DEFAULT;
+      return colors.primary;
   }
 };
 

@@ -8,15 +8,19 @@ interface XCoinTextInputProps extends TextInputProps {
   secureTextEntry?: boolean;
 }
 
+import { useTheme } from '../../context/ThemeContext';
+
 const XCoinTextInput = React.forwardRef<TextInput, XCoinTextInputProps>(
   ({ label, error, secureTextEntry = false, editable = true, ...props }, ref) => {
+    const { activeScheme } = useTheme();
+
     return (
       <View>
-        <Text className="text-sm font-semibold text-coin-name mb-2">{label}</Text>
+        <Text className="text-sm font-semibold text-onSurface mb-2">{label}</Text>
         <TextInput
           ref={ref}
-          className="bg-white border border-border-light rounded-lg px-4 py-3 text-coin-price"
-          placeholderTextColor={colors.text.light}
+          className="bg-white border border-outlineVariant rounded-lg px-4 py-3 text-onSurface"
+          placeholderTextColor={activeScheme?.onSurfaceVariant || "#757575"}
           secureTextEntry={secureTextEntry}
           editable={editable}
           {...props}

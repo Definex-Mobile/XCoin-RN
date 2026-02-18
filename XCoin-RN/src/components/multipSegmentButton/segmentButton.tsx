@@ -13,7 +13,7 @@ export interface ButtonProps {
 }
 
 const shadowSmallStyle = {
-  shadowColor: "text-text-dark",
+  shadowColor: "text-onSurface",
   shadowOffset: { width: 0, height: 2 },
   shadowOpacity: 0.075,
   shadowRadius: 4,

@@ -14,7 +14,7 @@ export default function PortfolioCard({ data, className = '' }: Props) {
   const vm = mapPortfolioToCardVM(data);
 
   return (
-    <View className={`rounded-xl bg-primaryBlue pb-[26px] ${className}`}>
+    <View className={`rounded-xl bg-primary pb-[26px] ${className}`}>
       <Text className="pt-[24px] pl-[20px] text-white bold20">{useTranslation("portfolio.portfolio")}</Text>
 
       <Text className="pb-[2px] pt-[16px] pl-[20px] text-white lightItalic10">{useTranslation("portfolio.holdingValue")}</Text>

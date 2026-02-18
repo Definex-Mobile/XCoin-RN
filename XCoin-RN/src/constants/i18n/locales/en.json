@@ -115,7 +115,13 @@
             "crashConfirm": "Crash Now"
         },
         "atmRoute": "Route to Nearest ATM",
-        "nearbyAtms": "Find Nearby ATMs"
+        "nearbyAtms": "Find Nearby ATMs",
+        "theme": {
+            "title": "Appearance",
+            "light": "Light",
+            "dark": "Dark",
+            "system": "System"
+        }
     },
     "coinDetail": {
         "exchange": "Exchange",

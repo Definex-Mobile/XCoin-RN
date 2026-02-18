@@ -49,8 +49,8 @@ export function CryptoCoinListItem({ coin }: Props) {
       </View>
 
       <View className="flex-1">
-        <Text className="thinItalic16 text-coin-name">{coin.longName}</Text>
-        <Text className="thinItalic12 text-coin-symbol mt-1">
+        <Text className="thinItalic16 text-onSurface">{coin.longName}</Text>
+        <Text className="thinItalic12 text-onSurfaceVariant mt-1">
           {coin.shortName}
         </Text>
       </View>

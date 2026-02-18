@@ -20,7 +20,7 @@ export default function BottomSheetItem({
   return (
     <Pressable
       onPress={onPress}
-      style={{ borderBottomColor: colors.border.light }}
+      style={{ borderBottomColor: colors.outlineVariant }}
       className={`flex-row items-center justify-between py-[17px] ${
         !isLast ? "border-b" : ""
       }`}
@@ -30,14 +30,14 @@ export default function BottomSheetItem({
       <View
         style={{
           borderColor: isSelected
-            ? colors.primaryBlue.DEFAULT
-            : colors.border.gray,
+            ? colors.primary
+            : colors.outline,
         }}
         className="items-center justify-center w-6 h-6 rounded-full border-2"
       >
         {isSelected && (
           <View
-            style={{ backgroundColor: colors.primaryBlue.DEFAULT }}
+            style={{ backgroundColor: colors.primary }}
             className="w-[14px] h-[14px] rounded-full"
           />
         )}

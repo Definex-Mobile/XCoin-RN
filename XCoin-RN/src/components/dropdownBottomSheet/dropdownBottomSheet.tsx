@@ -71,13 +71,13 @@ export default function DropdownBottomSheet({
     <>
       <Pressable
         onPress={handleOpen}
-        style={{ borderColor: colors.border.gray }}
+        style={{ borderColor: colors.outline }}
         className="flex-row items-center rounded-3xl px-[9px] py-[5px] border bg-white"
       >
         <Text
           className="lightItalic12 me-3"
           style={{
-            color: selectedItem ? colors.text.DEFAULT : colors.text.light,
+            color: selectedItem ? colors.onSurface : colors.onSurfaceVariant,
           }}
         >
           {selectedItem
@@ -100,7 +100,7 @@ export default function DropdownBottomSheet({
       >
         <TouchableWithoutFeedback onPress={handleClose}>
           <View
-            style={{ backgroundColor: colors.overlay.dark }}
+            style={{ backgroundColor: colors.scrim }}
             className="flex-1 justify-end"
           >
             <TouchableWithoutFeedback>
@@ -128,7 +128,7 @@ export default function DropdownBottomSheet({
                   <Pressable
                     onPress={handleUpdate}
                     className="h-12 rounded items-center justify-center"
-                    style={{ backgroundColor: colors.primaryBlue.DEFAULT }}
+                    style={{ backgroundColor: colors.primary }}
                   >
                     <Text className="medium16 text-white">
                       {t("dropdownBottomSheet.updateMarket")}
