@@ -50,7 +50,8 @@ build_apk() {
         "-x" "test"
     )
 
-    ./gradlew "${GRADLE_ARGS[@]}" || fail "Gradle Build başarısız oldu!"
+    ./gradlew "${GRADLE_ARGS[@]}" || { ./gradlew --stop; fail "Gradle Build başarısız oldu!"; }
+    ./gradlew --stop
 
     log "✅ Build Başarıyla Tamamlandı!"
 
