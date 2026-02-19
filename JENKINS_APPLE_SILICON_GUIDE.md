@@ -40,7 +40,19 @@ docker run -d --name jenkins-android \
 
 ---
 
-## ⚠️ 2. Kritik Performans Optimizasyonları
+## ⚛️ vs 🤖 vs 🐦 2. Proje Tipleri Karşılaştırması
+
+| Özellik           | Android Native (uab-android) | React Native (XCoin-RN)       | Flutter (XtreMobile)              |
+| :---------------- | :--------------------------- | :---------------------------- | :-------------------------------- |
+| **Ön Gereksinim** | JDK 17, Android SDK          | **Node.js**, JDK, Android SDK | **Flutter SDK**, JDK, Android SDK |
+| **Bağımlılıklar** | Gradle Sync                  | **npm install**               | **flutter pub get**               |
+| **Versiyonlama**  | `build.gradle` (sed)         | **app.json** (node)           | **pubspec.yaml** (python/bash)    |
+| **Build Komutu**  | `./gradlew assembleRelease`  | **npx expo prebuild**         | **flutter build apk**             |
+| **Hız Optimize**  | Build Cache                  | ABI Filter                    | ABI Filter (arm64-v8a)            |
+
+---
+
+## ⚠️ 3. Kritik Performans Optimizasyonları
 
 ### 1. Bellek Çıkmazı (RAM Limitleri)
 
@@ -376,6 +388,85 @@ pipeline {
             }
         }
         stage('Upload') { steps { sh 'scripts/build-and-upload.sh upload' } }
+    }
+}
+```
+
+### G. Build Script: Flutter (XtreMobile)
+
+`pubspec.yaml` üzerinden versiyon artırır ve `flutter build` kullanır.
+
+```bash
+#!/bin/bash
+set -e
+log() { echo -e "\n\033[1;34m▶️  $1\033[0m"; }
+fail() { echo -e "\n\033[1;31m❌ $1\033[0m"; exit 1; }
+
+build_apk() {
+    log "Flutter pub get..."
+    flutter pub get
+
+    # Kod üretimi varsa (Retrofit, AutoRoute vb.)
+    if grep -q "build_runner" pubspec.yaml; then
+        flutter pub run build_runner build --delete-conflicting-outputs
+    fi
+
+    log "Flutter Build APK..."
+    flutter build apk --release --obfuscate --split-debug-info=build/app/outputs/symbols || fail "Build failed!"
+
+    mkdir -p build-output
+    cp build/app/outputs/flutter-apk/app-release.apk build-output/Xtre-Release.apk
+
+    # Bellek temizliği
+    cd android && ./gradlew --stop || true
+}
+
+bump_version() {
+    log "Versiyon Artırılıyor (pubspec.yaml)..."
+    python3 -c "
+import re
+with open('pubspec.yaml', 'r') as f:
+    content = f.read()
+def increment(match):
+    v, b = match.group(1).split('+')
+    return f'version: {v}+{int(b)+1}'
+new_content = re.sub(r'version: ([0-9.]+\+[0-9]+)', increment, content)
+with open('pubspec.yaml', 'w') as f:
+    f.write(new_content)
+"
+    git add pubspec.yaml && git commit -m "chore(version): bump [ci skip]" || true
+}
+
+case "$1" in
+    bump) bump_version ;;
+    build) build_apk ;;
+    push) # Push logic... ;;
+    upload) # Firebase upload... ;;
+esac
+```
+
+### H. Jenkinsfile: Flutter (XtreMobile)
+
+```groovy
+pipeline {
+    agent any
+    parameters { choice(name: 'BUILD_PLATFORM', choices: ['android', 'ios']) }
+    stages {
+        stage('Initialize') { steps { sh "chmod +x scripts/*.sh" } }
+        stage('Bump') { steps { sh './scripts/build-android.sh bump' } }
+        stage('Build') {
+            when { expression { params.BUILD_PLATFORM == 'android' } }
+            steps { sh './scripts/build-android.sh build' }
+        }
+        stage('Deploy') {
+            steps {
+                withCredentials([string(credentialsId: 'xcoin-git-token', variable: 'GIT_TOKEN'),
+                                 string(credentialsId: 'xcoin-firebase-token', variable: 'FIREBASE_TOKEN')]) {
+                    sh './scripts/build-android.sh push'
+                    sh './scripts/build-android.sh upload'
+                }
+            }
+        }
     }
 }
 ```
