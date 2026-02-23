@@ -8,6 +8,7 @@ import { checkAppVersion, type VersionCheckResult } from "../src/services/versio
 import { logButtonClick } from "../src/services/analyticsService";
 import { SCREENS, PARAMS } from "../src/constants/analyticsEvents";
 import { UpdateDialog } from "../src/components/updateDialog/updateDialog";
+import { assetService } from "../src/services/assetService";
 
 const IS_IOS = Platform.OS === constants.platform.IOS;
 
@@ -17,8 +18,11 @@ export default function SplashScreen() {
   const [versionInfo, setVersionInfo] = useState<VersionCheckResult | null>(null);
 
   useEffect(() => {
-    const checkVersion = async () => {
+    const checkAppStatus = async () => {
       try {
+        // Fetch dynamic assets
+        await assetService.fetchAssets();
+
         const result = await checkAppVersion();
 
         if (result.needsUpdate) {
@@ -41,7 +45,7 @@ export default function SplashScreen() {
       }
     };
 
-    checkVersion();
+    checkAppStatus();
   }, [router]);
 
   const handleUpdate = () => {
