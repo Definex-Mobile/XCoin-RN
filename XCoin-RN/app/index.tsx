@@ -5,14 +5,18 @@ import { useRouter } from "expo-router";
 import { constants } from "../src/constants/constants";
 import { useTranslation } from "../src/hooks/useTranslation";
 import { checkAppVersion, type VersionCheckResult, UpdateType } from "../src/services/versionService";
+import { checkMaintenanceStatus, type MaintenanceCheckResult } from "../src/services/maintenanceService";
 import { logButtonClick } from "../src/services/analyticsService";
 import { SCREENS, PARAMS } from "../src/constants/analyticsEvents";
 import { UpdateDialog } from "../src/components/updateDialog/updateDialog";
+import { MaintenanceDialog } from "../src/components/maintenanceDialog/maintenanceDialog";
 
 export default function SplashScreen() {
   const router = useRouter();
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);
+  const [showMaintenanceDialog, setShowMaintenanceDialog] = useState(false);
   const [versionInfo, setVersionInfo] = useState<VersionCheckResult | null>(null);
+  const [maintenanceInfo, setMaintenanceInfo] = useState<MaintenanceCheckResult | null>(null);
 
   const navigateToLogin = () => {
     const timer = setTimeout(() => {
@@ -22,8 +26,17 @@ export default function SplashScreen() {
   };
 
   useEffect(() => {
-    const checkVersion = async () => {
+    const checkAppStatus = async () => {
       try {
+        // 1. Check Maintenance First
+        const maintenance = await checkMaintenanceStatus();
+        if (maintenance.isActive) {
+          setMaintenanceInfo(maintenance);
+          setShowMaintenanceDialog(true);
+          return; // Block everything
+        }
+
+        // 2. Check Version
         const result = await checkAppVersion();
 
         if (result.updateType !== UpdateType.NONE) {
@@ -33,12 +46,12 @@ export default function SplashScreen() {
           navigateToLogin();
         }
       } catch (error) {
-        if (__DEV__) console.error('Version check failed:', error);
+        if (__DEV__) console.error('App status check failed:', error);
         navigateToLogin();
       }
     };
 
-    checkVersion();
+    checkAppStatus();
   }, [router]);
 
   const handleUpdate = () => {
@@ -91,6 +104,13 @@ export default function SplashScreen() {
         onUpdate={handleUpdate}
         onExit={handleExit}
         onLater={handleLater}
+      />
+
+      <MaintenanceDialog
+        visible={showMaintenanceDialog}
+        title={maintenanceInfo?.title}
+        message={maintenanceInfo?.message}
+        onExit={handleExit}
       />
     </View>
   );

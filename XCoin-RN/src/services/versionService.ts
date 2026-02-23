@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
-import { VERSION_API_BASE_URL, VERSION_API_KEY, ENDPOINTS } from '../api/endpoints';
+import { CONFIG_API_BASE_URL, CONFIG_API_KEY, ENDPOINTS } from '../api/endpoints';
 import { logRequest, logResponse, logError } from '../api/logger';
 import { VersionResponse } from '../types/version';
 
@@ -51,7 +51,7 @@ function getFallbackResult(): VersionCheckResult {
 
 export async function checkAppVersion(): Promise<VersionCheckResult> {
     const platform = Platform.OS;
-    const url = `${VERSION_API_BASE_URL}${ENDPOINTS.VERSION_CONFIG}?platform=${platform}`;
+    const url = `${CONFIG_API_BASE_URL}${ENDPOINTS.VERSION_CONFIG}?platform=${platform}`;
     const requestId = Math.random().toString(16).slice(2);
     const startTime = Date.now();
 
@@ -60,7 +60,7 @@ export async function checkAppVersion(): Promise<VersionCheckResult> {
     try {
         const response = await fetch(url, {
             method: 'GET',
-            headers: { 'X-API-Key': VERSION_API_KEY },
+            headers: { 'X-API-Key': CONFIG_API_KEY },
         });
 
         const durationMs = Date.now() - startTime;
