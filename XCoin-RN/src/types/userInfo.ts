@@ -7,6 +7,7 @@ export interface UserInfo {
   phoneNumber?: string;
   countryCode?: string;
   email?: string;
+  password?: string;
   sessionCode?: string;
   expirationDate?: number;
   token?: string;

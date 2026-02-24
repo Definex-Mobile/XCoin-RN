@@ -2,10 +2,16 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import type { UserInfo } from '../types/userInfo';
 import { clearUserInfo, getUserInfo, saveUserInfo } from '../services/userInfoStorage';
 
+type LoginPayload = {
+  email: string;
+  password: string;
+  lastLoginDate: string;
+};
+
 interface AuthContextType {
   isAuthenticated: boolean;
   userInfo: UserInfo | null;
-  login: (payload: Pick<UserInfo, 'email' | 'lastLoginDate'>) => Promise<void>;
+  login: (payload: LoginPayload) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -25,7 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       setUserInfo(storedUserInfo);
-      setIsAuthenticated(storedUserInfo.isActive ?? true);
+      setIsAuthenticated(Boolean(storedUserInfo.isActive));
     };
 
     hydrateAuth();
@@ -35,10 +41,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const login = async (payload: Pick<UserInfo, 'email' | 'lastLoginDate'>) => {
+  const login = async (payload: LoginPayload) => {
+    const storedUserInfo = await getUserInfo();
+
+    if (!storedUserInfo?.email) {
+      throw new Error('No user account found');
+    }
+
+    const normalizedStoredEmail = storedUserInfo.email.trim().toLowerCase();
+    const normalizedPayloadEmail = payload.email.trim().toLowerCase();
+    const hasStoredPassword = Boolean(storedUserInfo.password);
+    const doesPasswordMatch = hasStoredPassword
+      ? storedUserInfo.password === payload.password
+      : true;
+
+    if (normalizedStoredEmail !== normalizedPayloadEmail || !doesPasswordMatch) {
+      throw new Error('Invalid credentials');
+    }
+
     const nextUserInfo: UserInfo = {
-      ...payload,
+      ...storedUserInfo,
+      password: storedUserInfo.password ?? payload.password,
       isActive: true,
+      lastLoginDate: payload.lastLoginDate,
     };
 
     const isSaved = await saveUserInfo(nextUserInfo);
@@ -50,8 +75,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    await clearUserInfo();
-    setUserInfo(null);
+    if (!userInfo) {
+      await clearUserInfo();
+      setIsAuthenticated(false);
+      return;
+    }
+
+    const nextUserInfo: UserInfo = {
+      ...userInfo,
+      isActive: false,
+    };
+
+    const isSaved = await saveUserInfo(nextUserInfo);
+    if (!isSaved) {
+      console.warn('User info could not be persisted in secure storage');
+    }
+
+    setUserInfo(nextUserInfo);
     setIsAuthenticated(false);
   };
 

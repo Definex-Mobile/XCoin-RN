@@ -54,6 +54,7 @@ export default function LoginScreen() {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await login({
         email: email.trim(),
+        password,
         lastLoginDate: new Date().toISOString(),
       });
       router.replace('/(tabs)');
