@@ -10,6 +10,19 @@
         "description": "Make your first Investment today",
         "buttonText": "Invest Today"
     },
+    "location": {
+        "servicesDisabled": "Location services are disabled. Please enable them in settings.",
+        "permissionDeniedTitle": "Permission Denied",
+        "permissionDenied": "Location permission is required for navigation.",
+        "fetchError": "Location could not be fetched. Please make sure GPS is enabled.",
+        "genericError": "An error occurred during location process."
+    },
+    "imagePicker": {
+        "title": "Change Profile Photo",
+        "takePhoto": "Take Photo",
+        "chooseFromGallery": "Choose from Gallery",
+        "cancel": "Cancel"
+    },
     "common": {
         "welcome": "Welcome",
         "loading": "Loading...",
@@ -22,7 +35,8 @@
         "delete": "Delete",
         "edit": "Edit",
         "close": "Close",
-        "ok": "Okey"
+        "ok": "Okey",
+        "selectOptions": "Select Options"
     },
     "splash": {
         "title": "Welcome to XCoin",
@@ -91,6 +105,15 @@
         "security": "Security",
         "helpSupport": "Help and Support",
         "termsConditions": "Terms and Conditions",
+        "debug": {
+            "crashlyticsTestButton": "Test Crashlytics (Log + Error)",
+            "crashlyticsTestTitle": "Crashlytics Test",
+            "crashlyticsTestMessage": "Log and error recorded! It will appear in Firebase Console in 5-10 minutes.",
+            "crashButton": "Test Crash (Closes the App!)",
+            "crashTitle": "Crash Test",
+            "crashMessage": "The app will now close. When you reopen it, the crash report will be sent to Firebase.",
+            "crashConfirm": "Crash Now"
+        },
         "atmRoute": "Route to Nearest ATM",
         "nearbyAtms": "Find Nearby ATMs"
     },
@@ -103,7 +126,6 @@
         "maxPrice": "Max",
         "noChartData": "No chart data available"
     },
-
     "login": {
         "title": "XCoin",
         "subtitle": "Manage your crypto investments",
