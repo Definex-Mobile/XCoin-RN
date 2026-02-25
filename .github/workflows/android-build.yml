@@ -2,7 +2,7 @@ name: XCoin Android CI/CD
 
 on:
   push:
-    branches: ["main", "develop", "feature/*"]
+    branches: ["main", "develop", "feature/*", "selman/*"]
   workflow_dispatch:
 
 permissions:
