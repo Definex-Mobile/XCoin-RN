@@ -6,6 +6,7 @@ import type { TimeRange } from "../../types/coinDetail";
 import { getCurrencySymbol } from "../../utils/money";
 import { useTranslation as useI18nTranslation } from "../../constants/i18n";
 import { colors } from "../../constants/colors";
+import { useTheme } from "../../context/ThemeContext";
 
 const X_AXIS_LABELS: Record<TimeRange, string[]> = {
   "1H": ["16:00", "16:20", "16:40", "17:00", "17:20"],
@@ -28,6 +29,7 @@ export function PriceChart({ graphArray, pointArray, currency, timeRange }: Pric
   const { t } = useI18nTranslation();
   const screenWidth = Dimensions.get("window").width;
   const currencySymbol = getCurrencySymbol(currency);
+  const { activeScheme } = useTheme();
 
   const chartData = useMemo(() => {
     if (!graphArray || graphArray.length === 0) {
@@ -54,25 +56,25 @@ export function PriceChart({ graphArray, pointArray, currency, timeRange }: Pric
       datasets: [
         {
           data: prices,
-          color: () => colors.primaryBlue.DEFAULT,
+          color: () => activeScheme?.primary || colors.loader,
           strokeWidth: 3,
         },
       ],
     };
-  }, [graphArray, timeRange]);
+  }, [graphArray, timeRange, activeScheme]);
 
   const chartConfig = useMemo(
     () => ({
-      backgroundColor: "#ffffff",
-      backgroundGradientFrom: "#ffffff",
-      backgroundGradientTo: "#ffffff",
+      backgroundColor: activeScheme?.surface || colors.white,
+      backgroundGradientFrom: activeScheme?.surface || colors.white,
+      backgroundGradientTo: activeScheme?.surface || colors.white,
       decimalPlaces: 0,
-      color: () => colors.primaryBlue.DEFAULT,
-      labelColor: (opacity = 1) => `rgba(107, 114, 128, ${opacity})`,
+      color: () => activeScheme?.primary || colors.loader,
+      labelColor: (opacity = 1) => activeScheme?.onSurfaceVariant || `rgba(107, 114, 128, ${opacity})`,
       propsForDots: { r: "0" },
       propsForBackgroundLines: {
         strokeDasharray: "",
-        stroke: "rgba(0,0,0,0.08)",
+        stroke: activeScheme?.outlineVariant || "rgba(0,0,0,0.08)",
         strokeWidth: 1,
       },
       formatYLabel: (value: string) => {
@@ -83,7 +85,7 @@ export function PriceChart({ graphArray, pointArray, currency, timeRange }: Pric
         return value;
       },
     }),
-    [currencySymbol],
+    [currencySymbol, activeScheme],
   );
 
   const segments = Math.max(1, pointArray.length - 1);
@@ -92,10 +94,10 @@ export function PriceChart({ graphArray, pointArray, currency, timeRange }: Pric
     <View style={{ paddingVertical: 8, paddingHorizontal: 0 }}>
       <View
         style={{
-          backgroundColor: "white",
+          backgroundColor: activeScheme?.surface || colors.white,
           borderRadius: 16,
           overflow: "hidden",
-          shadowColor: "#000",
+          shadowColor: activeScheme?.shadow || colors.black,
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.05,
           shadowRadius: 4,
@@ -127,7 +129,7 @@ export function PriceChart({ graphArray, pointArray, currency, timeRange }: Pric
           </View>
         ) : (
           <View style={{ height: 240, alignItems: "center", justifyContent: "center" }}>
-            <Text className="text-coin-symbol">{t("coinDetail.noChartData")}</Text>
+            <Text className="text-onSurfaceVariant">{t("coinDetail.noChartData")}</Text>
           </View>
         )}
       </View>
