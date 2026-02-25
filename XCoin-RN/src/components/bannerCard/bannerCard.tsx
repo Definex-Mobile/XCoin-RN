@@ -20,6 +20,7 @@ export interface BannerCardProps {
   width?: DimensionValue;
   height?: DimensionValue;
   minHeight?: number;
+  onClose?: () => void;
 }
 
 const getBannerColor = (type?: BannerType): string => {
@@ -57,6 +58,7 @@ export default function BannerCard({
   bannerType,
   width,
   height,
+  onClose,
 }: BannerCardProps) {
   const backgroundColor = getBannerColor(bannerType);
 
@@ -69,6 +71,14 @@ export default function BannerCard({
       }}
       className="mx-4 rounded-2xl overflow-hidden shadow-lg"
     >
+      {onClose && (
+        <Pressable
+          onPress={onClose}
+          className="absolute top-3 right-3 z-20 w-8 h-8 items-center justify-center rounded-full bg-black/10"
+        >
+          <Text className="text-white text-lg font-bold leading-none">×</Text>
+        </Pressable>
+      )}
       {image && (
         <Image
           source={image}
@@ -77,13 +87,13 @@ export default function BannerCard({
         />
       )}
 
-      <View className="relative z-10 mx-5 mt-6">
-        {title && <Text className="text-onPrimary thinItalic12 ">{title}</Text>}
+      <View className="relative z-10 mx-5 mt-6 mb-6">
+        {title && <Text className="text-white thinItalic12 ">{title}</Text>}
 
         {description && (
           <Text
             style={bannerType !== BannerType.HOME ? { width: 167 } : undefined}
-            className="text-onPrimary medium18 leading-tight mt-[9px]"
+            className="text-white medium18 leading-tight mt-[9px]"
             numberOfLines={bannerType !== BannerType.HOME ? 2 : 1}
           >
             {description}
