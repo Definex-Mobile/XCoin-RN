@@ -46,12 +46,15 @@
         "tagline": "Turkey's Highly Rated Cryptocurrency Exchange"
     },
     "updateDialog": {
-        "title": "Update Required",
-        "message": "A new version of XCoin is available. Please update to continue using the app.",
+        "title": "Update",
+        "messageForce": "This version of the application is no longer supported. Please update to the latest version to continue.",
+        "messageSoft": "Please update the application to enjoy new features and improvements.",
+        "releaseNotes": "What's New",
         "currentVersion": "Current Version",
         "requiredVersion": "Required Version",
         "updateButton": "Update Now",
-        "exitButton": "Exit App"
+        "exitButton": "Exit App",
+        "laterButton": "Later"
     },
     "tabs": {
         "all": "All",
@@ -115,7 +118,13 @@
             "crashConfirm": "Crash Now"
         },
         "atmRoute": "Route to Nearest ATM",
-        "nearbyAtms": "Find Nearby ATMs"
+        "nearbyAtms": "Find Nearby ATMs",
+        "theme": {
+            "title": "Appearance",
+            "light": "Light",
+            "dark": "Dark",
+            "system": "System"
+        }
     },
     "coinDetail": {
         "exchange": "Exchange",

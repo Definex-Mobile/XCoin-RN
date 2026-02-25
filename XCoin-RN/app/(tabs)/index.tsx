@@ -13,6 +13,7 @@ import { getAnnouncements } from "../../src/services/announcementService";
 import { Announcement } from "../../src/types/announcement";
 import { useLanguage } from "../../src/hooks/useLanguage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { assetService } from "../../src/services/assetService";
 
 const DISMISSED_ANNOUNCEMENTS_KEY = "dismissed_announcements";
 
@@ -78,7 +79,7 @@ export default function Home() {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background-gray">
+    <ScrollView className="flex-1 bg-background">
       {announcements.map((announcement) => (
         <View key={announcement.id} className="pt-4">
           <BannerCard
@@ -96,18 +97,18 @@ export default function Home() {
           description={t("bannerCard.description")}
           buttonText={t("bannerCard.buttonText")}
           onButtonPress={handleBannerPress}
-          image={require("../../assets/images/img-welcome-card.png")}
+          image={assetService.getAssetSource('img_welcome_card', require("../../assets/images/xcoin_logo.png"))}
           bannerType={BannerType.HOME}
         />
       </View>
 
       <View className="px-4 mt-6">
-        <Text className="bold20 text-coin-name mb-3">
+        <Text className="bold20 text-onSurface mb-3">
           {t("home.trendingCoins")}
         </Text>
 
         {loading && !error && (
-          <Text className="regular14 text-coin-symbol">
+          <Text className="regular14 text-onSurfaceVariant">
             {t("common.loading")}
           </Text>
         )}

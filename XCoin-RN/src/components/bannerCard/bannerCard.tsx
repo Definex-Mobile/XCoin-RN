@@ -26,13 +26,13 @@ export interface BannerCardProps {
 const getBannerColor = (type?: BannerType): string => {
   switch (type) {
     case BannerType.HOME:
-      return colors.primaryBlue.DEFAULT;
+      return colors.bannerHome;
     case BannerType.REFER:
-      return colors.accent.DEFAULT;
+      return colors.bannerRefer;
     case BannerType.LIKE:
-      return colors.primary.DEFAULT;
+      return colors.bannerLike;
     default:
-      return colors.primaryBlue.DEFAULT;
+      return colors.bannerHome;
   }
 };
 
@@ -88,12 +88,12 @@ export default function BannerCard({
       )}
 
       <View className="relative z-10 mx-5 mt-6 mb-6">
-        {title && <Text className="text-white thinItalic12 ">{title}</Text>}
+        {title && <Text className="text-onPrimary thinItalic12 ">{title}</Text>}
 
         {description && (
           <Text
             style={bannerType !== BannerType.HOME ? { width: 167 } : undefined}
-            className="text-white medium18 leading-tight mt-[9px]"
+            className="text-onPrimary medium18 leading-tight mt-[9px]"
             numberOfLines={bannerType !== BannerType.HOME ? 2 : 1}
           >
             {description}
@@ -103,7 +103,7 @@ export default function BannerCard({
         {buttonText && (
           <Pressable
             onPress={onButtonPress}
-            className="bg-white rounded mt-[22px] px-3 py-2 items-center justify-center self-start"
+            className="bg-surface rounded mt-[22px] mb-[21px] px-3 py-2 items-center justify-center self-start"
           >
             <Text
               style={{ color: backgroundColor }}

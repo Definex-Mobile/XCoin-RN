@@ -17,5 +17,6 @@ export const ENDPOINTS = {
     TRENDING: "/api/trending.json",
     VERSION_CONFIG: "/config/version",
     MAINTENANCE_CONFIG: "/config/maintenance",
-    ANNOUNCEMENTS: "/announcements"
+    ANNOUNCEMENTS: "/announcements",
+    ASSET_CONFIG: "/config/assets"
 } as const
