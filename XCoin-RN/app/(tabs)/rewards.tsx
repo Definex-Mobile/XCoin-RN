@@ -5,6 +5,7 @@ import { useTranslation } from "../../src/hooks/useTranslation";
 import BannerCard, { BannerType, BannerCardProps } from "../../src/components/bannerCard/bannerCard";
 import { logButtonClick } from "../../src/services/analyticsService";
 import { SCREENS } from "../../src/constants/analyticsEvents";
+import { assetService } from "../../src/services/assetService";
 
 function handleBannerPress(type: BannerType): void {
   const buttonName = type === BannerType.REFER ? "refer_banner" : "like_banner";
@@ -36,7 +37,7 @@ export default function RewardsCouponsScreen() {
       description: useTranslation("bannerCard.referDesc"),
       buttonText: useTranslation("bannerCard.referButtonText"),
       onButtonPress: () => handleBannerPress(BannerType.REFER),
-      image: require("../../assets/images/img-refer-card.png"),
+      image: assetService.getAssetSource('img_refer_card', require("../../assets/images/xcoin_logo.png")),
       bannerType: BannerType.REFER,
       height: 160
     },
@@ -45,7 +46,7 @@ export default function RewardsCouponsScreen() {
       description: useTranslation("bannerCard.likeDesc"),
       buttonText: useTranslation("bannerCard.likeButtonText"),
       onButtonPress: () => handleBannerPress(BannerType.LIKE),
-      image: require("../../assets/images/img-like-card.png"),
+      image: assetService.getAssetSource('img_like_card', require("../../assets/images/xcoin_logo.png")),
       bannerType: BannerType.LIKE,
       height: 160
     }

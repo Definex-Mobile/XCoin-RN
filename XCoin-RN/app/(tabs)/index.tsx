@@ -9,6 +9,7 @@ import type { CryptoCoin } from "../../src/types/cryptoCoin";
 import { getTrendingCoins } from "../../src/api/services/trendingService";
 import { logButtonClick } from "../../src/services/analyticsService";
 import { SCREENS, PARAMS } from "../../src/constants/analyticsEvents";
+import { assetService } from "../../src/services/assetService";
 
 export default function Home() {
   const { t } = useI18nTranslation();
@@ -48,7 +49,7 @@ export default function Home() {
           description={t("bannerCard.description")}
           buttonText={t("bannerCard.buttonText")}
           onButtonPress={handleBannerPress}
-          image={require("../../assets/images/img-welcome-card.png")}
+          image={assetService.getAssetSource('img_welcome_card', require("../../assets/images/xcoin_logo.png"))}
           bannerType={BannerType.HOME}
         />
       </View>

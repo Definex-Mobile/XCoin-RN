@@ -26,6 +26,7 @@ export const SmartImage: React.FC<SmartImageProps> = ({
     resizeMode = 'cover',
 }) => {
     const trimmedUri = uri?.trim();
+
     if (!trimmedUri || trimmedUri.length === 0) {
         return <Image source={fallback} style={style} className={className} resizeMode={resizeMode} />;
     }
