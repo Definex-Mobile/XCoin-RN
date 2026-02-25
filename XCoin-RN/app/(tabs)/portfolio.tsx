@@ -85,7 +85,7 @@ export default function Portfolio() {
   const filteredCoins = getFilteredCoins();
 
   return (
-    <View className="flex-1 mt-3 bg-mainLightBackground">
+    <View className="flex-1 bg-background">
       <View>
         {loading && !portfolioData && (
           <View className="mx-4 pt-3 h-48 rounded-xl" />
@@ -105,7 +105,7 @@ export default function Portfolio() {
           onSelectedIndexChange={handleSegmentChange}
         />
 
-        <Text className="mt-8 mx-5 bold20 text-coin-name">
+        <Text className="mt-8 mx-5 bold20 text-onSurface">
           {useTranslation('portfolio.yourCoins')}
         </Text>
       </View>

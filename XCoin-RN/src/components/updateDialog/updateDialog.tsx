@@ -43,7 +43,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({
             onRequestClose={() => !isForceUpdate}
         >
             <View
-                style={{ backgroundColor: colors.overlay.dark }}
+                style={{ backgroundColor: colors.scrim }}
                 className="flex-1 justify-center items-center px-6"
             >
                 <View className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl">
@@ -51,51 +51,51 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({
                         {t('updateDialog.title')}
                     </Text>
 
-                    <Text className="regular15 text-text-light text-center mb-6 leading-5">
+                    <Text className="regular14 text-onSurfaceVariant text-center mb-6">
                         {isForceUpdate
                             ? t('updateDialog.messageForce')
                             : t('updateDialog.messageSoft')}
                     </Text>
 
                     {releaseNoteText ? (
-                        <View className="bg-background-gray rounded-2xl p-4 mb-6 max-h-40">
-                            <Text className="semibold14 text-text mb-2">
+                        <View className="bg-background-gray rounded-xl p-4 mb-6 max-h-40">
+                            <Text className="semibold14 text-onSurface mb-2">
                                 {t('updateDialog.releaseNotes')} ({targetVersion})
                             </Text>
                             <ScrollView showsVerticalScrollIndicator={false}>
-                                <Text className="regular13 text-text-light">
+                                <Text className="regular13 text-onSurfaceVariant">
                                     {releaseNoteText}
                                 </Text>
                             </ScrollView>
                         </View>
                     ) : (
-                        <View className="bg-background-gray rounded-2xl p-4 mb-6">
+                        <View className="bg-background-gray rounded-xl p-4 mb-6">
                             <View className="flex-row justify-between mb-2">
-                                <Text className="regular14 text-text-light">
+                                <Text className="regular14 text-onSurfaceVariant">
                                     {t('updateDialog.currentVersion')}:
                                 </Text>
-                                <Text className="medium14 text-text">
+                                <Text className="medium14 text-onSurface">
                                     {currentVersion}
                                 </Text>
                             </View>
                             <View className="flex-row justify-between">
-                                <Text className="regular14 text-text-light">
+                                <Text className="regular14 text-onSurfaceVariant">
                                     {t('updateDialog.requiredVersion')}:
                                 </Text>
-                                <Text className="medium14 text-text">
+                                <Text className="medium14 text-onSurface">
                                     {targetVersion}
                                 </Text>
                             </View>
                         </View>
                     )}
 
-                    <View className="space-y-3">
+                    <View className="gap-y-3">
                         <Pressable
                             onPress={onUpdate}
-                            className="h-14 rounded-2xl items-center justify-center shadow-sm"
-                            style={{ backgroundColor: colors.primaryBlue.DEFAULT }}
+                            className="h-12 rounded-lg items-center justify-center shadow-sm"
+                            style={{ backgroundColor: colors.primary }}
                         >
-                            <Text className="bold16 text-white">
+                            <Text className="medium16 text-white">
                                 {t('updateDialog.updateButton')}
                             </Text>
                         </Pressable>
@@ -103,18 +103,18 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({
                         {isForceUpdate ? (
                             <Pressable
                                 onPress={onExit}
-                                className="h-12 rounded-2xl items-center justify-center"
+                                className="h-12 rounded-lg items-center justify-center border border-gray-300"
                             >
-                                <Text className="semibold15 text-error">
+                                <Text className="medium16 text-error">
                                     {t('updateDialog.exitButton')}
                                 </Text>
                             </Pressable>
                         ) : (
                             <Pressable
                                 onPress={onLater}
-                                className="h-12 rounded-2xl items-center justify-center"
+                                className="h-12 rounded-lg items-center justify-center"
                             >
-                                <Text className="semibold15 text-text-light">
+                                <Text className="medium16 text-onSurfaceVariant">
                                     {t('updateDialog.laterButton')}
                                 </Text>
                             </Pressable>

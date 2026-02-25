@@ -14,14 +14,14 @@ export default function PortfolioCard({ data, className = '' }: Props) {
   const vm = mapPortfolioToCardVM(data);
 
   return (
-    <View className={`rounded-xl bg-primaryBlue pb-[26px] ${className}`}>
-      <Text className="pt-[24px] pl-[20px] text-white bold20">{useTranslation("portfolio.portfolio")}</Text>
+    <View className={`rounded-xl bg-primary pb-[26px] ${className}`}>
+      <Text className="pt-[24px] pl-[20px] text-onPrimary bold20">{useTranslation("portfolio.portfolio")}</Text>
 
-      <Text className="pb-[2px] pt-[16px] pl-[20px] text-white lightItalic10">{useTranslation("portfolio.holdingValue")}</Text>
+      <Text className="pb-[2px] pt-[16px] pl-[20px] text-onPrimary lightItalic10">{useTranslation("portfolio.holdingValue")}</Text>
 
       <View className="flex-row pl-[20px] items-baseline pb-6">
-        <Text className="text-white bold28">{vm.holdingText}</Text>
-        <Text className="ml-[7px] text-white opacity-[0.68] medium14">
+        <Text className="text-onPrimary bold28">{vm.holdingText}</Text>
+        <Text className="ml-[7px] text-onPrimary opacity-[0.68] medium14">
           {vm.changeText}
         </Text>
       </View>
@@ -29,7 +29,7 @@ export default function PortfolioCard({ data, className = '' }: Props) {
       <View className="flex-row items-center pl-[20px]">
         <PortfolioInfoItem label={useTranslation("portfolio.investedValue")} value={vm.investedText} />
 
-        <View className="w-[1px] h-10 bg-white opacity-50 mx-4" />
+        <View className="w-[1px] h-10 bg-onPrimary opacity-50 mx-4" />
 
         <PortfolioInfoItem label={useTranslation("portfolio.availableINR")} value={vm.availableText} />
       </View>

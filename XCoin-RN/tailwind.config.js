@@ -58,13 +58,6 @@ module.exports = {
     extend: {
       colors: {
         ...colors,
-        crypto: {
-          positive: "#21BF73",
-          negative: "#D90429",
-          cardBg: "#ffffff",
-          title: "#212529",
-          subtitle: "#6C757D",
-        },
       },
     },
   },

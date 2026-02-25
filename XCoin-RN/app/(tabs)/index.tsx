@@ -9,6 +9,7 @@ import type { CryptoCoin } from "../../src/types/cryptoCoin";
 import { getTrendingCoins } from "../../src/api/services/trendingService";
 import { logButtonClick } from "../../src/services/analyticsService";
 import { SCREENS, PARAMS } from "../../src/constants/analyticsEvents";
+import { assetService } from "../../src/services/assetService";
 
 export default function Home() {
   const { t } = useI18nTranslation();
@@ -41,25 +42,25 @@ export default function Home() {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background-gray">
+    <ScrollView className="flex-1 bg-background">
       <View className="pt-4">
         <BannerCard
           title={t("bannerCard.title") + " Agilan,"}
           description={t("bannerCard.description")}
           buttonText={t("bannerCard.buttonText")}
           onButtonPress={handleBannerPress}
-          image={require("../../assets/images/img-welcome-card.png")}
+          image={assetService.getAssetSource('img_welcome_card', require("../../assets/images/xcoin_logo.png"))}
           bannerType={BannerType.HOME}
         />
       </View>
 
       <View className="px-4 mt-6">
-        <Text className="bold20 text-coin-name mb-3">
+        <Text className="bold20 text-onSurface mb-3">
           {t("home.trendingCoins")}
         </Text>
 
         {loading && !error && (
-          <Text className="regular14 text-coin-symbol">
+          <Text className="regular14 text-onSurfaceVariant">
             {t("common.loading")}
           </Text>
         )}

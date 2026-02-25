@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Image, Linking, BackHandler } from "react-native";
+import { Text, View, Image, Linking, BackHandler, Platform } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { useRouter } from "expo-router";
+import { useRouter, useRootNavigationState } from "expo-router";
 import { constants } from "../src/constants/constants";
 import { useTranslation } from "../src/hooks/useTranslation";
 import { checkAppVersion, type VersionCheckResult, UpdateType } from "../src/services/versionService";
@@ -9,10 +9,14 @@ import { checkMaintenanceStatus, type MaintenanceCheckResult } from "../src/serv
 import { logButtonClick } from "../src/services/analyticsService";
 import { SCREENS, PARAMS } from "../src/constants/analyticsEvents";
 import { UpdateDialog } from "../src/components/updateDialog/updateDialog";
+import { assetService } from "../src/services/assetService";
 import { MaintenanceDialog } from "../src/components/maintenanceDialog/maintenanceDialog";
+
+const IS_IOS = Platform.OS === constants.platform.IOS;
 
 export default function SplashScreen() {
   const router = useRouter();
+  const rootNavigationState = useRootNavigationState();
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);
   const [showMaintenanceDialog, setShowMaintenanceDialog] = useState(false);
   const [versionInfo, setVersionInfo] = useState<VersionCheckResult | null>(null);
@@ -27,8 +31,14 @@ export default function SplashScreen() {
 
   useEffect(() => {
     const checkAppStatus = async () => {
+      // Wait for navigation state to be ready
+      if (!rootNavigationState?.key) return;
+
       try {
-        // 1. Check Maintenance First
+        // 1. Fetch dynamic assets
+        await assetService.fetchAssets();
+
+        // 2. Check Maintenance First
         const maintenance = await checkMaintenanceStatus();
         if (maintenance.isActive) {
           setMaintenanceInfo(maintenance);
@@ -36,7 +46,7 @@ export default function SplashScreen() {
           return; // Block everything
         }
 
-        // 2. Check Version
+        // 3. Check Version
         const result = await checkAppVersion();
 
         if (result.updateType !== UpdateType.NONE) {
@@ -52,7 +62,7 @@ export default function SplashScreen() {
     };
 
     checkAppStatus();
-  }, [router]);
+  }, [router, rootNavigationState?.key]);
 
   const handleUpdate = () => {
     logButtonClick(SCREENS.SPLASH, PARAMS.UPDATE);
@@ -74,8 +84,8 @@ export default function SplashScreen() {
   };
 
   return (
-    <View className="flex-1 bg-white items-center justify-between pb-12">
-      <StatusBar style="dark" backgroundColor="white" />
+    <View className="flex-1 bg-surface items-center justify-between pb-12">
+      <StatusBar style="dark" />
       <View className="flex-1 items-center justify-center">
         <View className="flex-row items-center justify-center">
           <Image
@@ -83,14 +93,13 @@ export default function SplashScreen() {
             className="w-20 h-20"
             resizeMode="contain"
           />
-          <Text className="bold48 text-gray-800 ml-4">
+          <Text className="bold48 text-onSurface ml-4">
             {useTranslation("splash.appName")}
           </Text>
         </View>
       </View>
-
       <View className="items-center px-8">
-        <Text className="semibold14 text-gray-400 italic text-center">
+        <Text className="semibold14 text-onSurfaceVariant italic text-center">
           {useTranslation("splash.tagline")}
         </Text>
       </View>
