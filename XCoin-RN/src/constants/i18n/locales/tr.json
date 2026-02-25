@@ -109,7 +109,17 @@
       "crashConfirm": "Crash Yap"
     },
     "atmRoute": "En Yakın ATM'ye Rota",
-    "nearbyAtms": "Etrafındaki ATM'leri Bul"
+    "nearbyAtms": "Etrafındaki ATM'leri Bul",
+    "contactUs": "Bize Ulaşın"
+  },
+  "contact": {
+    "title": "Bize Ulaşın",
+    "phone": "Telefon",
+    "whatsapp": "WhatsApp",
+    "email": "E-posta",
+    "socialHeader": "Sosyal Medya",
+    "workingHours": "Çalışma Saatleri",
+    "message": "Size nasıl yardımcı olabiliriz?"
   },
   "coinDetail": {
     "exchange": "Değiştir",

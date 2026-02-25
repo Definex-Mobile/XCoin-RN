@@ -115,7 +115,17 @@
             "crashConfirm": "Crash Now"
         },
         "atmRoute": "Route to Nearest ATM",
-        "nearbyAtms": "Find Nearby ATMs"
+        "nearbyAtms": "Find Nearby ATMs",
+        "contactUs": "Contact Us"
+    },
+    "contact": {
+        "title": "Contact Us",
+        "phone": "Phone",
+        "whatsapp": "WhatsApp",
+        "email": "Email",
+        "socialHeader": "Social Media",
+        "workingHours": "Working Hours",
+        "message": "How can we help you?"
     },
     "coinDetail": {
         "exchange": "Exchange",
