@@ -88,12 +88,12 @@ export default function BannerCard({
       )}
 
       <View className="relative z-10 mx-5 mt-6 mb-6">
-        {title && <Text className="text-onPrimary thinItalic12 ">{title}</Text>}
+        {title && <Text className="text-white thinItalic12 ">{title}</Text>}
 
         {description && (
           <Text
             style={bannerType !== BannerType.HOME ? { width: 167 } : undefined}
-            className="text-onPrimary medium18 leading-tight mt-[9px]"
+            className="text-white medium18 leading-tight mt-[9px]"
             numberOfLines={bannerType !== BannerType.HOME ? 2 : 1}
           >
             {description}
