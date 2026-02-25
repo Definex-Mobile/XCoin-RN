@@ -40,12 +40,15 @@
     "tagline": "Turkey's Highly Rated Cryptocurrency Exchange"
   },
   "updateDialog": {
-    "title": "Güncelleme Gerekli",
-    "message": "XCoin'in yeni bir sürümü mevcut. Uygulamayı kullanmaya devam etmek için lütfen güncelleyin.",
+    "title": "Güncelleme",
+    "messageForce": "Uygulamanın bu sürümü artık desteklenmiyor. Devam etmek için lütfen en son sürüme güncelleyin.",
+    "messageSoft": "Yeni özelliklerin ve iyileştirmelerin keyfini çıkarmak için lütfen uygulamayı güncelleyin.",
+    "releaseNotes": "Yenilikler",
     "currentVersion": "Mevcut Sürüm",
     "requiredVersion": "Gerekli Sürüm",
     "updateButton": "Şimdi Güncelle",
-    "exitButton": "Uygulamadan Çık"
+    "exitButton": "Uygulamadan Çık",
+    "laterButton": "Daha Sonra"
   },
   "tabs": {
     "all": "Tümü",
@@ -110,7 +113,13 @@
     },
     "atmRoute": "En Yakın ATM'ye Rota",
     "nearbyAtms": "Etrafındaki ATM'leri Bul",
-    "contactUs": "Bize Ulaşın"
+    "contactUs": "Bize Ulaşın",
+    "theme": {
+      "title": "Görünüm",
+      "light": "Açık",
+      "dark": "Koyu",
+      "system": "Sistem"
+    }
   },
   "contact": {
     "title": "Bize Ulaşın",

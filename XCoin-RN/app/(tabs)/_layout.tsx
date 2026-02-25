@@ -10,9 +10,12 @@ import RewardsIcon from '../../assets/icons/rewards_menu.svg';
 import MarketIcon from '../../assets/icons/market_menu.svg';
 import ProfileIcon from '../../assets/icons/profile_menu.svg';
 
+import { useTheme } from '../../src/context/ThemeContext';
+
 export default function TabsLayout() {
     // Call hook once at the top
     const { t } = useI18nTranslation();
+    const { activeScheme } = useTheme();
 
     const homeLabel = t('navigation.home');
     const portfolioLabel = t('navigation.portfolio');
@@ -21,13 +24,13 @@ export default function TabsLayout() {
     const profileLabel = t('navigation.profile');
 
     return (
-        <SafeAreaView className="flex-1" edges={['top']}>
+        <SafeAreaView className="flex-1 bg-background" edges={['top']}>
             <Tabs
                 screenOptions={{
-                    tabBarActiveTintColor: colors.navigation.active,
-                    tabBarInactiveTintColor: colors.navigation.inactive,
+                    tabBarActiveTintColor: activeScheme?.primary,
+                    tabBarInactiveTintColor: activeScheme?.onSurfaceVariant,
                     tabBarStyle: {
-                        backgroundColor: colors.navigation.background,
+                        backgroundColor: activeScheme?.surface,
                         borderTopWidth: 0,
                         height: 88,
                         paddingBottom: 20,
@@ -35,7 +38,7 @@ export default function TabsLayout() {
                         paddingHorizontal: 16,
                         ...Platform.select({
                             ios: {
-                                shadowColor: colors.shadow.DEFAULT,
+                                shadowColor: activeScheme?.shadow,
                                 shadowOffset: { width: 0, height: -2 },
                                 shadowOpacity: 0.1,
                                 shadowRadius: 4,
