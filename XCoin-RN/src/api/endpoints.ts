@@ -14,9 +14,9 @@ export const ENDPOINTS = {
     PORTFOLIO_SUMMARY: "/api/portfolio/summary.json",
     PORTFOLIO_LIST: "/api/portfolio/portfolioList.json",
 
+    TRENDING: "/api/trending.json",
+    VERSION_CONFIG: "/config/version",
     MAINTENANCE_CONFIG: "/config/maintenance",
     ANNOUNCEMENTS: "/announcements",
-    ASSET_CONFIG: "/config/assets",
-
-    TRENDING: "/api/trending.json"
+    ASSET_CONFIG: "/config/assets"
 } as const
