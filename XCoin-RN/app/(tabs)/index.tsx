@@ -42,7 +42,7 @@ export default function Home() {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background-gray">
+    <ScrollView className="flex-1 bg-background">
       <View className="pt-4">
         <BannerCard
           title={t("bannerCard.title") + " Agilan,"}
@@ -55,12 +55,12 @@ export default function Home() {
       </View>
 
       <View className="px-4 mt-6">
-        <Text className="bold20 text-coin-name mb-3">
+        <Text className="bold20 text-onSurface mb-3">
           {t("home.trendingCoins")}
         </Text>
 
         {loading && !error && (
-          <Text className="regular14 text-coin-symbol">
+          <Text className="regular14 text-onSurfaceVariant">
             {t("common.loading")}
           </Text>
         )}

@@ -44,7 +44,7 @@ export default function ActionBottomSheet({
         >
             <TouchableWithoutFeedback onPress={onClose}>
                 <View
-                    style={{ backgroundColor: colors.overlay.dark }}
+                    style={{ backgroundColor: colors.scrim }}
                     className="flex-1 justify-end"
                 >
                     <TouchableWithoutFeedback>
@@ -55,7 +55,7 @@ export default function ActionBottomSheet({
                                         {title || t("common.selectOptions")}
                                     </Text>
                                     <TouchableWithoutFeedback onPress={onClose}>
-                                        <Ionicons name="close" size={24} color={colors.text.light} />
+                                        <Ionicons name="close" size={24} color={colors.onSurfaceVariant} />
                                     </TouchableWithoutFeedback>
                                 </View>
 

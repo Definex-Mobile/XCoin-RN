@@ -126,7 +126,7 @@ export default function CoinDetail() {
         />
 
         <View className="px-4 flex-row p-3 items-end content-between">
-          <Text className="medium24 text-coin-name">
+          <Text className="medium24 text-onSurface">
             {getCurrencySymbol(coinData.currency)}{coinData.currentPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </Text>
           <Text className={`text-sm mt-1 pl-3 ${coinData.priceChangePercentage >= 0 ? 'text-crypto-positive' : 'text-crypto-negative'}`}>
@@ -160,8 +160,8 @@ export default function CoinDetail() {
           onPress={handleTransactions}
           className="mx-4 my-2 bg-white rounded-xl p-4 flex-row items-center justify-between border border-gray-200"
         >
-          <Text className="regular16 text-coin-symbol">{t('coinDetail.transactions')}</Text>
-          <Text className="text-xl text-coin-symbol">›</Text>
+          <Text className="regular16 text-onSurfaceVariant">{t('coinDetail.transactions')}</Text>
+          <Text className="text-xl text-onSurfaceVariant">›</Text>
         </TouchableOpacity>
 
         <View className="h-20" />

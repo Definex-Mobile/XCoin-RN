@@ -30,12 +30,12 @@ export const MultipleSegmentButton: React.FC<MultiButtonProps> = ({
         const isSelected = index === selectedIndex;
 
         const containerClassName = isSelected
-          ? 'bg-primaryBlue'
-          : 'bg-mainLightBackground border border-primaryBlue';
+          ? 'bg-primary'
+          : 'bg-onPrimary';
 
         const textClassName = isSelected
-          ? 'text-mainLightBackground'
-          : 'text-primaryBlue';
+          ? 'text-onPrimary'
+          : 'text-primary';
 
         return (
           <View key={index} className="flex-1">
