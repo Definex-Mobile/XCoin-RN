@@ -10,6 +10,9 @@ permissions:
 
 jobs:
   build_and_deploy:
+    # Sadece commit mesajında 'Publish' geçiyorsa (Ignore case için [Pp]ublish)
+    # VEYA manuel (workflow_dispatch) tetiklenmişse çalışır.
+    if: contains(github.event.head_commit.message, 'Publish') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     # Proje kök dizini XCoin-RN klasörünün içinde olduğu için

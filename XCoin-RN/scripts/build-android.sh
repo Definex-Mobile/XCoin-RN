@@ -78,7 +78,7 @@ upload_firebase() {
         "$APK_PATH"
         "--app" "$FIREBASE_APP_ID_ANDROID"
         "--token" "$FIREBASE_TOKEN"
-        "--release-notes" "Jenkins tarafından otomatik yüklenen sürüm."
+        "--release-notes" "Version uploaded by Github Actions"
     )
 
     # Tester grubu tanımlıysa ekle
@@ -111,8 +111,8 @@ bump_version() {
         console.log('New Version:', appJson.expo.version, 'Code:', appJson.expo.android.versionCode);
     "
 
-    git config user.email "jenkins-bot@definex.com"
-    git config user.name "Jenkins Bot"
+    git config user.email "actions-bot@definex.com"
+    git config user.name "Github Actions Bot"
     git add app.json
     git commit -m "chore(version): bump version to $(grep 'version' app.json | head -1 | awk -F'\"' '{print $4}') [ci skip]" || echo "Değişiklik yok."
 }
