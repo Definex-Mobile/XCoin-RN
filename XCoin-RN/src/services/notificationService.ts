@@ -1,15 +1,20 @@
 import messaging from '@react-native-firebase/messaging';
-import { Platform, Alert } from 'react-native';
+import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
+import { Platform } from 'react-native';
 
 class NotificationService {
     /**
-     * Requesst permissions for push notifications (iOS mostly)
+     * Request permissions for push notifications (iOS mostly)
      */
     async requestUserPermission() {
+        // Firebase permission
         const authStatus = await messaging().requestPermission();
         const enabled =
             authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
             authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+        // Notifee permission (required for some Android 13+ and iOS features)
+        await notifee.requestPermission();
 
         if (enabled) {
             console.log('[NotificationService] Authorization status:', authStatus);
@@ -35,54 +40,76 @@ class NotificationService {
     }
 
     /**
+     * Create necessary notification channels for Android
+     */
+    async createDefaultChannel() {
+        if (Platform.OS === 'android') {
+            await notifee.createChannel({
+                id: 'default',
+                name: 'Default Notifications',
+                importance: AndroidImportance.HIGH,
+            });
+            console.log('[NotificationService] Android Notification Channel created');
+        }
+    }
+
+    /**
      * Set up notification listeners
      */
     setupListeners(onNotificationOpened: (url: string) => void) {
-        // 1. Foreground messaging
-        const unsubscribe = messaging().onMessage(async remoteMessage => {
-            console.log('[NotificationService] Foreground Message:', remoteMessage);
+        this.createDefaultChannel();
 
-            // For now, let's just show an alert or handle it based on requirements
-            // In a real app, you might want to show a custom local notification/banner
+        // 1. Foreground messaging (Firebase -> Notifee Banner)
+        const unsubscribeMessaging = messaging().onMessage(async remoteMessage => {
+            console.log('[NotificationService] Foreground Message Received:', JSON.stringify(remoteMessage, null, 2));
+
+            // If it has a notification payload, display a local banner using Notifee
             if (remoteMessage.notification) {
-                Alert.alert(
-                    remoteMessage.notification.title || 'New Notification',
-                    remoteMessage.notification.body || '',
-                    [
-                        {
-                            text: 'View',
-                            onPress: () => {
-                                const url = remoteMessage.data?.url as string;
-                                if (url) onNotificationOpened(url);
-                            }
+                await notifee.displayNotification({
+                    title: remoteMessage.notification.title,
+                    body: remoteMessage.notification.body,
+                    android: {
+                        channelId: 'default',
+                        smallIcon: 'ic_launcher', // Use standard icon
+                        pressAction: {
+                            id: 'default',
                         },
-                        { text: 'Cancel', style: 'cancel' }
-                    ]
-                );
+                    },
+                    data: remoteMessage.data, // Keep the URL data
+                });
             }
         });
 
-        // 2. Background / Interaction handling
-        // This is called when the app is in background and user taps the notification
+        // 2. Local Foreground Event (Notifee Banner Tapped)
+        const unsubscribeNotifee = notifee.onForegroundEvent(({ type, detail }) => {
+            if (type === EventType.PRESS && detail.notification?.data?.url) {
+                console.log('[NotificationService] Notifee Banner Tapped:', detail.notification.data.url);
+                onNotificationOpened(detail.notification.data.url as string);
+            }
+        });
+
+        // 3. Background / Interaction handling (Firebase Remote)
         messaging().onNotificationOpenedApp(remoteMessage => {
-            console.log('[NotificationService] Notification caused app to open from background state:', remoteMessage);
+            console.log('[NotificationService] Background Notification Tapped:', JSON.stringify(remoteMessage, null, 2));
             const url = remoteMessage.data?.url as string;
             if (url) onNotificationOpened(url);
         });
 
-        // 3. Quit state handling
-        // Check if the app was opened from a notification when it was completely closed
+        // 4. Quit state handling (Firebase Remote)
         messaging()
             .getInitialNotification()
             .then(remoteMessage => {
                 if (remoteMessage) {
-                    console.log('[NotificationService] Notification caused app to open from quit state:', remoteMessage);
+                    console.log('[NotificationService] Quit State Notification Tapped:', JSON.stringify(remoteMessage, null, 2));
                     const url = remoteMessage.data?.url as string;
                     if (url) onNotificationOpened(url);
                 }
             });
 
-        return unsubscribe;
+        return () => {
+            unsubscribeMessaging();
+            unsubscribeNotifee();
+        };
     }
 }
 

@@ -17,11 +17,11 @@ export default {
         },
         ios: {
             supportsTablet: true,
-            bundleIdentifier: (IS_DEV && !IS_PREBUILD) ? "com.definex.xcoin.dev" : "com.definex.xcoin",
+            bundleIdentifier: IS_DEV ? "com.definex.xcoin.dev" : "com.definex.xcoin",
             googleServicesFile: "./GoogleService-Info.plist"
         },
         android: {
-            package: (IS_DEV && !IS_PREBUILD) ? "com.definex.xcoin.dev" : "com.definex.xcoin",
+            package: IS_DEV ? "com.definex.xcoin.dev" : "com.definex.xcoin",
             googleServicesFile: "./google-services.json",
             adaptiveIcon: {
                 foregroundImage: IS_DEV ? "./assets/ic_dev.png" : "./assets/ic_prod.png",

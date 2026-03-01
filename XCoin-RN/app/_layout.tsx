@@ -23,6 +23,7 @@ SplashScreen.preventAutoHideAsync();
 import "../src/constants/i18n";
 
 export default function RootLayout() {
+  console.log("🚀 [RootLayout] MOUNTED");
   const router = useRouter();
   const [fontsLoaded, fontError] = useFonts({
     "Roboto-Thin": require("../assets/fonts/roboto/Roboto-Thin.ttf"),
@@ -79,14 +80,30 @@ export default function RootLayout() {
 
       const unsubscribe = notificationService.setupListeners((url) => {
         try {
-          // If the URL is a full deep link (e.g. xcoin://screens/coin-detail?id=bitcoin)
-          // we parse it and navigate
+          console.log("[RootLayout] Received Deep Link URL:", url);
           const parsed = Linking.parse(url);
+          console.log("[RootLayout] Parsed Deep Link Object:", JSON.stringify(parsed, null, 2));
+
+          // Construct the full path by joining hostname and path if necessary
+          let fullPath = "";
+          if (parsed.hostname && parsed.hostname !== 'localhost') {
+            fullPath += parsed.hostname;
+          }
           if (parsed.path) {
+            fullPath += (fullPath ? "/" : "") + parsed.path;
+          }
+
+          // Ensure we have a valid path
+          if (fullPath && fullPath !== "/") {
+            const pathname = fullPath.startsWith("/") ? fullPath : `/${fullPath}`;
+            console.log("[RootLayout] Navigating to:", pathname, "with params:", parsed.queryParams);
+
             router.push({
-              pathname: parsed.path as any,
+              pathname: pathname as any,
               params: parsed.queryParams as any
             });
+          } else {
+            console.warn("[RootLayout] Deep link received but path resolved to root or is empty:", url);
           }
         } catch (error) {
           console.error("[RootLayout] Deep linking error:", error);
