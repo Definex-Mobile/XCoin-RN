@@ -15,10 +15,15 @@ import { AuthProvider } from "../src/hooks/useAuth";
 import { ThemeProvider } from "../src/context/ThemeContext";
 import { colors } from "../src/constants/colors";
 
+import * as Linking from "expo-linking";
+import { useRouter } from "expo-router";
+import { notificationService } from "../src/services/notificationService";
+
 SplashScreen.preventAutoHideAsync();
 import "../src/constants/i18n";
 
 export default function RootLayout() {
+  const router = useRouter();
   const [fontsLoaded, fontError] = useFonts({
     "Roboto-Thin": require("../assets/fonts/roboto/Roboto-Thin.ttf"),
     "Roboto-ThinItalic": require("../assets/fonts/roboto/Roboto-ThinItalic.ttf"),
@@ -64,6 +69,35 @@ export default function RootLayout() {
     };
     checkSecurity();
   }, []);
+
+  useEffect(() => {
+    const setupNotifications = async () => {
+      const hasPermission = await notificationService.requestUserPermission();
+      if (hasPermission) {
+        await notificationService.getFcmToken();
+      }
+
+      const unsubscribe = notificationService.setupListeners((url) => {
+        try {
+          // If the URL is a full deep link (e.g. xcoin://screens/coin-detail?id=bitcoin)
+          // we parse it and navigate
+          const parsed = Linking.parse(url);
+          if (parsed.path) {
+            router.push({
+              pathname: parsed.path as any,
+              params: parsed.queryParams as any
+            });
+          }
+        } catch (error) {
+          console.error("[RootLayout] Deep linking error:", error);
+        }
+      });
+
+      return unsubscribe;
+    };
+
+    setupNotifications();
+  }, [router]);
 
   useEffect(() => {
     if (fontsLoaded || fontError) {

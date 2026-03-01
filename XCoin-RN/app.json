@@ -15,7 +15,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.definex.xcoin",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "backgroundModes": [
+        "remote-notification"
+      ]
     },
     "android": {
       "package": "com.definex.xcoin",
