@@ -18,7 +18,11 @@ export default {
         ios: {
             supportsTablet: true,
             bundleIdentifier: IS_DEV ? "com.definex.xcoin.dev" : "com.definex.xcoin",
-            googleServicesFile: "./GoogleService-Info.plist"
+            googleServicesFile: "./GoogleService-Info.plist",
+            backgroundModes: ["remote-notification"],
+            entitlements: {
+                "aps-environment": IS_DEV ? "development" : "production"
+            }
         },
         android: {
             package: IS_DEV ? "com.definex.xcoin.dev" : "com.definex.xcoin",
@@ -38,7 +42,8 @@ export default {
             "expo-router",
             "expo-font",
             "@react-native-firebase/app",
-            "@react-native-firebase/crashlytics"
+            "@react-native-firebase/crashlytics",
+            "@react-native-firebase/messaging"
         ],
         scheme: "xcoin",
         experiments: {

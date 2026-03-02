@@ -24,10 +24,39 @@ class NotificationService {
     }
 
     /**
+     * Wait for APNS token to be available (iOS only)
+     */
+    private async waitForAPNSToken(maxRetries = 5, delayMs = 1500): Promise<string | null> {
+        for (let i = 0; i < maxRetries; i++) {
+            const apnsToken = await messaging().getAPNSToken();
+            if (apnsToken) {
+                console.log('[NotificationService] APNS Token available');
+                return apnsToken;
+            }
+            console.log(`[NotificationService] Waiting for APNS token... (${i + 1}/${maxRetries})`);
+            await new Promise(resolve => setTimeout(resolve, delayMs));
+        }
+        console.warn('[NotificationService] APNS token not available after retries');
+        return null;
+    }
+
+    /**
      * Get the device FCM token
      */
     async getFcmToken() {
         try {
+            // Required for iOS to fetch the FCM token
+            if (Platform.OS === 'ios' && !messaging().isDeviceRegisteredForRemoteMessages) {
+                await messaging().registerDeviceForRemoteMessages();
+            }
+            // iOS: APNS token must be available before fetching FCM token
+            if (Platform.OS === 'ios') {
+                const apnsToken = await this.waitForAPNSToken();
+                if (!apnsToken) {
+                    console.error('[NotificationService] Cannot get FCM token: APNS token not available');
+                    return null;
+                }
+            }
             const token = await messaging().getToken();
             if (token) {
                 console.log('[NotificationService] FCM Token:', token);
