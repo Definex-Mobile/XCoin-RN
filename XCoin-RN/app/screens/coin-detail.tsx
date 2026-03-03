@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
-import { View, ScrollView, Text, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import type { CoinDetailData, TimeRange, ChartDataPoint } from "../../src/types/coinDetail";
 import { CoinDetailHeader } from "../../src/components/coinDetailHeader/coinDetailHeader";
@@ -156,7 +157,7 @@ export default function CoinDetail() {
           currency={coinData.currency}
         />
 
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={handleTransactions}
           className="mx-4 my-2 bg-white rounded-xl p-4 flex-row items-center justify-between border border-gray-200"
         >
@@ -167,20 +168,20 @@ export default function CoinDetail() {
         <View className="h-20" />
       </ScrollView>
 
-      <View className="absolute bottom-3 left-0 right-0 bg-white px-4 py-4 flex-row" style={{ 
+      <View className="absolute bottom-3 left-0 right-0 bg-white px-4 py-4 flex-row" style={{
         shadowColor: '#000',
         shadowOffset: { width: 0, height: -2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 8,
       }}>
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={handleBuy}
           className="flex-1 bg-blue-500 py-4 rounded-xl mr-2"
         >
           <Text className="text-white text-center font-bold text-lg">{t('coinDetail.buy')}</Text>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={handleSell}
           className="flex-1 bg-blue-500 py-4 rounded-xl ml-2"
         >

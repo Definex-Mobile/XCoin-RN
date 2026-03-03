@@ -149,5 +149,22 @@
             "emailInvalid": "Please enter a valid email address.",
             "loginFailed": "An error occurred while logging in. Please try again."
         }
+    },
+    "security": {
+        "threat": {
+            "privilegedAccess": "This app cannot run on rooted or jailbroken devices for security reasons.",
+            "hooks": "Security violation detected (hooking). The app is closing for your protection.",
+            "appIntegrity": "App integrity is compromised. Please download the original version from the official store.",
+            "debug": "Debugger detected.",
+            "simulator": "Emulator/simulator detected.",
+            "systemVPN": "VPN connection detected. Please disable VPN and try again.",
+            "screenshot": "Screenshot captured.",
+            "screenRecording": "Screen recording started.",
+            "generic": "Security threat detected."
+        },
+        "block": {
+            "title": "Security Alert",
+            "subtitle": "Please use a standard and secure device to access this app."
+        }
     }
 }
