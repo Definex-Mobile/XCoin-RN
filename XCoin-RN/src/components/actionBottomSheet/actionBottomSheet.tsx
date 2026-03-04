@@ -5,12 +5,12 @@ import {
     Text,
     TouchableWithoutFeedback,
     ScrollView,
-    SafeAreaView,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { colors } from "../../constants/colors";
 import ActionBottomSheetItem from "./actionBottomSheetItem";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export interface Action {
     id: string;
@@ -48,7 +48,7 @@ export default function ActionBottomSheet({
                     className="flex-1 justify-end"
                 >
                     <TouchableWithoutFeedback>
-                        <SafeAreaView className="bg-white rounded-t-3xl overflow-hidden">
+                        <SafeAreaView className="bg-white rounded-t-3xl overflow-hidden" edges={["bottom"]}>
                             <View className="px-6 pt-6 pb-2">
                                 <View className="flex-row justify-between items-center mb-4">
                                     <Text className="bold20 text-text">

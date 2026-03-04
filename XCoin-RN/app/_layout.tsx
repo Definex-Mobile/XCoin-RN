@@ -72,13 +72,16 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+    let isActive = true;
+
     const setupNotifications = async () => {
       const hasPermission = await notificationService.requestUserPermission();
       if (hasPermission) {
         await notificationService.getFcmToken();
       }
 
-      const unsubscribe = notificationService.setupListeners((url) => {
+      const listenersUnsubscribe = notificationService.setupListeners((url) => {
         try {
           console.log("[RootLayout] Received Deep Link URL:", url);
           const parsed = Linking.parse(url);
@@ -110,10 +113,19 @@ export default function RootLayout() {
         }
       });
 
-      return unsubscribe;
+      if (isActive) {
+        unsubscribe = listenersUnsubscribe;
+      } else {
+        listenersUnsubscribe();
+      }
     };
 
-    setupNotifications();
+    void setupNotifications();
+
+    return () => {
+      isActive = false;
+      unsubscribe?.();
+    };
   }, [router]);
 
   useEffect(() => {
