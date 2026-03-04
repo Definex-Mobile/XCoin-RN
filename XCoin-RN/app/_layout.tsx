@@ -15,10 +15,16 @@ import { AuthProvider } from "../src/hooks/useAuth";
 import { ThemeProvider } from "../src/context/ThemeContext";
 import { colors } from "../src/constants/colors";
 
+import * as Linking from "expo-linking";
+import { useRouter } from "expo-router";
+import { notificationService } from "../src/services/notificationService";
+
 SplashScreen.preventAutoHideAsync();
 import "../src/constants/i18n";
 
 export default function RootLayout() {
+  console.log("🚀 [RootLayout] MOUNTED");
+  const router = useRouter();
   const [fontsLoaded, fontError] = useFonts({
     "Roboto-Thin": require("../assets/fonts/roboto/Roboto-Thin.ttf"),
     "Roboto-ThinItalic": require("../assets/fonts/roboto/Roboto-ThinItalic.ttf"),
@@ -64,6 +70,51 @@ export default function RootLayout() {
     };
     checkSecurity();
   }, []);
+
+  useEffect(() => {
+    const setupNotifications = async () => {
+      const hasPermission = await notificationService.requestUserPermission();
+      if (hasPermission) {
+        await notificationService.getFcmToken();
+      }
+
+      const unsubscribe = notificationService.setupListeners((url) => {
+        try {
+          console.log("[RootLayout] Received Deep Link URL:", url);
+          const parsed = Linking.parse(url);
+          console.log("[RootLayout] Parsed Deep Link Object:", JSON.stringify(parsed, null, 2));
+
+          // Construct the full path by joining hostname and path if necessary
+          let fullPath = "";
+          if (parsed.hostname && parsed.hostname !== 'localhost') {
+            fullPath += parsed.hostname;
+          }
+          if (parsed.path) {
+            fullPath += (fullPath ? "/" : "") + parsed.path;
+          }
+
+          // Ensure we have a valid path
+          if (fullPath && fullPath !== "/") {
+            const pathname = fullPath.startsWith("/") ? fullPath : `/${fullPath}`;
+            console.log("[RootLayout] Navigating to:", pathname, "with params:", parsed.queryParams);
+
+            router.push({
+              pathname: pathname as any,
+              params: parsed.queryParams as any
+            });
+          } else {
+            console.warn("[RootLayout] Deep link received but path resolved to root or is empty:", url);
+          }
+        } catch (error) {
+          console.error("[RootLayout] Deep linking error:", error);
+        }
+      });
+
+      return unsubscribe;
+    };
+
+    setupNotifications();
+  }, [router]);
 
   useEffect(() => {
     if (fontsLoaded || fontError) {
