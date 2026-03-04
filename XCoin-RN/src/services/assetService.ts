@@ -1,5 +1,6 @@
-import { CONFIG_API_BASE_URL, CONFIG_API_KEY, ENDPOINTS } from '../api/endpoints';
-import { AssetResponse } from '../types/asset';
+import { configGetData } from '../api/configClient';
+import { ENDPOINTS } from '../api/endpoints';
+import { AssetData } from '../types/asset';
 import { ImageSourcePropType } from 'react-native';
 
 class AssetService {
@@ -9,20 +10,10 @@ class AssetService {
      * Fetches asset URLs from the backend and stores them in memory.
      */
     async fetchAssets(): Promise<void> {
-        const url = `${CONFIG_API_BASE_URL}${ENDPOINTS.ASSET_CONFIG}`;
         try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'X-API-Key': CONFIG_API_KEY,
-                },
-            });
-
-            if (!response.ok) return;
-
-            const json: AssetResponse = await response.json();
-            if (json.success && json.data?.assets) {
-                this.assets = json.data.assets;
+            const data = await configGetData<AssetData>(ENDPOINTS.ASSET_CONFIG);
+            if (data.assets) {
+                this.assets = data.assets;
             }
         } catch (error) {
             console.error('[AssetService] Failed to fetch assets:', error);

@@ -14,6 +14,8 @@ interface TabBarProps {
 }
 
 export function TabBar({ tabs, selectedTabId, onTabChange }: TabBarProps) {
+    const { t } = useTranslation();
+
     return (
         <ScrollView
             horizontal
@@ -31,14 +33,14 @@ export function TabBar({ tabs, selectedTabId, onTabChange }: TabBarProps) {
                         className={`${!isLast ? 'mr-6' : ''}`}
                     >
                         <Text
-                            className={`medium14 ${isActive ? "text-tab-activeText" : "text-tab-inactiveText"
+                            className={`medium14 ${isActive ? "text-primary" : "text-onSurfaceVariant"
                                 }`}
                         >
-                            {useTranslation(tab.labelKey)}
+                            {t(tab.labelKey)}
                         </Text>
                         {isActive && (
                             <View
-                                className="bg-tab-activeBorder mt-[3px] h-[3px]"
+                                className="bg-primary mt-[3px] h-[3px]"
                             />
                         )}
                     </Pressable>

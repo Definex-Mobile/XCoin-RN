@@ -139,7 +139,7 @@ export default function Market() {
                 )}
 
                 {error && (
-                    <Text className="regular14 text-accent">
+                    <Text className="regular14 text-error">
                         {error}
                     </Text>
                 )}

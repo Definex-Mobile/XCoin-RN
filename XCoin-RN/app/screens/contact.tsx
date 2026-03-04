@@ -7,7 +7,6 @@ import {
     Linking,
     ActivityIndicator,
     Alert,
-    Platform,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
@@ -15,9 +14,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { getContactInfo } from '../../src/services/contactService';
 import { ContactData } from '../../src/types/contact';
 import { colors } from '../../src/constants/colors';
+import { useTheme } from '../../src/context/ThemeContext';
 
 export default function ContactScreen() {
     const { t, i18n } = useTranslation();
+    const { activeScheme } = useTheme();
     const router = useRouter();
     const [contact, setContact] = useState<ContactData | null>(null);
     const [loading, setLoading] = useState(true);
@@ -73,7 +74,7 @@ export default function ContactScreen() {
     if (loading) {
         return (
             <View className="flex-1 bg-white items-center justify-center">
-                <ActivityIndicator size="large" color={colors.primaryBlue.DEFAULT} />
+                <ActivityIndicator size="large" color={activeScheme?.primary ?? colors.loader} />
             </View>
         );
     }
@@ -84,7 +85,7 @@ export default function ContactScreen() {
                 <Text className="medium18 text-text text-center">{t('common.fetchError')}</Text>
                 <TouchableOpacity
                     onPress={fetchContact}
-                    className="mt-4 bg-primaryBlue px-6 py-3 rounded-xl"
+                    className="mt-4 bg-primary px-6 py-3 rounded-xl"
                 >
                     <Text className="bold16 text-white">{t('common.retry')}</Text>
                 </TouchableOpacity>
@@ -96,7 +97,7 @@ export default function ContactScreen() {
         <SafeAreaView className="flex-1 bg-white" edges={['top']}>
             <View className="flex-row items-center px-4 py-2 border-b border-gray-100">
                 <TouchableOpacity onPress={() => router.back()} className="p-2">
-                    <Text className="text-primaryBlue text-3xl">←</Text>
+                    <Text className="text-primary text-3xl">←</Text>
                 </TouchableOpacity>
                 <Text className="bold20 text-text ml-2">{t('contact.title')}</Text>
             </View>
@@ -159,7 +160,7 @@ function ContactItem({ label, value, onPress }: { label: string, value: string, 
             className="mb-6"
         >
             <Text className="regular14 text-gray-400 mb-1">{label}</Text>
-            <Text className="medium18 text-primaryBlue">{value}</Text>
+            <Text className="medium18 text-primary">{value}</Text>
         </TouchableOpacity>
     );
 }

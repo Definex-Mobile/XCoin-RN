@@ -1,11 +1,22 @@
-import { launchCamera, launchImageLibrary, MediaType } from 'react-native-image-picker';
+import {
+    launchCamera,
+    launchImageLibrary,
+    type CameraOptions,
+    type ImageLibraryOptions,
+    type PhotoQuality,
+} from 'react-native-image-picker';
 
-const options = {
-    mediaType: 'photo' as MediaType,
-    quality: 0.8,
+const IMAGE_QUALITY: PhotoQuality = 0.8;
+
+const baseOptions = {
+    mediaType: 'photo',
+    quality: IMAGE_QUALITY,
     maxWidth: 500,
     maxHeight: 500,
-};
+} as const;
 
-export const openCamera = () => launchCamera(options);
-export const openGallery = () => launchImageLibrary(options);
+const cameraOptions: CameraOptions = { ...baseOptions };
+const galleryOptions: ImageLibraryOptions = { ...baseOptions };
+
+export const openCamera = () => launchCamera(cameraOptions);
+export const openGallery = () => launchImageLibrary(galleryOptions);

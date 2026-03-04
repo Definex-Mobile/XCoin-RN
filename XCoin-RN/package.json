@@ -9,6 +9,10 @@
     "android:release": "OBFUSCATE=true expo run:android --variant release",
     "ios:release": "OBFUSCATE=true expo run:ios --configuration Release",
     "bundle:analyze": "OBFUSCATE=true npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./bundle-output.js",
+    "typecheck": "tsc --noEmit",
+    "check:translation-hook": "node scripts/check-translation-hook-usage.mjs",
+    "check:color-tokens": "node scripts/check-color-token-usage.mjs",
+    "check:config-client": "node scripts/check-config-service-fetch-usage.mjs",
     "firebase-debug:android": "adb shell setprop debug.firebase.analytics.app com.definex.xcoin",
     "firebase-debug:android:off": "adb shell setprop debug.firebase.analytics.app .none."
   },

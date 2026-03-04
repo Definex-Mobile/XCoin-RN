@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../src/hooks/useAuth';
 import { useTranslation } from '../../src/hooks/useTranslation';
-import { colors } from '../../src/constants/colors';
 import { useTheme } from '../../src/context/ThemeContext';
 import XCoinTextInput from '../../src/components/textInput/XCoinTextInput';
 
@@ -15,18 +14,19 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
-  const emailRequired = useTranslation('login.errors.emailRequired');
-  const passwordRequired = useTranslation('login.errors.passwordRequired');
-  const emailInvalid = useTranslation('login.errors.emailInvalid');
-  const loginFailed = useTranslation('login.errors.loginFailed');
-  const loginTitle = useTranslation('login.title');
-  const loginSubtitle = useTranslation('login.subtitle');
-  const emailLabel = useTranslation('login.email');
-  const passwordLabel = useTranslation('login.password');
-  const loginButton = useTranslation('login.button');
-  const signupText = useTranslation('login.signupText');
-  const signupLink = useTranslation('login.signupLink');
+  const emailRequired = t('login.errors.emailRequired');
+  const passwordRequired = t('login.errors.passwordRequired');
+  const emailInvalid = t('login.errors.emailInvalid');
+  const loginFailed = t('login.errors.loginFailed');
+  const loginTitle = t('login.title');
+  const loginSubtitle = t('login.subtitle');
+  const emailLabel = t('login.email');
+  const passwordLabel = t('login.password');
+  const loginButton = t('login.button');
+  const signupText = t('login.signupText');
+  const signupLink = t('login.signupLink');
   const { activeScheme } = useTheme();
 
   const handleLogin = async () => {

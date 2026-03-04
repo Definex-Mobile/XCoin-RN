@@ -56,7 +56,7 @@ export function CryptoCoinListItem({ coin }: Props) {
       </View>
 
       <View className="items-end">
-        <Text className="thinItalic16 text-coin-price me-[24px]">
+        <Text className="thinItalic16 text-onSurface me-[24px]">
           {formatMoney(coin.currentPrice, currencySymbol)}
         </Text>
         <Text

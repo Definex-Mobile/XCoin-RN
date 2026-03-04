@@ -17,6 +17,7 @@ const IS_IOS = Platform.OS === constants.platform.IOS;
 export default function SplashScreen() {
   const router = useRouter();
   const rootNavigationState = useRootNavigationState();
+  const { t } = useTranslation();
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);
   const [showMaintenanceDialog, setShowMaintenanceDialog] = useState(false);
   const [versionInfo, setVersionInfo] = useState<VersionCheckResult | null>(null);
@@ -94,13 +95,13 @@ export default function SplashScreen() {
             resizeMode="contain"
           />
           <Text className="bold48 text-onSurface ml-4">
-            {useTranslation("splash.appName")}
+            {t("splash.appName")}
           </Text>
         </View>
       </View>
       <View className="items-center px-8">
         <Text className="semibold14 text-onSurfaceVariant italic text-center">
-          {useTranslation("splash.tagline")}
+          {t("splash.tagline")}
         </Text>
       </View>
 
