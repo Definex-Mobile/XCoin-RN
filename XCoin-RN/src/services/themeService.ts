@@ -1,16 +1,13 @@
+import { CONFIG_API_BASE_URL, CONFIG_API_KEY, ENDPOINTS } from "../api/endpoints";
 import { ThemeResponse } from "../types/theme";
-
-const BASE_URL = "https://bank-config-api.vercel.app/api/v1";
-const THEME_ENDPOINT = "/config/theme";
-const API_KEY = "ak_demo_32charslongapikeyforsecurity12";
 
 export class ThemeService {
     static async fetchTheme(): Promise<ThemeResponse> {
         try {
-            const response = await fetch(`${BASE_URL}${THEME_ENDPOINT}`, {
+            const response = await fetch(`${CONFIG_API_BASE_URL}${ENDPOINTS.THEME_CONFIG}`, {
                 method: "GET",
                 headers: {
-                    "X-API-Key": API_KEY,
+                    "X-API-Key": CONFIG_API_KEY,
                     "Content-Type": "application/json",
                 },
             });
