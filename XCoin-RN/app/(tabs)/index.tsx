@@ -113,7 +113,7 @@ export default function Home() {
           </Text>
         )}
 
-        {error && <Text className="regular14 text-accent">{error}</Text>}
+        {error && <Text className="regular14 text-error">{error}</Text>}
 
         {!loading && !error && <CryptoCoinList data={trendingCoins} />}
       </View>

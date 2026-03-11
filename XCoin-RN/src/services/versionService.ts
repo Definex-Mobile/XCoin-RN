@@ -1,8 +1,8 @@
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
-import { CONFIG_API_BASE_URL, CONFIG_API_KEY, ENDPOINTS } from '../api/endpoints';
-import { logRequest, logResponse, logError } from '../api/logger';
-import { VersionResponse } from '../types/version';
+import { ENDPOINTS } from '../api/endpoints';
+import { configGetData } from '../api/configClient';
+import { VersionData } from '../types/version';
 
 export enum UpdateType {
     NONE = 'NONE',
@@ -51,48 +51,9 @@ function getFallbackResult(): VersionCheckResult {
 
 export async function checkAppVersion(): Promise<VersionCheckResult> {
     const platform = Platform.OS;
-    const url = `${CONFIG_API_BASE_URL}${ENDPOINTS.VERSION_CONFIG}?platform=${platform}`;
-    const requestId = Math.random().toString(16).slice(2);
-    const startTime = Date.now();
-
-    logRequest({ id: requestId, method: 'GET', url });
 
     try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: { 'X-API-Key': CONFIG_API_KEY },
-        });
-
-        const durationMs = Date.now() - startTime;
-        const responseText = await response.text();
-
-        logResponse({
-            id: requestId,
-            method: 'GET',
-            url,
-            status: response.status,
-            durationMs,
-            bodySnippet: responseText,
-        });
-
-        if (!response.ok) {
-            if (__DEV__) console.log('[Version] API responded with status:', response.status);
-            return getFallbackResult();
-        }
-
-        let json: VersionResponse;
-        try {
-            json = JSON.parse(responseText);
-        } catch {
-            if (__DEV__) console.log('[Version] Failed to parse JSON response');
-            return getFallbackResult();
-        }
-
-        if (!json.success || !json.data) {
-            return getFallbackResult();
-        }
-
-        const data = json.data;
+        const data = await configGetData<VersionData>(`${ENDPOINTS.VERSION_CONFIG}?platform=${platform}`);
         const currentVersion = Constants.expoConfig?.version ?? DEFAULT_VERSION;
 
         let updateType = UpdateType.NONE;
@@ -113,14 +74,6 @@ export async function checkAppVersion(): Promise<VersionCheckResult> {
             releaseNotes: data.release_notes
         };
     } catch (error) {
-        const durationMs = Date.now() - startTime;
-        logError({
-            id: requestId,
-            method: 'GET',
-            url,
-            durationMs,
-            error: (error as Error)?.message ?? 'Unknown error',
-        });
         if (__DEV__) console.log('[Version] Fetching version config failed:', (error as Error)?.message ?? error);
         return getFallbackResult();
     }

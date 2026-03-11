@@ -11,13 +11,14 @@ type Props = {
 };
 
 export default function PortfolioCard({ data, className = '' }: Props) {
+  const { t } = useTranslation();
   const vm = mapPortfolioToCardVM(data);
 
   return (
     <View className={`rounded-xl bg-primary pb-[26px] ${className}`}>
-      <Text className="pt-[24px] pl-[20px] text-onPrimary bold20">{useTranslation("portfolio.portfolio")}</Text>
+      <Text className="pt-[24px] pl-[20px] text-onPrimary bold20">{t("portfolio.portfolio")}</Text>
 
-      <Text className="pb-[2px] pt-[16px] pl-[20px] text-onPrimary lightItalic10">{useTranslation("portfolio.holdingValue")}</Text>
+      <Text className="pb-[2px] pt-[16px] pl-[20px] text-onPrimary lightItalic10">{t("portfolio.holdingValue")}</Text>
 
       <View className="flex-row pl-[20px] items-baseline pb-6">
         <Text className="text-onPrimary bold28">{vm.holdingText}</Text>
@@ -27,11 +28,11 @@ export default function PortfolioCard({ data, className = '' }: Props) {
       </View>
 
       <View className="flex-row items-center pl-[20px]">
-        <PortfolioInfoItem label={useTranslation("portfolio.investedValue")} value={vm.investedText} />
+        <PortfolioInfoItem label={t("portfolio.investedValue")} value={vm.investedText} />
 
         <View className="w-[1px] h-10 bg-onPrimary opacity-50 mx-4" />
 
-        <PortfolioInfoItem label={useTranslation("portfolio.availableINR")} value={vm.availableText} />
+        <PortfolioInfoItem label={t("portfolio.availableINR")} value={vm.availableText} />
       </View>
     </View>
   );

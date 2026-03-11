@@ -131,7 +131,7 @@ export default function CoinDetail() {
           <Text className="medium24 text-onSurface">
             {getCurrencySymbol(coinData.currency)}{coinData.currentPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </Text>
-          <Text className={`text-sm mt-1 pl-3 ${coinData.priceChangePercentage >= 0 ? 'text-crypto-positive' : 'text-crypto-negative'}`}>
+          <Text className={`text-sm mt-1 pl-3 ${coinData.priceChangePercentage >= 0 ? 'text-secondary' : 'text-error'}`}>
             {coinData.priceChangePercentage >= 0 ? '+' : ''}{coinData.priceChange.toLocaleString('en-IN', { minimumFractionDigits: 3, maximumFractionDigits: 3 })} ({coinData.priceChangePercentage >= 0 ? '+' : ''}{coinData.priceChangePercentage.toFixed(2)}%)
           </Text>
         </View>

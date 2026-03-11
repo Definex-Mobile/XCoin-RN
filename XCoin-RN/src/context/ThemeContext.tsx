@@ -38,10 +38,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                     setThemePreference(savedPref as ThemePreference);
                 }
 
-                const response = await ThemeService.fetchTheme();
-                if (response.success) {
-                    setTheme(response.data.default_theme);
-                }
+                const themeData = await ThemeService.fetchTheme();
+                setTheme(themeData.default_theme);
             } catch (err) {
                 setError(err instanceof Error ? err : new Error("Failed to initialize theme"));
             } finally {

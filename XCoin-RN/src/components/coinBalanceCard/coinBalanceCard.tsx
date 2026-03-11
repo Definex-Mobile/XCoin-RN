@@ -50,7 +50,7 @@ export function CoinBalanceCard({
       </View>
 
       <View className="items-end">
-        <Text className="thinItalic16 text-coin-price">
+        <Text className="thinItalic16 text-onSurface">
           {currencySymbol}{balanceFiat.toFixed(2)}
         </Text>
         <Text className="medium10 text-onSurfaceVariant mt-0.5">

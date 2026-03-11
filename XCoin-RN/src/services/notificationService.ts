@@ -1,6 +1,20 @@
-import messaging from '@react-native-firebase/messaging';
 import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
+import {
+    AuthorizationStatus,
+    getAPNSToken,
+    getInitialNotification,
+    getMessaging,
+    getToken,
+    isDeviceRegisteredForRemoteMessages,
+    onMessage,
+    onNotificationOpenedApp,
+    registerDeviceForRemoteMessages,
+    requestPermission,
+    setBackgroundMessageHandler,
+} from '@react-native-firebase/messaging';
 import { Platform } from 'react-native';
+
+const messagingInstance = getMessaging();
 
 class NotificationService {
     /**
@@ -8,10 +22,10 @@ class NotificationService {
      */
     async requestUserPermission() {
         // Firebase permission
-        const authStatus = await messaging().requestPermission();
+        const authStatus = await requestPermission(messagingInstance);
         const enabled =
-            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+            authStatus === AuthorizationStatus.AUTHORIZED ||
+            authStatus === AuthorizationStatus.PROVISIONAL;
 
         // Notifee permission (required for some Android 13+ and iOS features)
         await notifee.requestPermission();
@@ -28,7 +42,7 @@ class NotificationService {
      */
     private async waitForAPNSToken(maxRetries = 5, delayMs = 1500): Promise<string | null> {
         for (let i = 0; i < maxRetries; i++) {
-            const apnsToken = await messaging().getAPNSToken();
+            const apnsToken = await getAPNSToken(messagingInstance);
             if (apnsToken) {
                 console.log('[NotificationService] APNS Token available');
                 return apnsToken;
@@ -46,8 +60,8 @@ class NotificationService {
     async getFcmToken() {
         try {
             // Required for iOS to fetch the FCM token
-            if (Platform.OS === 'ios' && !messaging().isDeviceRegisteredForRemoteMessages) {
-                await messaging().registerDeviceForRemoteMessages();
+            if (Platform.OS === 'ios' && !isDeviceRegisteredForRemoteMessages(messagingInstance)) {
+                await registerDeviceForRemoteMessages(messagingInstance);
             }
             // iOS: APNS token must be available before fetching FCM token
             if (Platform.OS === 'ios') {
@@ -57,7 +71,7 @@ class NotificationService {
                     return null;
                 }
             }
-            const token = await messaging().getToken();
+            const token = await getToken(messagingInstance);
             if (token) {
                 console.log('[NotificationService] FCM Token:', token);
                 return token;
@@ -86,10 +100,10 @@ class NotificationService {
      * Set up notification listeners
      */
     setupListeners(onNotificationOpened: (url: string) => void) {
-        this.createDefaultChannel();
+        void this.createDefaultChannel();
 
         // 1. Foreground messaging (Firebase -> Notifee Banner)
-        const unsubscribeMessaging = messaging().onMessage(async remoteMessage => {
+        const unsubscribeMessaging = onMessage(messagingInstance, async remoteMessage => {
             console.log('[NotificationService] Foreground Message Received:', JSON.stringify(remoteMessage, null, 2));
 
             // If it has a notification payload, display a local banner using Notifee
@@ -118,32 +132,31 @@ class NotificationService {
         });
 
         // 3. Background / Interaction handling (Firebase Remote)
-        messaging().onNotificationOpenedApp(remoteMessage => {
+        const unsubscribeNotificationOpened = onNotificationOpenedApp(messagingInstance, remoteMessage => {
             console.log('[NotificationService] Background Notification Tapped:', JSON.stringify(remoteMessage, null, 2));
             const url = remoteMessage.data?.url as string;
             if (url) onNotificationOpened(url);
         });
 
         // 4. Quit state handling (Firebase Remote)
-        messaging()
-            .getInitialNotification()
-            .then(remoteMessage => {
-                if (remoteMessage) {
-                    console.log('[NotificationService] Quit State Notification Tapped:', JSON.stringify(remoteMessage, null, 2));
-                    const url = remoteMessage.data?.url as string;
-                    if (url) onNotificationOpened(url);
-                }
-            });
+        void getInitialNotification(messagingInstance).then(remoteMessage => {
+            if (remoteMessage) {
+                console.log('[NotificationService] Quit State Notification Tapped:', JSON.stringify(remoteMessage, null, 2));
+                const url = remoteMessage.data?.url as string;
+                if (url) onNotificationOpened(url);
+            }
+        });
 
         return () => {
             unsubscribeMessaging();
             unsubscribeNotifee();
+            unsubscribeNotificationOpened();
         };
     }
 }
 
 // Register background handler
-messaging().setBackgroundMessageHandler(async remoteMessage => {
+setBackgroundMessageHandler(messagingInstance, async remoteMessage => {
     console.log('[NotificationService] Message handled in the background!', remoteMessage);
 });
 

@@ -10,15 +10,16 @@ export class ApiError extends Error {
   }
 }
 
-type RequestOptions = {
+export type RequestOptions = {
   method?: HttpMethod;
   body?: unknown; // GET/POST/PUT/PATCH
   headers?: Record<string, string>;
   timeoutMs?: number; // 15s
+  baseUrl?: string;
 };
 
 export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const url = `${BASE_URL}${path}`;
+  const url = `${options.baseUrl ?? BASE_URL}${path}`;
   const method: HttpMethod = options.method ?? "GET";
 
   const requestId = Math.random().toString(16).slice(2);

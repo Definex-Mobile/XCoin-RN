@@ -13,38 +13,40 @@ function handleBannerPress(type: BannerType): void {
 }
 
 export default function RewardsCouponsScreen() {
+  const { t } = useTranslation();
+
   const Sections: RewardsCouponsSection[] = [
     {
-      title: useTranslation("rewards.coupons"),
+      title: t("rewards.coupons"),
       rows: [
-        { label: useTranslation("rewards.noOfCouponsWon"), value: "6", tone: "accent" },
-        { label: useTranslation("rewards.tokensWonFromSpinSoFar"), value: "8" },
-        { label: useTranslation("rewards.remainingCouponsToSpin"), value: "1" },
+        { label: t("rewards.noOfCouponsWon"), value: "6", tone: "accent" },
+        { label: t("rewards.tokensWonFromSpinSoFar"), value: "8" },
+        { label: t("rewards.remainingCouponsToSpin"), value: "1" },
       ],
     },
     {
-      title: useTranslation("rewards.referral"),
+      title: t("rewards.referral"),
       rows: [
-        { label: useTranslation("rewards.totalNoOfReferral"), value: "12", tone: "accent" },
-        { label: useTranslation("rewards.totalNoOfQualifiedReferral"), value: "5" },
+        { label: t("rewards.totalNoOfReferral"), value: "12", tone: "accent" },
+        { label: t("rewards.totalNoOfQualifiedReferral"), value: "5" },
       ],
     },
   ];
 
   const Cards: BannerCardProps[] = [
     {
-      title: useTranslation("bannerCard.referTitle"),
-      description: useTranslation("bannerCard.referDesc"),
-      buttonText: useTranslation("bannerCard.referButtonText"),
+      title: t("bannerCard.referTitle"),
+      description: t("bannerCard.referDesc"),
+      buttonText: t("bannerCard.referButtonText"),
       onButtonPress: () => handleBannerPress(BannerType.REFER),
       image: assetService.getAssetSource('img_refer_card', require("../../assets/images/xcoin_logo.png")),
       bannerType: BannerType.REFER,
       height: 160
     },
     {
-      title: useTranslation("bannerCard.likeTitle"),
-      description: useTranslation("bannerCard.likeDesc"),
-      buttonText: useTranslation("bannerCard.likeButtonText"),
+      title: t("bannerCard.likeTitle"),
+      description: t("bannerCard.likeDesc"),
+      buttonText: t("bannerCard.likeButtonText"),
       onButtonPress: () => handleBannerPress(BannerType.LIKE),
       image: assetService.getAssetSource('img_like_card', require("../../assets/images/xcoin_logo.png")),
       bannerType: BannerType.LIKE,
