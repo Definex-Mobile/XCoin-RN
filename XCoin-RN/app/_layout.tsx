@@ -5,10 +5,13 @@ import { View, ActivityIndicator, useColorScheme } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useFreeRasp } from 'freerasp-react-native';
 import {
-  checkDeviceSecurityStatus,
-  getSecurityWarningMessage,
-} from "../src/services/deviceSecurityService";
+  freeRaspConfig,
+  createThreatActions,
+  createRaspExecutionStateActions,
+  ThreatState
+} from "../src/services/freeRaspService";
 import { SecurityBlockDialog } from "../src/components/securityBlockDialog/securityBlockDialog";
 import { CrashlyticsService } from "../src/services/crashlytics";
 import { AuthProvider } from "../src/hooks/useAuth";
@@ -54,21 +57,17 @@ export default function RootLayout() {
     "Roboto-BlackItalic": require("../assets/fonts/roboto/Roboto-BlackItalic.ttf"),
   });
 
-  const [isDeviceCompromised, setIsDeviceCompromised] = useState(false);
-  const [securityMessage, setSecurityMessage] = useState("");
+  const [threatState, setThreatState] = useState<ThreatState>({
+    isBlocked: false,
+  });
+
+  const actions = useMemo(() => createThreatActions(setThreatState), []);
+  const raspStateActions = useMemo(() => createRaspExecutionStateActions(), []);
+
+  useFreeRasp(freeRaspConfig, actions, raspStateActions);
 
   useEffect(() => {
     CrashlyticsService.initialize().catch(console.error);
-
-    // Check device security
-    const checkSecurity = async () => {
-      const result = await checkDeviceSecurityStatus();
-      if (result.isCompromised) {
-        setIsDeviceCompromised(true);
-        setSecurityMessage(getSecurityWarningMessage(result.reason));
-      }
-    };
-    checkSecurity();
   }, []);
 
   useEffect(() => {
@@ -147,8 +146,8 @@ export default function RootLayout() {
       <AuthProvider>
         <SafeAreaProvider>
           <SecurityBlockDialog
-            visible={isDeviceCompromised}
-            message={securityMessage}
+            visible={threatState.isBlocked}
+            threatType={threatState.threatType}
           />
           <Stack
             screenOptions={{

@@ -28,8 +28,10 @@ function getAnalytics(): unknown {
     return null;
   }
   try {
-    analyticsMod = require('@react-native-firebase/analytics') as AnalyticsMod;
-    analyticsInstance = analyticsMod.getAnalytics();
+    const { getAnalytics: getAnalyticsFunc } = require('@react-native-firebase/analytics');
+    const { getApp } = require('@react-native-firebase/app');
+    // In v22+, we should use the explicit modular functions.
+    analyticsInstance = getAnalyticsFunc(getApp());
     return analyticsInstance;
   } catch {
     if (__DEV__) {

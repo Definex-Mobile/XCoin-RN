@@ -6,11 +6,11 @@ import {
     TouchableWithoutFeedback,
     ScrollView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { colors } from "../../constants/colors";
 import ActionBottomSheetItem from "./actionBottomSheetItem";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export interface Action {
     id: string;

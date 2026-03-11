@@ -2,15 +2,23 @@ import React from 'react';
 import { View, Text, Modal, StyleSheet, Platform } from 'react-native';
 import { colors } from '../../constants/colors';
 
+import { useTranslation } from 'react-i18next';
+
 interface SecurityBlockDialogProps {
     visible: boolean;
-    message: string;
+    threatType?: string;
 }
 
 import { useTheme } from '../../context/ThemeContext';
 
-export function SecurityBlockDialog({ visible, message }: SecurityBlockDialogProps) {
+export function SecurityBlockDialog({ visible, threatType }: SecurityBlockDialogProps) {
     const { activeScheme } = useTheme();
+    const { t } = useTranslation();
+
+    const getMessage = () => {
+        if (!threatType) return t('security.threat.generic');
+        return t(`security.threat.${threatType}`, t('security.threat.generic'));
+    };
 
     return (
         <Modal
@@ -42,10 +50,10 @@ export function SecurityBlockDialog({ visible, message }: SecurityBlockDialogPro
                     </View>
 
                     <Text className="text-xl font-bold text-onSurface mb-3 text-center">
-                        Security Alert
+                        {t('security.block.title')}
                     </Text>
                     <Text className="text-base text-onSurfaceVariant text-center leading-6 mb-5">
-                        {message}
+                        {getMessage()}
                     </Text>
 
                     <View
@@ -53,7 +61,7 @@ export function SecurityBlockDialog({ visible, message }: SecurityBlockDialogPro
                         className="pt-4 border-t w-full"
                     >
                         <Text className="text-sm text-onSurfaceVariant text-center italic">
-                            Please use a standard device to access this app.
+                            {t('security.block.subtitle')}
                         </Text>
                     </View>
                 </View>
