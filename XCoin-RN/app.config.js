@@ -32,7 +32,11 @@ export default {
                 backgroundColor: "#ffffff"
             },
             edgeToEdgeEnabled: true,
-            predictiveBackGestureEnabled: false
+            predictiveBackGestureEnabled: false,
+            permissions: [
+                "android.permission.DETECT_SCREEN_CAPTURE",
+                "android.permission.DETECT_SCREEN_RECORDING"
+            ]
         },
         web: {
             favicon: "./assets/favicon.png",
@@ -41,9 +45,25 @@ export default {
         plugins: [
             "expo-router",
             "expo-font",
+            [
+                "expo-build-properties",
+                {
+                    "ios": {
+                        "useFrameworks": "static"
+                    }
+                }
+            ],
             "@react-native-firebase/app",
             "@react-native-firebase/crashlytics",
-            "@react-native-firebase/messaging"
+            "@react-native-firebase/messaging",
+            [
+                "freerasp-react-native/app.plugin.js",
+                {
+                    "android": {
+                        "minSdkVersion": "24"
+                    }
+                }
+            ]
         ],
         scheme: "xcoin",
         experiments: {
