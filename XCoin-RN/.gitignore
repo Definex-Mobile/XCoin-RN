@@ -49,11 +49,10 @@ yarn-error.*
 /ios
 /android
 
-<<<<<<< HEAD
-# Firebase config files (contains sensitive data)
-google-services.json
-GoogleService-Info.plist
-=======
+# Firebase config files (contains sensitive data) - Note: In this project we decide whether to commit or not
+# google-services.json
+# GoogleService-Info.plist
+
 # native module build artifacts
 **/android/build/
 **/android/.gradle/
@@ -64,4 +63,3 @@ GoogleService-Info.plist
 **/*.jar
 **/*.so
 **/*.dylib
->>>>>>> development

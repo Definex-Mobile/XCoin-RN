@@ -17,11 +17,15 @@ export default {
         },
         ios: {
             supportsTablet: true,
-            bundleIdentifier: (IS_DEV && !IS_PREBUILD) ? "com.definex.xcoin.dev" : "com.definex.xcoin",
-            googleServicesFile: "./GoogleService-Info.plist"
+            bundleIdentifier: IS_DEV ? "com.definex.xcoin.dev" : "com.definex.xcoin",
+            googleServicesFile: "./GoogleService-Info.plist",
+            backgroundModes: ["remote-notification"],
+            entitlements: {
+                "aps-environment": IS_DEV ? "development" : "production"
+            }
         },
         android: {
-            package: (IS_DEV && !IS_PREBUILD) ? "com.definex.xcoin.dev" : "com.definex.xcoin",
+            package: IS_DEV ? "com.definex.xcoin.dev" : "com.definex.xcoin",
             googleServicesFile: "./google-services.json",
             adaptiveIcon: {
                 foregroundImage: IS_DEV ? "./assets/ic_dev.png" : "./assets/ic_prod.png",
@@ -51,6 +55,7 @@ export default {
             ],
             "@react-native-firebase/app",
             "@react-native-firebase/crashlytics",
+            "@react-native-firebase/messaging",
             [
                 "freerasp-react-native/app.plugin.js",
                 {

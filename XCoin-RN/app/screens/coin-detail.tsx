@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { CoinDetailData, TimeRange, ChartDataPoint } from "../../src/types/coinDetail";
 import { CoinDetailHeader } from "../../src/components/coinDetailHeader/coinDetailHeader";
 import { PriceChart } from "../../src/components/priceChart/priceChart";
@@ -76,6 +76,7 @@ function parseCoinDetailFromParams(params: Record<string, string | string[] | un
 
 export default function CoinDetail() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<Record<string, string>>();
   const { t } = useI18nTranslation();
   const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRange>("1H");
@@ -114,8 +115,8 @@ export default function CoinDetail() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <ScrollView className="flex-1">
+    <View className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <CoinDetailHeader
           name={coinData.name}
           symbol={coinData.symbol}
@@ -165,16 +166,22 @@ export default function CoinDetail() {
           <Text className="text-xl text-onSurfaceVariant">›</Text>
         </TouchableOpacity>
 
-        <View className="h-20" />
+        {/* Padding for bottom buttons */}
+        <View style={{ height: 100 + insets.bottom }} />
       </ScrollView>
 
-      <View className="absolute bottom-3 left-0 right-0 bg-white px-4 py-4 flex-row" style={{
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 8,
-      }}>
+      <View
+        className="absolute bottom-0 left-0 right-0 bg-white px-4 flex-row border-t border-gray-100"
+        style={{
+          paddingTop: 16,
+          paddingBottom: Math.max(insets.bottom, 16),
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 8,
+        }}
+      >
         <TouchableOpacity
           onPress={handleBuy}
           className="flex-1 bg-blue-500 py-4 rounded-xl mr-2"
@@ -188,6 +195,6 @@ export default function CoinDetail() {
           <Text className="text-white text-center font-bold text-lg">{t('coinDetail.sell')}</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

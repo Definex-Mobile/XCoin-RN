@@ -119,12 +119,22 @@
         },
         "atmRoute": "Route to Nearest ATM",
         "nearbyAtms": "Find Nearby ATMs",
+        "contactUs": "Contact Us",
         "theme": {
             "title": "Appearance",
             "light": "Light",
             "dark": "Dark",
             "system": "System"
         }
+    },
+    "contact": {
+        "title": "Contact Us",
+        "phone": "Phone",
+        "whatsapp": "WhatsApp",
+        "email": "Email",
+        "socialHeader": "Social Media",
+        "workingHours": "Working Hours",
+        "message": "How can we help you?"
     },
     "coinDetail": {
         "exchange": "Exchange",

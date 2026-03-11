@@ -43,8 +43,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({
             onRequestClose={() => !isForceUpdate}
         >
             <View
-                style={{ backgroundColor: colors.scrim }}
-                className="flex-1 justify-center items-center px-6"
+                className="flex-1 justify-center items-center px-6 bg-black/50"
             >
                 <View className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl">
                     <Text className="bold22 text-text text-center mb-4">
@@ -92,8 +91,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({
                     <View className="gap-y-3">
                         <Pressable
                             onPress={onUpdate}
-                            className="h-12 rounded-lg items-center justify-center shadow-sm"
-                            style={{ backgroundColor: colors.primary }}
+                            className="h-12 rounded-lg items-center justify-center shadow-sm bg-primary"
                         >
                             <Text className="medium16 text-white">
                                 {t('updateDialog.updateButton')}

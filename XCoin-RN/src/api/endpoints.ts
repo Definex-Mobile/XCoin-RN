@@ -1,6 +1,4 @@
 export const BASE_URL = "https://xcoin-70afa.web.app"
-
-// Separate backend for dynamic API endpoints
 export const CONFIG_API_BASE_URL = "https://bank-config-api.vercel.app/api/v1"
 export const CONFIG_API_KEY = "ak_demo_32charslongapikeyforsecurity12"
 
@@ -18,5 +16,7 @@ export const ENDPOINTS = {
     VERSION_CONFIG: "/config/version",
     MAINTENANCE_CONFIG: "/config/maintenance",
     ANNOUNCEMENTS: "/announcements",
-    ASSET_CONFIG: "/config/assets"
+    ASSET_CONFIG: "/config/assets",
+    CONTACT_CONFIG: "/config/contact",
+    THEME_CONFIG: "/config/theme"
 } as const

@@ -113,12 +113,22 @@
     },
     "atmRoute": "En Yakın ATM'ye Rota",
     "nearbyAtms": "Etrafındaki ATM'leri Bul",
+    "contactUs": "Bize Ulaşın",
     "theme": {
       "title": "Görünüm",
       "light": "Açık",
       "dark": "Koyu",
       "system": "Sistem"
     }
+  },
+  "contact": {
+    "title": "Bize Ulaşın",
+    "phone": "Telefon",
+    "whatsapp": "WhatsApp",
+    "email": "E-posta",
+    "socialHeader": "Sosyal Medya",
+    "workingHours": "Çalışma Saatleri",
+    "message": "Size nasıl yardımcı olabiliriz?"
   },
   "coinDetail": {
     "exchange": "Değiştir",
