@@ -160,6 +160,48 @@
             "loginFailed": "An error occurred while logging in. Please try again."
         }
     },
+    "signup": {
+        "title": "Create Account",
+        "subtitle": "Start managing your crypto investments",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "phone": "Phone Number",
+        "birthDate": "Birth Date",
+        "button": "Sign Up",
+        "loginText": "Already have an account?",
+        "loginLink": "Login",
+        "success": {
+            "title": "Account Created",
+            "subtitle": "Your account has been created successfully.",
+            "button": "Go to Login"
+        },
+        "errors": {
+            "firstNameRequired": "First name is required.",
+            "firstNameInvalid": "Please enter a valid first name.",
+            "lastNameRequired": "Last name is required.",
+            "lastNameInvalid": "Please enter a valid last name.",
+            "emailRequired": "Email address is required.",
+            "emailInvalid": "Please enter a valid email address.",
+            "passwordRequired": "Password is required.",
+            "passwordInvalid": "Password must be at least 6 characters.",
+            "confirmPasswordRequired": "Please confirm your password.",
+            "confirmPasswordMismatch": "Passwords do not match.",
+            "phoneRequired": "Phone number is required.",
+            "phoneInvalid": "Please enter a valid phone number.",
+            "birthDateRequired": "Birth date is required.",
+            "birthDateInvalid": "Please enter a valid birth date (DD/MM/YYYY)."
+        }
+    },
+    "location": {
+        "servicesDisabled": "Location services are disabled. Please enable them in settings.",
+        "permissionDeniedTitle": "Permission Denied",
+        "permissionDenied": "Location permission is required for navigation.",
+        "fetchError": "Location could not be fetched. Please make sure GPS is enabled.",
+        "genericError": "An error occurred during location process."
+    },
     "security": {
         "threat": {
             "privilegedAccess": "This app cannot run on rooted or jailbroken devices for security reasons.",

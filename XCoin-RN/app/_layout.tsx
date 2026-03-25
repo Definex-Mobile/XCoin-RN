@@ -1,16 +1,16 @@
 import "../global.css";
 import { Stack } from "expo-router";
 import { useEffect, useState, useMemo } from "react";
-import { View, ActivityIndicator, useColorScheme } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useFreeRasp } from 'freerasp-react-native';
 import {
   freeRaspConfig,
   createThreatActions,
   createRaspExecutionStateActions,
-  ThreatState
+  ThreatState,
+  useOptionalFreeRasp,
 } from "../src/services/freeRaspService";
 import { SecurityBlockDialog } from "../src/components/securityBlockDialog/securityBlockDialog";
 import { CrashlyticsService } from "../src/services/crashlytics";
@@ -64,7 +64,7 @@ export default function RootLayout() {
   const actions = useMemo(() => createThreatActions(setThreatState), []);
   const raspStateActions = useMemo(() => createRaspExecutionStateActions(), []);
 
-  useFreeRasp(freeRaspConfig, actions, raspStateActions);
+  useOptionalFreeRasp(freeRaspConfig, actions, raspStateActions);
 
   useEffect(() => {
     CrashlyticsService.initialize().catch(console.error);

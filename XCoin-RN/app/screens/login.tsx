@@ -29,6 +29,10 @@ export default function LoginScreen() {
   const signupLink = t('login.signupLink');
   const { activeScheme } = useTheme();
 
+  const handleNavigateToSignUp = () => {
+    router.push('/screens/sign-up');
+  };
+
   const handleLogin = async () => {
     if (!email.trim()) {
       setError(emailRequired);
@@ -52,6 +56,7 @@ export default function LoginScreen() {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await login({
         email: email.trim(),
+        password,
         lastLoginDate: new Date().toISOString(),
       });
       router.replace('/(tabs)');
@@ -119,7 +124,9 @@ export default function LoginScreen() {
           <View className="mt-auto mb-8">
             <Text className="text-center text-onSurfaceVariant text-sm">
               {signupText}{' '}
-              <Text className="text-primary font-semibold">{signupLink}</Text>
+              <Text className="text-primary font-semibold" onPress={handleNavigateToSignUp}>
+                {signupLink}
+              </Text>
             </Text>
           </View>
         </View>

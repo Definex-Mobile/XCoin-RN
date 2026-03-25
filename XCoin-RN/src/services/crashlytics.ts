@@ -1,3 +1,6 @@
+import Constants, { ExecutionEnvironment } from 'expo-constants';
+import { NativeModules } from 'react-native';
+
 type CrashlyticsModule = {
   getCrashlytics: () => unknown;
   setCrashlyticsCollectionEnabled: (crashlytics: unknown, enabled: boolean) => Promise<null>;
@@ -11,16 +14,48 @@ type CrashlyticsModule = {
 let crashlyticsModule: CrashlyticsModule | null = null;
 let crashlyticsInstance: unknown = null;
 let crashlyticsAvailabilityChecked = false;
+let didWarnUnavailable = false;
+
+function warnUnavailableOnce(message: string, error?: unknown) {
+  if (didWarnUnavailable) {
+    return;
+  }
+
+  didWarnUnavailable = true;
+  console.warn(`[Crashlytics] ${message}`);
+  if (error) {
+    console.warn(error);
+  }
+}
+
+function isExpoGo(): boolean {
+  return Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+}
+
+function isFirebaseNativeAvailable(): boolean {
+  const nativeModules = NativeModules as Record<string, unknown>;
+  return Boolean(nativeModules.RNFBAppModule);
+}
 
 function getCrashlyticsModule(): CrashlyticsModule | null {
   if (crashlyticsAvailabilityChecked) return crashlyticsModule;
 
   crashlyticsAvailabilityChecked = true;
+  if (isExpoGo()) {
+    warnUnavailableOnce('Skipped in Expo Go. Use a development build to enable Firebase Crashlytics.');
+    return null;
+  }
+
+  if (!isFirebaseNativeAvailable()) {
+    warnUnavailableOnce('Firebase native app module not available. Crashlytics disabled.');
+    return null;
+  }
+
   try {
     crashlyticsModule = require('@react-native-firebase/crashlytics') as CrashlyticsModule;
     return crashlyticsModule;
-  } catch {
-    console.warn('Firebase Crashlytics native module not available');
+  } catch (error) {
+    warnUnavailableOnce('Firebase Crashlytics module could not be loaded.', error);
     return null;
   }
 }
@@ -35,7 +70,7 @@ function getCrashlyticsInstance(): unknown | null {
     crashlyticsInstance = module.getCrashlytics();
     return crashlyticsInstance;
   } catch (error) {
-    console.error('Crashlytics instance oluşturulamadı:', error);
+    warnUnavailableOnce('Crashlytics instance could not be created.', error);
     return null;
   }
 }

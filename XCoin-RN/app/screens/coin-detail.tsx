@@ -8,7 +8,9 @@ import { PriceChart } from "../../src/components/priceChart/priceChart";
 import { TimeRangeSelector } from "../../src/components/timeRangeSelector/timeRangeSelector";
 import { CoinBalanceCard } from "../../src/components/coinBalanceCard/coinBalanceCard";
 import { useTranslation as useI18nTranslation } from "../../src/constants/i18n";
+import { colors } from "../../src/constants/colors";
 import { getCurrencySymbol } from "../../src/utils/money";
+import { useTheme } from "../../src/context/ThemeContext";
 
 const POINTS_COUNT = 28;
 
@@ -81,6 +83,7 @@ export default function CoinDetail() {
   const { t } = useI18nTranslation();
   const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRange>("1H");
   const [isFavorite, setIsFavorite] = useState(false);
+  const { activeScheme } = useTheme();
 
   const coinData = useMemo(() => parseCoinDetailFromParams(params), [params.symbol, params.name, params.currentPrice, params.priceChangePercentage, params.imageUrl, params.currency]);
 
@@ -115,7 +118,9 @@ export default function CoinDetail() {
   };
 
   return (
-    <View className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
+    <View className="flex-1" style={{ 
+      paddingTop: insets.top,
+      backgroundColor: activeScheme?.surface || colors.white }}>
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <CoinDetailHeader
           name={coinData.name}
@@ -161,6 +166,7 @@ export default function CoinDetail() {
         <TouchableOpacity
           onPress={handleTransactions}
           className="mx-4 my-2 bg-white rounded-xl p-4 flex-row items-center justify-between border border-gray-200"
+          style={{backgroundColor: activeScheme?.surface || colors.white}}
         >
           <Text className="regular16 text-onSurfaceVariant">{t('coinDetail.transactions')}</Text>
           <Text className="text-xl text-onSurfaceVariant">›</Text>
@@ -171,7 +177,7 @@ export default function CoinDetail() {
       </ScrollView>
 
       <View
-        className="absolute bottom-0 left-0 right-0 bg-white px-4 flex-row border-t border-gray-100"
+        className="absolute bottom-0 left-0 right-0 px-4 flex-row border-t border-gray-100"
         style={{
           paddingTop: 16,
           paddingBottom: Math.max(insets.bottom, 16),
@@ -180,6 +186,7 @@ export default function CoinDetail() {
           shadowOpacity: 0.1,
           shadowRadius: 4,
           elevation: 8,
+          backgroundColor: activeScheme?.surface || colors.white
         }}
       >
         <TouchableOpacity

@@ -1,8 +1,54 @@
-import { useMemo } from 'react';
-import { useFreeRasp, TalsecConfig } from 'freerasp-react-native';
+import { useEffect } from 'react';
+import Constants, { AppOwnership } from 'expo-constants';
+import type {
+    RaspExecutionStateEventActions,
+    TalsecConfig,
+    ThreatEventActions,
+} from 'freerasp-react-native';
 import { CrashlyticsService } from './crashlytics';
 
 const IS_DEV = __DEV__;
+let isRaspStarted = false;
+let didWarnUnavailable = false;
+
+type FreeRaspModule = Pick<typeof import('freerasp-react-native'),
+    | 'onInvalidCallback'
+    | 'removeRaspExecutionStateEventListener'
+    | 'removeThreatListener'
+    | 'setRaspExecutionStateListener'
+    | 'setThreatListeners'
+    | 'talsecStart'
+>;
+
+function isExpoGo(): boolean {
+    return Constants.appOwnership === AppOwnership.Expo;
+}
+
+function warnUnavailableOnce(message: string, error?: unknown) {
+    if (didWarnUnavailable) {
+        return;
+    }
+
+    didWarnUnavailable = true;
+    console.warn(`[freeRASP] ${message}`);
+    if (error) {
+        console.warn(error);
+    }
+}
+
+function getFreeRaspModule(): FreeRaspModule | null {
+    if (isExpoGo()) {
+        warnUnavailableOnce('Skipped in Expo Go. Use a development build to enable freeRASP.');
+        return null;
+    }
+
+    try {
+        return require('freerasp-react-native') as FreeRaspModule;
+    } catch (error) {
+        warnUnavailableOnce('Native module not available. freeRASP initialization skipped.', error);
+        return null;
+    }
+}
 
 export const freeRaspConfig: TalsecConfig = {
     androidConfig: {
@@ -112,4 +158,44 @@ export const createRaspExecutionStateActions = () => {
             console.error('❌ [freeRASP] Initialization error:', error);
         }
     };
+};
+
+export const useOptionalFreeRasp = (
+    config: TalsecConfig,
+    actions: ThreatEventActions,
+    raspExecutionStateActions?: RaspExecutionStateEventActions
+) => {
+    useEffect(() => {
+        const freeRaspModule = getFreeRaspModule();
+        if (!freeRaspModule) {
+            return;
+        }
+
+        void (async () => {
+            await freeRaspModule.setThreatListeners(actions);
+
+            if (raspExecutionStateActions) {
+                await freeRaspModule.setRaspExecutionStateListener(raspExecutionStateActions);
+            }
+
+            if (isRaspStarted) {
+                return;
+            }
+
+            try {
+                const response = await freeRaspModule.talsecStart(config);
+                if (response !== 'freeRASP started') {
+                    freeRaspModule.onInvalidCallback();
+                }
+                isRaspStarted = true;
+            } catch (error) {
+                console.error('[freeRASP] Initialization error:', error);
+            }
+        })();
+
+        return () => {
+            void freeRaspModule.removeThreatListener().catch(() => { });
+            void freeRaspModule.removeRaspExecutionStateEventListener().catch(() => { });
+        };
+    }, [actions, config, raspExecutionStateActions]);
 };

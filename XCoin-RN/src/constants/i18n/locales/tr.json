@@ -170,5 +170,48 @@
         "subtitle": "Bu uygulamayı kullanmak için lütfen standart ve güvenli bir cihaz kullanın."
       }
     }
+  },
+  "signup": {
+    "title": "Hesap Oluştur",
+    "subtitle": "Kripto yatırımlarını yönetmeye başla",
+    "firstName": "İsim",
+    "lastName": "Soyisim",
+    "email": "Email",
+    "password": "Şifre",
+    "confirmPassword": "Şifre Tekrar",
+    "phone": "Telefon Numarası",
+    "birthDate": "Doğum Tarihi",
+    "button": "Kayıt Ol",
+    "loginText": "Zaten hesabın var mı?",
+    "loginLink": "Giriş Yap",
+    "success": {
+      "title": "Hesap Oluşturuldu",
+      "subtitle": "Hesabınız başarıyla oluşturuldu.",
+      "button": "Girişe Git"
+    },
+    "errors": {
+      "firstNameRequired": "İsim gereklidir.",
+      "firstNameInvalid": "Geçerli bir isim girin.",
+      "lastNameRequired": "Soyisim gereklidir.",
+      "lastNameInvalid": "Geçerli bir soyisim girin.",
+      "emailRequired": "Email adresi gereklidir.",
+      "emailInvalid": "Geçerli bir email adresi girin.",
+      "passwordRequired": "Şifre gereklidir.",
+      "passwordInvalid": "Şifre en az 6 karakter olmalıdır.",
+      "confirmPasswordRequired": "Şifre tekrarı gereklidir.",
+      "confirmPasswordMismatch": "Şifreler eşleşmiyor.",
+      "phoneRequired": "Telefon numarası gereklidir.",
+      "phoneInvalid": "Geçerli bir telefon numarası girin.",
+      "birthDateRequired": "Doğum tarihi gereklidir.",
+      "birthDateInvalid": "Geçerli bir doğum tarihi girin (GG/AA/YYYY)."
+    }
+  },
+  "location": {
+    "servicesDisabled": "Konum servisleri kapalı. Lütfen ayarlardan açın.",
+    "permissionDeniedTitle": "İzin Reddedildi",
+    "permissionDenied": "Navigasyon için konum izni gerekli.",
+    "fetchError": "Konum bilgisi alınamadı. Lütfen cihazınızın konum servislerinin (GPS) açık olduğundan emin olun.",
+    "genericError": "Konum işlemi sırasında bir hata oluştu."
+
   }
 }
