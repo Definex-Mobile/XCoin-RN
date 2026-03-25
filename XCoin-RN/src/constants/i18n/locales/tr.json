@@ -40,12 +40,15 @@
     "tagline": "Turkey's Highly Rated Cryptocurrency Exchange"
   },
   "updateDialog": {
-    "title": "Güncelleme Gerekli",
-    "message": "XCoin'in yeni bir sürümü mevcut. Uygulamayı kullanmaya devam etmek için lütfen güncelleyin.",
+    "title": "Güncelleme",
+    "messageForce": "Uygulamanın bu sürümü artık desteklenmiyor. Devam etmek için lütfen en son sürüme güncelleyin.",
+    "messageSoft": "Yeni özelliklerin ve iyileştirmelerin keyfini çıkarmak için lütfen uygulamayı güncelleyin.",
+    "releaseNotes": "Yenilikler",
     "currentVersion": "Mevcut Sürüm",
     "requiredVersion": "Gerekli Sürüm",
     "updateButton": "Şimdi Güncelle",
-    "exitButton": "Uygulamadan Çık"
+    "exitButton": "Uygulamadan Çık",
+    "laterButton": "Daha Sonra"
   },
   "tabs": {
     "all": "Tümü",
@@ -109,7 +112,23 @@
       "crashConfirm": "Crash Yap"
     },
     "atmRoute": "En Yakın ATM'ye Rota",
-    "nearbyAtms": "Etrafındaki ATM'leri Bul"
+    "nearbyAtms": "Etrafındaki ATM'leri Bul",
+    "contactUs": "Bize Ulaşın",
+    "theme": {
+      "title": "Görünüm",
+      "light": "Açık",
+      "dark": "Koyu",
+      "system": "Sistem"
+    }
+  },
+  "contact": {
+    "title": "Bize Ulaşın",
+    "phone": "Telefon",
+    "whatsapp": "WhatsApp",
+    "email": "E-posta",
+    "socialHeader": "Sosyal Medya",
+    "workingHours": "Çalışma Saatleri",
+    "message": "Size nasıl yardımcı olabiliriz?"
   },
   "coinDetail": {
     "exchange": "Değiştir",
@@ -133,6 +152,23 @@
       "passwordRequired": "Şifre gereklidir.",
       "emailInvalid": "Geçerli bir email adresi girin.",
       "loginFailed": "Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin."
+    },
+    "security": {
+      "threat": {
+        "privilegedAccess": "Bu uygulama root/jailbreak yapılmış cihazlarda çalıştırılamaz.",
+        "hooks": "Güvenlik ihlali tespit edildi (hooking). Uygulama güvenliğiniz için kapatılıyor.",
+        "appIntegrity": "Uygulama bütünlüğü bozulmuş. Lütfen resmi mağazadan orijinal sürümü indirin.",
+        "debug": "Hata ayıklayıcı (debugger) tespit edildi.",
+        "simulator": "Emülatör/simülatör tespit edildi.",
+        "systemVPN": "VPN bağlantısı tespit edildi. Lütfen VPN'i kapatıp tekrar deneyin.",
+        "screenshot": "Ekran görüntüsü alındı.",
+        "screenRecording": "Ekran kaydı başlatıldı.",
+        "generic": "Güvenlik uyarısı tespit edildi."
+      },
+      "block": {
+        "title": "Güvenlik Uyarısı",
+        "subtitle": "Bu uygulamayı kullanmak için lütfen standart ve güvenli bir cihaz kullanın."
+      }
     }
   },
   "signup": {

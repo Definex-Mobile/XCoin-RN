@@ -13,6 +13,7 @@ import * as Location from "expo-location";
 import i18n from "../../constants/i18n";
 import { logButtonClick } from "../../services/analyticsService";
 import { SCREENS, PARAMS } from "../../constants/analyticsEvents";
+import { router } from "expo-router";
 
 export const profileButtonData: ProfileButtonData[] = [
   {
@@ -140,6 +141,15 @@ export const profileButtonData: ProfileButtonData[] = [
       if (url) {
         Linking.openURL(url).catch((err) => { });
       }
+    },
+  },
+  {
+    id: "contactUs",
+    titleKey: "profile.contactUs",
+    icon: ic_help_support,
+    onPress: () => {
+      logButtonClick(SCREENS.PROFILE, "CONTACT_US");
+      router.push("/screens/contact");
     },
   },
 ];

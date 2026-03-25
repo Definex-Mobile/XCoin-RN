@@ -17,18 +17,26 @@ export default {
         },
         ios: {
             supportsTablet: true,
-            bundleIdentifier: (IS_DEV && !IS_PREBUILD) ? "com.definex.xcoin.dev" : "com.definex.xcoin",
-            googleServicesFile: "./GoogleService-Info.plist"
+            bundleIdentifier: IS_DEV ? "com.definex.xcoin.dev" : "com.definex.xcoin",
+            googleServicesFile: "./GoogleService-Info.plist",
+            backgroundModes: ["remote-notification"],
+            entitlements: {
+                "aps-environment": IS_DEV ? "development" : "production"
+            }
         },
         android: {
-            package: (IS_DEV && !IS_PREBUILD) ? "com.definex.xcoin.dev" : "com.definex.xcoin",
+            package: IS_DEV ? "com.definex.xcoin.dev" : "com.definex.xcoin",
             googleServicesFile: "./google-services.json",
             adaptiveIcon: {
                 foregroundImage: IS_DEV ? "./assets/ic_dev.png" : "./assets/ic_prod.png",
                 backgroundColor: "#ffffff"
             },
             edgeToEdgeEnabled: true,
-            predictiveBackGestureEnabled: false
+            predictiveBackGestureEnabled: false,
+            permissions: [
+                "android.permission.DETECT_SCREEN_CAPTURE",
+                "android.permission.DETECT_SCREEN_RECORDING"
+            ]
         },
         web: {
             favicon: "./assets/favicon.png",
@@ -37,8 +45,25 @@ export default {
         plugins: [
             "expo-router",
             "expo-font",
+            [
+                "expo-build-properties",
+                {
+                    "ios": {
+                        "useFrameworks": "static"
+                    }
+                }
+            ],
             "@react-native-firebase/app",
-            "@react-native-firebase/crashlytics"
+            "@react-native-firebase/crashlytics",
+            "@react-native-firebase/messaging",
+            [
+                "freerasp-react-native/app.plugin.js",
+                {
+                    "android": {
+                        "minSdkVersion": "24"
+                    }
+                }
+            ]
         ],
         scheme: "xcoin",
         experiments: {

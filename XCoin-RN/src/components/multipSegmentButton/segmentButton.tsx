@@ -13,9 +13,9 @@ export interface ButtonProps {
 }
 
 const shadowSmallStyle = {
-  shadowColor: "text-text-dark",
+  shadowColor: "#000000",
   shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.075,
+  shadowOpacity: 0.1,
   shadowRadius: 4,
   elevation: 2,
 };
@@ -36,9 +36,8 @@ export const Button: React.FC<ButtonProps> = ({
         disabled={disabled}
         hitSlop={8}
         style={[shadowSmallStyle, containerStyle]}
-        className={`h-[48px] rounded items-center justify-center overflow-hidden ${
-          disabled ? 'opacity-50' : ''
-        } ${containerClassName}`}
+        className={`h-[48px] rounded items-center justify-center overflow-hidden ${disabled ? 'opacity-50' : ''
+          } ${containerClassName}`}
       >
         <Text
           style={textStyle}

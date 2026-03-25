@@ -11,6 +11,7 @@ import { logSegmentSelect } from "../../src/services/analyticsService";
 import { PARAMS, SCREENS } from "../../src/constants/analyticsEvents";
 
 export default function Portfolio() {
+  const { t } = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -54,9 +55,9 @@ export default function Portfolio() {
 
       if (popupMessages.length > 0) {
         Alert.alert(
-          useTranslation("common.errorText"),
+          t("common.errorText"),
           popupMessages.join("\n"),
-          [{ text: useTranslation("common.ok") }],
+          [{ text: t("common.ok") }],
           { cancelable: true }
         );
       }
@@ -85,7 +86,7 @@ export default function Portfolio() {
   const filteredCoins = getFilteredCoins();
 
   return (
-    <View className="flex-1 mt-3 bg-mainLightBackground">
+    <View className="flex-1 bg-background">
       <View>
         {loading && !portfolioData && (
           <View className="mx-4 pt-3 h-48 rounded-xl" />
@@ -98,15 +99,15 @@ export default function Portfolio() {
         <MultipleSegmentButton
           className="mt-3 mx-4"
           buttons={[
-            useTranslation('portfolio.depositINR'),
-            useTranslation('portfolio.withDrawINR'),
+            t('portfolio.depositINR'),
+            t('portfolio.withDrawINR'),
           ]}
           selectedIndex={selectedIndex}
           onSelectedIndexChange={handleSegmentChange}
         />
 
-        <Text className="mt-8 mx-5 bold20 text-coin-name">
-          {useTranslation('portfolio.yourCoins')}
+        <Text className="mt-8 mx-5 bold20 text-onSurface">
+          {t('portfolio.yourCoins')}
         </Text>
       </View>
 

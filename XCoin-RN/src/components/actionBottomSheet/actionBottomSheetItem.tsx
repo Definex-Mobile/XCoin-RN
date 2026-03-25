@@ -26,12 +26,12 @@ export default function ActionBottomSheetItem({
                     <Ionicons
                         name={icon}
                         size={22}
-                        color={isDestructive ? colors.market.down : colors.primaryBlue.DEFAULT}
+                        color={isDestructive ? colors.error : colors.primary}
                     />
                 </View>
             )}
             <Text
-                className={`medium16 ${isDestructive ? "text-market-down" : "text-text"
+                className={`medium16 ${isDestructive ? "text-error" : "text-text"
                     }`}
             >
                 {label}

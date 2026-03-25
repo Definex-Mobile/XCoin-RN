@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useTranslation as useI18nTranslation } from "../../constants/i18n";
+import { colors } from "../../constants/colors";
 
 interface CoinDetailHeaderProps {
   name: string;
@@ -12,6 +13,8 @@ interface CoinDetailHeaderProps {
   onExchange: () => void;
 }
 
+import { useTheme } from "../../context/ThemeContext";
+
 export function CoinDetailHeader({
   name,
   symbol,
@@ -22,6 +25,7 @@ export function CoinDetailHeader({
   onExchange,
 }: CoinDetailHeaderProps) {
   const { t } = useI18nTranslation();
+  const { activeScheme } = useTheme();
 
   return (
     <View className="px-4 pt-4 pb-2">
@@ -32,7 +36,7 @@ export function CoinDetailHeader({
             className="mr-3 items-center justify-center"
             style={{ width: 32, height: 32 }}
           >
-            <Text className="text-2xl text-coin-name">‹</Text>
+            <Text className="text-2xl text-onSurface">‹</Text>
           </TouchableOpacity>
 
           <View className="rounded-full overflow-hidden mr-2" style={{ width: 40, height: 40 }}>
@@ -44,10 +48,10 @@ export function CoinDetailHeader({
           </View>
 
           <View className="flex-row items-baseline">
-            <Text className="thin16 text-coin-name mr-1" numberOfLines={1}>
+            <Text className="thin16 text-onSurface mr-1" numberOfLines={1}>
               {name}
             </Text>
-            <Text className="thin10 text-coin-symbol mr-2">
+            <Text className="thin10 text-onSurfaceVariant mr-2">
               ({symbol})
             </Text>
           </View>
@@ -57,7 +61,7 @@ export function CoinDetailHeader({
             activeOpacity={1}
             className="ml-1"
           >
-            <Text className={`text-xl ${isFavorite ? "text-yellow-400" : "text-black"}`}>
+            <Text className={`text-xl ${isFavorite ? "text-yellow-400" : "text-onSurface"}`}>
               {isFavorite ? "★" : "☆"}
             </Text>
           </TouchableOpacity>
@@ -65,19 +69,19 @@ export function CoinDetailHeader({
 
         <TouchableOpacity
           onPress={onExchange}
-          className="bg-coin-timeSelectorSelectedBg px-4 py-2 rounded-full flex-row items-center"
+          className="bg-primaryContainer px-4 py-2 rounded-full flex-row items-center"
           style={{
-            shadowColor: '#0066FF',
+            shadowColor: activeScheme?.primary || colors.loader,
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.2,
             shadowRadius: 4,
             elevation: 3,
           }}
         >
-          <View className="w-6 h-6 bg-primaryBlue rounded-full mr-2 items-center justify-center">
+          <View className="w-6 h-6 bg-primary rounded-full mr-2 items-center justify-center">
             <Text className="text-white bold16">⇄</Text>
           </View>
-          <Text className="text-primaryBlue thinItalic10">
+          <Text className="text-primary thinItalic10">
             {t('coinDetail.exchange')}
           </Text>
         </TouchableOpacity>

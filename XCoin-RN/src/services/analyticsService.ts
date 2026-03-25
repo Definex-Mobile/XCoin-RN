@@ -1,10 +1,11 @@
-import Constants from 'expo-constants';
+import Constants, { ExecutionEnvironment } from 'expo-constants';
+import { NativeModules } from 'react-native';
 import { ANALYTICS_EVENTS, ANALYTICS_PARAMS, SCREENS } from '../constants/analyticsEvents';
 
 type EventParams = Record<string, string | number | boolean>;
 
 type AnalyticsMod = {
-  getAnalytics: () => unknown;
+  getAnalytics: (app?: unknown) => unknown;
   logEvent: (analytics: unknown, name: string, params?: object) => Promise<void>;
 };
 
@@ -13,11 +14,12 @@ let analyticsInstance: unknown = null;
 let firebaseChecked = false;
 
 function isExpoGo(): boolean {
-  try {
-    return (Constants as { appOwnership?: string }).appOwnership === 'expo';
-  } catch {
-    return true;
-  }
+  return Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+}
+
+function isFirebaseNativeAvailable(): boolean {
+  const nativeModules = NativeModules as Record<string, unknown>;
+  return Boolean(nativeModules.RNFBAppModule);
 }
 
 function getAnalytics(): unknown {
@@ -27,9 +29,14 @@ function getAnalytics(): unknown {
     if (__DEV__) console.log('[Analytics] Expo Go – events will only log to console.');
     return null;
   }
+  if (!isFirebaseNativeAvailable()) {
+    if (__DEV__) console.log('[Analytics] Firebase native app module not available – events will only log to console.');
+    return null;
+  }
   try {
     analyticsMod = require('@react-native-firebase/analytics') as AnalyticsMod;
-    analyticsInstance = analyticsMod.getAnalytics();
+    const { getApp } = require('@react-native-firebase/app');
+    analyticsInstance = analyticsMod.getAnalytics(getApp());
     return analyticsInstance;
   } catch {
     if (__DEV__) {

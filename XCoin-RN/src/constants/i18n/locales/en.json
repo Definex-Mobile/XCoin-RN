@@ -46,12 +46,15 @@
         "tagline": "Turkey's Highly Rated Cryptocurrency Exchange"
     },
     "updateDialog": {
-        "title": "Update Required",
-        "message": "A new version of XCoin is available. Please update to continue using the app.",
+        "title": "Update",
+        "messageForce": "This version of the application is no longer supported. Please update to the latest version to continue.",
+        "messageSoft": "Please update the application to enjoy new features and improvements.",
+        "releaseNotes": "What's New",
         "currentVersion": "Current Version",
         "requiredVersion": "Required Version",
         "updateButton": "Update Now",
-        "exitButton": "Exit App"
+        "exitButton": "Exit App",
+        "laterButton": "Later"
     },
     "tabs": {
         "all": "All",
@@ -115,7 +118,23 @@
             "crashConfirm": "Crash Now"
         },
         "atmRoute": "Route to Nearest ATM",
-        "nearbyAtms": "Find Nearby ATMs"
+        "nearbyAtms": "Find Nearby ATMs",
+        "contactUs": "Contact Us",
+        "theme": {
+            "title": "Appearance",
+            "light": "Light",
+            "dark": "Dark",
+            "system": "System"
+        }
+    },
+    "contact": {
+        "title": "Contact Us",
+        "phone": "Phone",
+        "whatsapp": "WhatsApp",
+        "email": "Email",
+        "socialHeader": "Social Media",
+        "workingHours": "Working Hours",
+        "message": "How can we help you?"
     },
     "coinDetail": {
         "exchange": "Exchange",
@@ -182,5 +201,22 @@
         "permissionDenied": "Location permission is required for navigation.",
         "fetchError": "Location could not be fetched. Please make sure GPS is enabled.",
         "genericError": "An error occurred during location process."
+    },
+    "security": {
+        "threat": {
+            "privilegedAccess": "This app cannot run on rooted or jailbroken devices for security reasons.",
+            "hooks": "Security violation detected (hooking). The app is closing for your protection.",
+            "appIntegrity": "App integrity is compromised. Please download the original version from the official store.",
+            "debug": "Debugger detected.",
+            "simulator": "Emulator/simulator detected.",
+            "systemVPN": "VPN connection detected. Please disable VPN and try again.",
+            "screenshot": "Screenshot captured.",
+            "screenRecording": "Screen recording started.",
+            "generic": "Security threat detected."
+        },
+        "block": {
+            "title": "Security Alert",
+            "subtitle": "Please use a standard and secure device to access this app."
+        }
     }
 }

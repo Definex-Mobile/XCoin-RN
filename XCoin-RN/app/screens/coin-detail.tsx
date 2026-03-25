@@ -1,13 +1,16 @@
 import React, { useState, useMemo } from "react";
-import { View, ScrollView, Text, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { CoinDetailData, TimeRange, ChartDataPoint } from "../../src/types/coinDetail";
 import { CoinDetailHeader } from "../../src/components/coinDetailHeader/coinDetailHeader";
 import { PriceChart } from "../../src/components/priceChart/priceChart";
 import { TimeRangeSelector } from "../../src/components/timeRangeSelector/timeRangeSelector";
 import { CoinBalanceCard } from "../../src/components/coinBalanceCard/coinBalanceCard";
 import { useTranslation as useI18nTranslation } from "../../src/constants/i18n";
+import { colors } from "../../src/constants/colors";
 import { getCurrencySymbol } from "../../src/utils/money";
+import { useTheme } from "../../src/context/ThemeContext";
 
 const POINTS_COUNT = 28;
 
@@ -75,10 +78,12 @@ function parseCoinDetailFromParams(params: Record<string, string | string[] | un
 
 export default function CoinDetail() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<Record<string, string>>();
   const { t } = useI18nTranslation();
   const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRange>("1H");
   const [isFavorite, setIsFavorite] = useState(false);
+  const { activeScheme } = useTheme();
 
   const coinData = useMemo(() => parseCoinDetailFromParams(params), [params.symbol, params.name, params.currentPrice, params.priceChangePercentage, params.imageUrl, params.currency]);
 
@@ -113,8 +118,10 @@ export default function CoinDetail() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <ScrollView className="flex-1">
+    <View className="flex-1" style={{ 
+      paddingTop: insets.top,
+      backgroundColor: activeScheme?.surface || colors.white }}>
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <CoinDetailHeader
           name={coinData.name}
           symbol={coinData.symbol}
@@ -126,10 +133,10 @@ export default function CoinDetail() {
         />
 
         <View className="px-4 flex-row p-3 items-end content-between">
-          <Text className="medium24 text-coin-name">
+          <Text className="medium24 text-onSurface">
             {getCurrencySymbol(coinData.currency)}{coinData.currentPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </Text>
-          <Text className={`text-sm mt-1 pl-3 ${coinData.priceChangePercentage >= 0 ? 'text-crypto-positive' : 'text-crypto-negative'}`}>
+          <Text className={`text-sm mt-1 pl-3 ${coinData.priceChangePercentage >= 0 ? 'text-secondary' : 'text-error'}`}>
             {coinData.priceChangePercentage >= 0 ? '+' : ''}{coinData.priceChange.toLocaleString('en-IN', { minimumFractionDigits: 3, maximumFractionDigits: 3 })} ({coinData.priceChangePercentage >= 0 ? '+' : ''}{coinData.priceChangePercentage.toFixed(2)}%)
           </Text>
         </View>
@@ -156,37 +163,45 @@ export default function CoinDetail() {
           currency={coinData.currency}
         />
 
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={handleTransactions}
           className="mx-4 my-2 bg-white rounded-xl p-4 flex-row items-center justify-between border border-gray-200"
+          style={{backgroundColor: activeScheme?.surface || colors.white}}
         >
-          <Text className="regular16 text-coin-symbol">{t('coinDetail.transactions')}</Text>
-          <Text className="text-xl text-coin-symbol">›</Text>
+          <Text className="regular16 text-onSurfaceVariant">{t('coinDetail.transactions')}</Text>
+          <Text className="text-xl text-onSurfaceVariant">›</Text>
         </TouchableOpacity>
 
-        <View className="h-20" />
+        {/* Padding for bottom buttons */}
+        <View style={{ height: 100 + insets.bottom }} />
       </ScrollView>
 
-      <View className="absolute bottom-3 left-0 right-0 bg-white px-4 py-4 flex-row" style={{ 
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 8,
-      }}>
-        <TouchableOpacity 
+      <View
+        className="absolute bottom-0 left-0 right-0 px-4 flex-row border-t border-gray-100"
+        style={{
+          paddingTop: 16,
+          paddingBottom: Math.max(insets.bottom, 16),
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 8,
+          backgroundColor: activeScheme?.surface || colors.white
+        }}
+      >
+        <TouchableOpacity
           onPress={handleBuy}
           className="flex-1 bg-blue-500 py-4 rounded-xl mr-2"
         >
           <Text className="text-white text-center font-bold text-lg">{t('coinDetail.buy')}</Text>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={handleSell}
           className="flex-1 bg-blue-500 py-4 rounded-xl ml-2"
         >
           <Text className="text-white text-center font-bold text-lg">{t('coinDetail.sell')}</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

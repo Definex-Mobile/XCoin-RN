@@ -14,11 +14,14 @@ export type ProfileHeaderProps = {
 
 const fallbackLogo: ImageSourcePropType = require("../../../assets/images/xcoin_logo.png");
 
+import { useTheme } from "../../context/ThemeContext";
+
 export function ProfileHeader(data: ProfileHeaderProps) {
   const { image, name, mail, phone, onImagePress } = data;
+  const { activeScheme } = useTheme();
 
   return (
-    <View className="mx-[16px] mt-[25px] rounded-xl bg-primaryBlue overflow-hidden items-center justify-center">
+    <View className="mx-[16px] mt-[25px] rounded-xl bg-primary overflow-hidden items-center justify-center">
       <View className="mt-[24px] relative">
         <SmartImage
           uri={image}
@@ -30,18 +33,18 @@ export function ProfileHeader(data: ProfileHeaderProps) {
         {onImagePress && (
           <TouchableOpacity
             onPress={onImagePress}
-            className="absolute bottom-0 right-0 bg-white rounded-full p-1.5 shadow-md shadow-black"
+            className="absolute bottom-0 right-0 bg-surface rounded-full p-1.5 shadow-md shadow-shadow"
           >
-            <Ionicons name="camera" size={16} color={colors.primaryBlue.DEFAULT} />
+            <Ionicons name="camera" size={16} color={activeScheme?.primary} />
           </TouchableOpacity>
         )}
       </View>
 
-      <Text className="mt-[12px] bold20 text-white text-center">{name}</Text>
-      <Text className="mt-[12px] lightItalic12 text-white text-center">
+      <Text className="mt-[12px] bold20 text-onPrimary text-center">{name}</Text>
+      <Text className="mt-[12px] lightItalic12 text-onPrimary text-center">
         {mail}
       </Text>
-      <Text className="mt-[4px] mb-[20px] lightItalic12 text-white text-center">
+      <Text className="mt-[4px] mb-[20px] lightItalic12 text-onPrimary text-center">
         {phone}
       </Text>
     </View>

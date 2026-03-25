@@ -20,18 +20,19 @@ export interface BannerCardProps {
   width?: DimensionValue;
   height?: DimensionValue;
   minHeight?: number;
+  onClose?: () => void;
 }
 
 const getBannerColor = (type?: BannerType): string => {
   switch (type) {
     case BannerType.HOME:
-      return colors.primaryBlue.DEFAULT;
+      return colors.bannerHome;
     case BannerType.REFER:
-      return colors.accent.DEFAULT;
+      return colors.bannerRefer;
     case BannerType.LIKE:
-      return colors.primary.DEFAULT;
+      return colors.bannerLike;
     default:
-      return colors.primaryBlue.DEFAULT;
+      return colors.bannerHome;
   }
 };
 
@@ -41,7 +42,7 @@ const getImageFrame = (type?: BannerType): string => {
       return "w-[140px] h-[140px] absolute mb-4 right-0 z-0";
     case BannerType.REFER:
       return "w-[102px] h-[102px] mb-3";
-    case BannerType.LIKE: 
+    case BannerType.LIKE:
       return "w-[102px] h-[102px] absolute mb-4 right-5";
     default:
       return "w-[102px] h-[102px] absolute mb-4 right-0";
@@ -57,6 +58,7 @@ export default function BannerCard({
   bannerType,
   width,
   height,
+  onClose,
 }: BannerCardProps) {
   const backgroundColor = getBannerColor(bannerType);
 
@@ -69,35 +71,43 @@ export default function BannerCard({
       }}
       className="mx-4 rounded-2xl overflow-hidden shadow-lg"
     >
+      {onClose && (
+        <Pressable
+          onPress={onClose}
+          className="absolute top-3 right-3 z-20 w-8 h-8 items-center justify-center rounded-full bg-black/10"
+        >
+          <Text className="text-white text-lg font-bold leading-none">×</Text>
+        </Pressable>
+      )}
       {image && (
         <Image
           source={image}
-          className= "w-[140px] h-[140px] absolute -bottom-2 right-0 z-0 opacity-70"
+          className="w-[140px] h-[140px] absolute -bottom-2 right-0 z-0 opacity-70"
           resizeMode="contain"
         />
       )}
 
-      <View className="relative z-10 mx-5 mt-6">
+      <View className="relative z-10 mx-5 mt-6 mb-6">
         {title && <Text className="text-white thinItalic12 ">{title}</Text>}
 
         {description && (
-          <Text 
-          style={bannerType !== BannerType.HOME ? { width: 167 } : undefined} 
-          className="text-white medium18 leading-tight mt-[9px]"
-          numberOfLines={bannerType !== BannerType.HOME ? 2 : 1}
-        >
-          {description}
-        </Text>
+          <Text
+            style={bannerType !== BannerType.HOME ? { width: 167 } : undefined}
+            className="text-white medium18 leading-tight mt-[9px]"
+            numberOfLines={bannerType !== BannerType.HOME ? 2 : 1}
+          >
+            {description}
+          </Text>
         )}
 
         {buttonText && (
           <Pressable
             onPress={onButtonPress}
-            className="bg-white rounded mt-[22px] mb-[21px] px-3 py-2 items-center justify-center self-start"
+            className="bg-surface rounded mt-[22px] mb-[21px] px-3 py-2 items-center justify-center self-start"
           >
-            <Text 
-            style={{ color: backgroundColor }}
-            className="thinItalic12 font-medium">
+            <Text
+              style={{ color: backgroundColor }}
+              className="thinItalic12 font-medium">
               {buttonText}
             </Text>
           </Pressable>

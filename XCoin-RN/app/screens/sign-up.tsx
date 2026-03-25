@@ -19,6 +19,7 @@ import { generateSignUpJwt } from '../../src/services/jwtService';
 import { saveUserInfo } from '../../src/services/userInfoStorage';
 import type { UserInfo } from '../../src/types/userInfo';
 import * as SecureStore from 'expo-secure-store';
+import { useTheme } from '../../src/context/ThemeContext';
 
 const JWT_TOKEN_KEY = 'xcoin_auth_token';
 const SIGN_UP_FIELD_COUNT = 8;
@@ -91,6 +92,8 @@ const formatBirthDateForStorage = (value: string): string => {
 
 export default function SignUpScreen() {
   const router = useRouter();
+  const { activeScheme } = useTheme();
+  const { t } = useTranslation();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -105,36 +108,36 @@ export default function SignUpScreen() {
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   const inputRefs = useRef<Array<TextInput | null>>([]);
 
-  const title = useTranslation('signup.title');
-  const subtitle = useTranslation('signup.subtitle');
-  const firstNameLabel = useTranslation('signup.firstName');
-  const lastNameLabel = useTranslation('signup.lastName');
-  const emailLabel = useTranslation('signup.email');
-  const passwordLabel = useTranslation('signup.password');
-  const confirmPasswordLabel = useTranslation('signup.confirmPassword');
-  const phoneLabel = useTranslation('signup.phone');
-  const birthDateLabel = useTranslation('signup.birthDate');
-  const signUpButton = useTranslation('signup.button');
-  const loginText = useTranslation('signup.loginText');
-  const loginLink = useTranslation('signup.loginLink');
-  const signUpSuccessTitle = useTranslation('signup.success.title');
-  const signUpSuccessSubtitle = useTranslation('signup.success.subtitle');
-  const signUpSuccessButton = useTranslation('signup.success.button');
+  const title = t('signup.title');
+  const subtitle = t('signup.subtitle');
+  const firstNameLabel = t('signup.firstName');
+  const lastNameLabel = t('signup.lastName');
+  const emailLabel = t('signup.email');
+  const passwordLabel = t('signup.password');
+  const confirmPasswordLabel = t('signup.confirmPassword');
+  const phoneLabel = t('signup.phone');
+  const birthDateLabel = t('signup.birthDate');
+  const signUpButton = t('signup.button');
+  const loginText = t('signup.loginText');
+  const loginLink = t('signup.loginLink');
+  const signUpSuccessTitle = t('signup.success.title');
+  const signUpSuccessSubtitle = t('signup.success.subtitle');
+  const signUpSuccessButton = t('signup.success.button');
 
-  const firstNameRequired = useTranslation('signup.errors.firstNameRequired');
-  const firstNameInvalid = useTranslation('signup.errors.firstNameInvalid');
-  const lastNameRequired = useTranslation('signup.errors.lastNameRequired');
-  const lastNameInvalid = useTranslation('signup.errors.lastNameInvalid');
-  const emailRequired = useTranslation('signup.errors.emailRequired');
-  const emailInvalid = useTranslation('signup.errors.emailInvalid');
-  const passwordRequired = useTranslation('signup.errors.passwordRequired');
-  const passwordInvalid = useTranslation('signup.errors.passwordInvalid');
-  const confirmPasswordRequired = useTranslation('signup.errors.confirmPasswordRequired');
-  const confirmPasswordMismatch = useTranslation('signup.errors.confirmPasswordMismatch');
-  const phoneRequired = useTranslation('signup.errors.phoneRequired');
-  const phoneInvalid = useTranslation('signup.errors.phoneInvalid');
-  const birthDateRequired = useTranslation('signup.errors.birthDateRequired');
-  const birthDateInvalid = useTranslation('signup.errors.birthDateInvalid');
+  const firstNameRequired = t('signup.errors.firstNameRequired');
+  const firstNameInvalid = t('signup.errors.firstNameInvalid');
+  const lastNameRequired = t('signup.errors.lastNameRequired');
+  const lastNameInvalid = t('signup.errors.lastNameInvalid');
+  const emailRequired = t('signup.errors.emailRequired');
+  const emailInvalid = t('signup.errors.emailInvalid');
+  const passwordRequired = t('signup.errors.passwordRequired');
+  const passwordInvalid = t('signup.errors.passwordInvalid');
+  const confirmPasswordRequired = t('signup.errors.confirmPasswordRequired');
+  const confirmPasswordMismatch = t('signup.errors.confirmPasswordMismatch');
+  const phoneRequired = t('signup.errors.phoneRequired');
+  const phoneInvalid = t('signup.errors.phoneInvalid');
+  const birthDateRequired = t('signup.errors.birthDateRequired');
+  const birthDateInvalid = t('signup.errors.birthDateInvalid');
 
   const focusInput = (index: number) => {
     const boundedIndex = Math.max(0, Math.min(SIGN_UP_FIELD_COUNT - 1, index));
@@ -260,14 +263,14 @@ export default function SignUpScreen() {
 
   if (showSuccessScreen) {
     return (
-      <SafeAreaView className="flex-1 bg-mainLightBackground" edges={['top', 'bottom']}>
+      <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
         <View className="flex-1 justify-center px-6">
-          <View className="bg-white rounded-2xl px-6 py-8 border border-border-light">
-            <Text className="bold36 text-center text-coin-name mb-3">{signUpSuccessTitle}</Text>
-            <Text className="text-base text-center text-coin-symbol mb-8">{signUpSuccessSubtitle}</Text>
+          <View className="bg-surface rounded-2xl px-6 py-8 border border-outlineVariant">
+            <Text className="bold36 text-center text-onSurface mb-3">{signUpSuccessTitle}</Text>
+            <Text className="text-base text-center text-onSurfaceVariant mb-8">{signUpSuccessSubtitle}</Text>
 
             <TouchableOpacity
-              className="bg-primaryBlue rounded-lg py-4"
+              className="bg-primary rounded-lg py-4"
               onPress={handleGoToLogin}
               activeOpacity={0.8}
             >
@@ -280,7 +283,7 @@ export default function SignUpScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-mainLightBackground" edges={['top', 'bottom']}>
+    <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
@@ -293,8 +296,8 @@ export default function SignUpScreen() {
         >
           <View className="px-6">
             <View className="mb-8 mt-8">
-              <Text className="bold36 text-center text-coin-name mb-2">{title}</Text>
-              <Text className="text-lg text-center text-coin-symbol">{subtitle}</Text>
+              <Text className="bold36 text-center text-onSurface mb-2">{title}</Text>
+              <Text className="text-lg text-center text-onSurfaceVariant">{subtitle}</Text>
             </View>
 
             <View className="gap-4">
@@ -390,17 +393,17 @@ export default function SignUpScreen() {
               />
 
               <View>
-                <Text className="text-sm font-semibold text-coin-name mb-2">{phoneLabel}</Text>
-                <View className="bg-white border border-border-light rounded-lg px-4 py-3 flex-row items-center">
+                <Text className="text-sm font-semibold text-onSurface mb-2">{phoneLabel}</Text>
+                <View className="bg-surface border border-outlineVariant rounded-lg px-4 py-3 flex-row items-center">
                   <View className="flex-row items-center min-w-16">
-                    <Text className="text-coin-price text-base leading-5 mr-1">+</Text>
+                    <Text className="text-onSurface text-base leading-5 mr-1">+</Text>
                     <TextInput
                       ref={(ref) => {
                         inputRefs.current[5] = ref;
                       }}
-                      className="text-coin-price text-base leading-5 min-w-10"
+                      className="text-onSurface text-base leading-5 min-w-10"
                       placeholder="90"
-                      placeholderTextColor={colors.text.light}
+                      placeholderTextColor={activeScheme?.onSurfaceVariant}
                       value={countryCode}
                       onChangeText={(text) => {
                         setCountryCode(normalizeCountryCode(text));
@@ -415,15 +418,15 @@ export default function SignUpScreen() {
                     />
                   </View>
 
-                  <View className="w-px h-6 bg-border-light mx-3" />
+                  <View className="w-px h-6 bg-outlineVariant mx-3" />
 
                   <TextInput
                     ref={(ref) => {
                       inputRefs.current[6] = ref;
                     }}
-                    className="flex-1 text-coin-price text-base"
+                    className="flex-1 text-onSurface text-base"
                     placeholder="5551112233"
-                    placeholderTextColor={colors.text.light}
+                    placeholderTextColor={activeScheme?.onSurfaceVariant}
                     value={phoneNumber}
                     onChangeText={(text) => {
                       setPhoneNumber(normalizePhoneNumber(text));
@@ -462,13 +465,13 @@ export default function SignUpScreen() {
               />
 
               <TouchableOpacity
-                className="bg-primaryBlue rounded-lg py-4 mt-2"
+                className="bg-primary rounded-lg py-4 mt-2"
                 onPress={handleSignUp}
                 disabled={loading}
                 activeOpacity={0.8}
               >
                 {loading ? (
-                  <ActivityIndicator color={colors.text.white} />
+                  <ActivityIndicator color={activeScheme?.onPrimary || colors.white} />
                 ) : (
                   <Text className="text-white text-center font-bold text-base">{signUpButton}</Text>
                 )}
@@ -476,9 +479,9 @@ export default function SignUpScreen() {
             </View>
 
             <View className="mt-8">
-              <Text className="text-center text-coin-symbol text-sm">
+              <Text className="text-center text-onSurfaceVariant text-sm">
                 {loginText}{' '}
-                <Text className="text-primaryBlue font-semibold" onPress={handleGoToLogin}>
+                <Text className="text-primary font-semibold" onPress={handleGoToLogin}>
                   {loginLink}
                 </Text>
               </Text>

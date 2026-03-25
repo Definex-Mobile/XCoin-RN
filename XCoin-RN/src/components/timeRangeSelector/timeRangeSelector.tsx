@@ -28,7 +28,7 @@ export function TimeRangeSelector({
               key={range}
               onPress={() => onRangeChange(range)}
               className={`px-3 py-2 rounded-full border-[1px] ${index > 0 ? 'ml-2' : ''} ${
-                isSelected ? 'bg-coin-timeSelectorBg border-primaryBlue' : 'bg-mainLightBackground border-coin-timeSelectedUnselectedBg'
+                isSelected ? 'bg-primaryContainer border-primary' : 'bg-background border-outlineVariant'
               }`}
               style={isSelected ? {
                 shadowColor: '#0066FF',
@@ -41,7 +41,7 @@ export function TimeRangeSelector({
             >
               <Text 
                 className={`thinItalic12 ${
-                  isSelected ? 'text-primaryBlue' : 'text-tab-inactiveText'
+                  isSelected ? 'text-primary' : 'text-onSurfaceVariant'
                 }`}
               >
                 {range}
